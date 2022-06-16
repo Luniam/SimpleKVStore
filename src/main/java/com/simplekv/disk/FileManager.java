@@ -27,6 +27,16 @@ public class FileManager {
             if(!tempFile.exists()) tempFile.createNewFile();
             file = new RandomAccessFile(tempFile, "rw");
         }
+
+        public void appendBytes(byte[] bytes) throws IOException {
+            Long filePointer = file.getFilePointer();
+            writeBytes(bytes, filePointer);
+        }
+
+        public void writeBytes(byte[] bytes, Long position) throws IOException {
+            file.seek(position);
+            file.write(bytes, Math.toIntExact(position), bytes.length);
+        }
     }
 
     public static FileWriter getFileWriter(String fileName) throws IOException {

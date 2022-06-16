@@ -1,16 +1,20 @@
 package com.simplekv.disk;
 
+import com.google.common.collect.Lists;
 import com.simplekv.db.MemTableMBean;
 import com.simplekv.utils.DataRecord;
 import com.simplekv.utils.KeyRecord;
 import com.simplekv.utils.ValueRecord;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class SSTable {
 
 
+    ReentrantLock lock = new ReentrantLock();
 
     protected static class TableMetaData {
         private String namePrefix = "data-";
@@ -54,17 +58,22 @@ public class SSTable {
         tableMetaData = new TableMetaData();
     }
 
-    private void dumpBlockIndex() {
-
-    }
-
-    public void dumpMemTableToDisk(MemTableMBean memTable) throws IOException {
+    public void proceedToCreateSSTable(MemTableMBean memTable) throws IOException {
         TableMetaData tableMetaData = new TableMetaData();
         FileWriter fileWriter = FileManager.getFileWriter(tableMetaData.getTableFileName());
         AbstractSSTableTemplate tableTemplate = SSTableTemplateManager.chooseDefaultSSTableTemplate();
-        for(Map.Entry<KeyRecord, ValueRecord> entry : memTable.getMemData().entrySet()) {
-            tableTemplate.appendToSSTable(fileWriter, tableMetaData, new DataRecord(entry.getKey(), entry.getValue()));
+        List<List<DataRecord>> chunkedData = splitMap(memTable.getMemData());
+        for(List<DataRecord> dataRecordList : chunkedData) {
+            tableTemplate.dumpBlock(fileWriter, tableMetaData, dataRecordList);
         }
+    }
+
+    private List<List<DataRecord>> splitMap(Map<KeyRecord, ValueRecord> map) {
+        List<DataRecord> dataRecordList = map.entrySet()
+                                            .stream()
+                                            .map(e -> new DataRecord(e.getKey(), e.getValue()))
+                                            .toList();
+        return Lists.partition(dataRecordList, 128);
     }
 
 }
