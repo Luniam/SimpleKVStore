@@ -28,18 +28,15 @@ public class SSTableTemplate extends AbstractSSTableTemplate {
             KeyRecord key = dataRecord.getKey();
             ValueRecord value = dataRecord.getValue();
             //writing the key header and data
-            byte[] keyHeader = new byte[this.keyHeaderSizeInBytes];
-            ByteBuffer.allocate(this.keyHeaderSizeInBytes).putInt(key.getKeySizeInBytes()).get(keyHeader);
+            byte[] keyHeader = ByteBuffer.allocate(this.keyHeaderSizeInBytes).putInt(key.getKeySizeInBytes()).array();
             byteBuilder.write(keyHeader);
             byteBuilder.write(key.getKey().getBytes());
             //writing timestamp
-            byte[] timestamp = new byte[this.timestampSizeInBytes];
-            ByteBuffer.allocate(this.timestampSizeInBytes).putLong(currentTimeStamp).get(timestamp);
+            byte[] timestamp = ByteBuffer.allocate(this.timestampSizeInBytes).putLong(currentTimeStamp).array();
             byteBuilder.write(timestamp);
             byte isTombStone = value.isTombStone()? (byte) 0 : 1;
             byteBuilder.write(isTombStone);
-            byte[] dataHeader = new byte[this.dataHeaderSizeInBytes];
-            ByteBuffer.allocate(this.dataHeaderSizeInBytes).putInt(value.getDataSizeInBytes()).get(dataHeader);
+            byte[] dataHeader = ByteBuffer.allocate(this.dataHeaderSizeInBytes).putInt(value.getDataSizeInBytes()).array();
             byteBuilder.write(dataHeader);
             byteBuilder.write(value.getData());
         }

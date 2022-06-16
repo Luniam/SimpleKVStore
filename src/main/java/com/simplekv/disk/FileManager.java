@@ -35,7 +35,7 @@ public class FileManager {
 
         public void writeBytes(byte[] bytes, Long position) throws IOException {
             file.seek(position);
-            file.write(bytes, Math.toIntExact(position), bytes.length);
+            file.write(bytes, 0, bytes.length);
         }
     }
 

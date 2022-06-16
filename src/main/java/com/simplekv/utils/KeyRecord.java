@@ -2,7 +2,7 @@ package com.simplekv.utils;
 
 import java.io.Serializable;
 
-public class KeyRecord implements Serializable {
+public class KeyRecord implements Serializable, Comparable<KeyRecord> {
 
     private String key;
 
@@ -24,5 +24,10 @@ public class KeyRecord implements Serializable {
     public boolean equals(Object that) {
         return (that instanceof KeyRecord) &&
                 this.key.equals(((KeyRecord)that).key);
+    }
+
+    @Override
+    public int compareTo(KeyRecord that) {
+        return this.key.compareTo(that.key);
     }
 }

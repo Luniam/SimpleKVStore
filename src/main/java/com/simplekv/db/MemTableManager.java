@@ -12,7 +12,7 @@ public class MemTableManager {
     private static Logger logger = LoggerFactory.getLogger(MemTableManager.class);
     private static TreeMapMemTable memTable = TreeMapMemTable.instance();
 
-    public void putData(DataRecord dataRecord) {
+    public static void putData(DataRecord dataRecord) {
         memTable.putDataRecord(dataRecord);
     }
 

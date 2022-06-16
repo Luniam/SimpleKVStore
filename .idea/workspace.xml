@@ -5,19 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f1fac005-aba6-4418-ad8a-0124d020f069" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/simplekv/FileWriterTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/simplekv/SSTableTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/simplekv/TestUtils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/simplekv/db/MemTableManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/simplekv/db/MemTableManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/simplekv/disk/AbstractSSTableTemplate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/simplekv/disk/AbstractSSTableTemplate.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/simplekv/disk/FileManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/simplekv/disk/FileManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/simplekv/disk/FileWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/simplekv/disk/FileWriter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/simplekv/disk/SSTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/simplekv/disk/SSTable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/simplekv/disk/SSTableTemplate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/simplekv/disk/SSTableTemplate.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/simplekv/utils/KeyRecord.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/simplekv/utils/KeyRecord.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/simplekv/utils/ValueRecord.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/simplekv/utils/ValueRecord.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/simplekv/SSTableTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/simplekv/SSTableTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,9 +48,9 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Project",
+    "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.0",
+    "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "preferences.editor"
   }
 }]]></component>
@@ -145,8 +138,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.SSTableTest.testSSTableCreation" />
-        <item itemvalue="JUnit.FileWriterTest.testAppendBytes" />
         <item itemvalue="JUnit.FileWriterTest" />
+        <item itemvalue="JUnit.FileWriterTest.testAppendBytes" />
         <item itemvalue="JUnit.SSTableTest" />
         <item itemvalue="Application.SimpleKVDaemon" />
       </list>
