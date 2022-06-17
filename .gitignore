@@ -3,6 +3,8 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 logs/
+data/
+test-data/
 
 ### IntelliJ IDEA ###
 .idea/

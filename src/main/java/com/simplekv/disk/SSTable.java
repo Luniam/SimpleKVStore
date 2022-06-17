@@ -6,6 +6,7 @@ import com.simplekv.utils.DataRecord;
 import com.simplekv.utils.KeyRecord;
 import com.simplekv.utils.ValueRecord;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -17,14 +18,17 @@ public class SSTable {
     ReentrantLock lock = new ReentrantLock();
 
     protected static class TableMetaData {
-        private String namePrefix = "data-";
-        private String tableFileExtension = ".db";
-        private String tableName;
-        private Long generationTimeStamp;
+
+        private final String dataFolder = "data/";
+        private final String namePrefix = "data-";
+        private final String tableName;
+        private final Long generationTimeStamp;
 
         TableMetaData() {
+            File folder = new File(dataFolder);
+            if(!folder.exists()) folder.mkdir();
             generationTimeStamp = System.currentTimeMillis();
-            tableName = namePrefix + generationTimeStamp;
+            tableName = dataFolder + namePrefix + generationTimeStamp;
         }
 
         public Long getGenerationTimeStamp() {
@@ -40,6 +44,7 @@ public class SSTable {
         }
 
         public String getTableFileName() {
+            String tableFileExtension = ".db";
             return tableName + tableFileExtension;
         }
     }
