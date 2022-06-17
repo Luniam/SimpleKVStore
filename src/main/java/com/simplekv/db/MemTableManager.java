@@ -16,10 +16,19 @@ public class MemTableManager {
         memTable.putDataRecord(dataRecord);
     }
 
+    public static long getKeyCount() {
+        return memTable.getKeyCount();
+    }
+
+    public static boolean shouldFlushMemTable() {
+        return getKeyCount() > 6400;
+    }
+
     public static void flushMemTable() {
         SSTable ssTable = new SSTable();
         try {
             ssTable.proceedToCreateSSTable(memTable);
+            memTable.refreshMemTable();
         } catch (IOException ioException) {
             logger.error(ioException.toString());
         }

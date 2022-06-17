@@ -1,5 +1,6 @@
-package com.simplekv;
+package com.simplekv.disk;
 
+import com.simplekv.TestUtils;
 import com.simplekv.disk.FileManager;
 import com.simplekv.disk.FileWriter;
 import org.junit.Assert;

@@ -1,4 +1,4 @@
-package com.simplekv;
+package com.simplekv.disk;
 
 import com.simplekv.db.MemTableManager;
 import com.simplekv.utils.DataRecord;

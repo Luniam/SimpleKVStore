@@ -15,4 +15,7 @@ public interface MemTableMBean {
     boolean exists(KeyRecord keyRecord);
     ValueRecord getValueRecord(KeyRecord keyRecord);
     Map<KeyRecord,ValueRecord> getMemData();
+    long getKeyCount();
+
+    void refreshMemTable();
 }
