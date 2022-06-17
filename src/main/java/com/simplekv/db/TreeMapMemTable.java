@@ -30,19 +30,33 @@ public class TreeMapMemTable implements MemTableMBean {
         return instance;
     }
 
+    @Override
     public synchronized void putDataRecord(DataRecord dataRecord) {
         this.memData.put(dataRecord.getKey(), dataRecord.getValue());
     }
 
+    @Override
     public boolean exists(KeyRecord keyRecord) {
         return this.memData.containsKey(keyRecord);
     }
 
+    @Override
     public ValueRecord getValueRecord(KeyRecord keyRecord) {
         return !this.exists(keyRecord)? null : this.memData.get(keyRecord);
     }
 
+    @Override
     public Map<KeyRecord, ValueRecord> getMemData() {
         return memData;
+    }
+
+    @Override
+    public long getKeyCount() {
+        return this.memData.keySet().size();
+    }
+
+    @Override
+    public void refreshMemTable() {
+        this.memData.clear();
     }
 }
