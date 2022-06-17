@@ -15,7 +15,7 @@ public class StorageProxyTest {
     @Test
     public void testPut() {
         Map<KeyRecord, ValueRecord> inMemoryMemTable = new TreeMap<>();
-        for(int i = 0; i < 128*1024; i++) {
+        for(int i = 0; i < 128*100; i++) {
             KeyRecord key = new KeyRecord("Mahi" + i);
             ValueRecord value = new ValueRecord("start-working-out" + i);
             DataRecord dataRecord = new DataRecord(key, value);
