@@ -8,10 +8,15 @@ public class SimpleKVDaemon {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     static final SimpleKVDaemon instance = new SimpleKVDaemon();
 
+    private void applyConfig() {
+
+    }
+
     /**
      * Activating the instance
      */
     public void activate() {
+        applyConfig();
         logger.info("Started Simple KV Store...yaay");
     }
 
