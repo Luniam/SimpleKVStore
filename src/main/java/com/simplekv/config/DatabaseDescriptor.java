@@ -16,6 +16,10 @@ public class DatabaseDescriptor {
 
     private static Config config;
 
+    public static Config getConfig() {
+        return config;
+    }
+
     public static void daemonInitialization() {
         daemonInitialization(DatabaseDescriptor::loadConfig);
     }
