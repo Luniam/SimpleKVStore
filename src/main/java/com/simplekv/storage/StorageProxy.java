@@ -17,7 +17,8 @@ public class StorageProxy {
     public static boolean put(DataRecord dataRecord) {
         CommitLogManager.append(dataRecord);
         MemTableManager.putData(dataRecord);
-        if(MemTableManager.shouldFlushMemTable()) MemTableManager.flushMemTable();
+        if(MemTableManager.shouldFlushMemTable())
+            MemTableManager.flushMemTable();
         return true;
     }
 

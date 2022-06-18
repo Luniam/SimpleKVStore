@@ -10,9 +10,9 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class TreeMapMemTable implements MemTableMBean {
 
-    private Map<KeyRecord, ValueRecord> memData;
+    private final Map<KeyRecord, ValueRecord> memData;
     private static TreeMapMemTable instance;
-    private static ReentrantLock lock = new ReentrantLock();
+    private static final ReentrantLock lock = new ReentrantLock();
 
     private TreeMapMemTable() {
         memData = new TreeMap<>();

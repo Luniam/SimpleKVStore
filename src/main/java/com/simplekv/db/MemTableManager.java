@@ -9,8 +9,8 @@ import java.io.IOException;
 
 public class MemTableManager {
 
-    private static Logger logger = LoggerFactory.getLogger(MemTableManager.class);
-    private static TreeMapMemTable memTable = TreeMapMemTable.instance();
+    private static final Logger logger = LoggerFactory.getLogger(MemTableManager.class);
+    private static final TreeMapMemTable memTable = TreeMapMemTable.instance();
 
     public static void putData(DataRecord dataRecord) {
         memTable.putDataRecord(dataRecord);
@@ -21,7 +21,7 @@ public class MemTableManager {
     }
 
     public static boolean shouldFlushMemTable() {
-        return getKeyCount() > 6400;
+        return getKeyCount() > 64000;
     }
 
     public static void flushMemTable() {
