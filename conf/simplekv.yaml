@@ -1,0 +1,17 @@
+
+# The name of the cluster
+cluster_name: 'Test Cluster'
+
+#The number of tokens that will be assigned to this node on the ring
+#In other words, the number of virtual nodes one single node will have
+num_tokens: 16
+
+#The replication factor for new data
+local_replication_factor: 3
+
+#The cluster is not aware of datacenters or racks if SimpleSnitch is chosen
+endpoint_snitch: SimpleSnitch
+
+#For SimpleStrategy data will be placed to the first n nodes clockwise
+#NetworkTopologyStrategy will be added in the future
+replication_strategy: SimpleStrategy

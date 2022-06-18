@@ -1,5 +1,6 @@
 package com.simplekv.service;
 
+import com.simplekv.config.DatabaseDescriptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -9,7 +10,7 @@ public class SimpleKVDaemon {
     static final SimpleKVDaemon instance = new SimpleKVDaemon();
 
     private void applyConfig() {
-
+        DatabaseDescriptor.daemonInitialization();
     }
 
     /**
