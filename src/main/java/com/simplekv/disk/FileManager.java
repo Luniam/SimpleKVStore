@@ -51,6 +51,7 @@ public class FileManager {
         @Override
         public void write() throws IOException {
             this.objectOutputStream.writeObject(this.serializableObject);
+            this.objectOutputStream.close();
         }
     }
 
