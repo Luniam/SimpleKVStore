@@ -52,9 +52,13 @@ public class SSTable {
     }
 
     protected static class BlockMetaData {
+        public long size;
 
         public long position;
-        public long size;
+    }
+
+    protected static class BlockIndex {
+
     }
 
     private TableMetaData tableMetaData;
