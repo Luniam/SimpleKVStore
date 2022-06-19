@@ -65,8 +65,8 @@ public class IndexBloomFilter implements Serializable {
     private BloomFilter<String> bloomFilter;
     private String ssTableName;
     private String indexFilename;
-    private String filenamePrefix = "filter-";
-    private String filenameExtension = ".ser";
+    private final String filenamePrefix = "filter-";
+    private final String filenameExtension = ".ser";
 
     public IndexBloomFilter() {}
 

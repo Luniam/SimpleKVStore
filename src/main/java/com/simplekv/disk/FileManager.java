@@ -35,6 +35,14 @@ public class FileManager {
             file.seek(position);
             file.write(bytes, 0, bytes.length);
         }
+
+        public void closeWriter() throws IOException {
+            this.file.close();
+        }
+
+        public long getFilePointer() throws IOException {
+            return this.file.getFilePointer();
+        }
     }
 
     public static class Serializer implements ObjectSerializer {

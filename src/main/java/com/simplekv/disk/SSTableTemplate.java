@@ -20,6 +20,7 @@ public class SSTableTemplate extends AbstractSSTableTemplate {
     protected int timestampSizeInBytes = 8;
     protected int isTombstoneMarkerSizeInBytes = 1;
     protected int dataHeaderSizeInBytes = 4;
+
     @Override
     protected byte[] getBlockData(List<DataRecord> dataRecordList) throws IOException {
         ByteArrayOutputStream byteBuilder = new ByteArrayOutputStream();
@@ -41,5 +42,10 @@ public class SSTableTemplate extends AbstractSSTableTemplate {
             byteBuilder.write(value.getData());
         }
         return byteBuilder.toByteArray();
+    }
+
+    @Override
+    protected byte[] getBlockIndexData(BlockIndex blockIndex) {
+        return new byte[0];
     }
 }

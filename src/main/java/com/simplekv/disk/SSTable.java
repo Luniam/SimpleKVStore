@@ -11,7 +11,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class SSTable {
 
@@ -49,22 +48,15 @@ public class SSTable {
         }
     }
 
-    protected static class BlockMetaData {
-        public long size;
+    private final TableMetaData tableMetaData;
 
-        public long position;
-    }
+    private BlockIndex blockIndex;
 
-    protected static class BlockIndex {
-
-    }
-
-    private TableMetaData tableMetaData;
-    private BlockMetaData blockMetaData;
     private FileManager fileManager;
 
     public SSTable() {
         tableMetaData = new TableMetaData();
+        blockIndex = new BlockIndex();
     }
 
     public TableMetaData getTableMetaData() {
@@ -72,11 +64,17 @@ public class SSTable {
     }
 
     public void proceedToCreateSSTable(MemTableMBean memTable) throws IOException {
-        FileWriter fileWriter = FileManager.getFileWriter(tableMetaData.getTableFileName());
+        FileWriter dataFileWriter = FileManager.getFileWriter(tableMetaData.getTableFileName());
+        FileWriter indexFileWriter = FileManager.getFileWriter("");
         AbstractSSTableTemplate tableTemplate = SSTableTemplateManager.chooseDefaultSSTableTemplate();
         List<List<DataRecord>> chunkedData = splitMap(memTable.getMemData());
         for(List<DataRecord> dataRecordList : chunkedData) {
-            tableTemplate.dumpBlock(fileWriter, tableMetaData, dataRecordList);
+            long index = tableTemplate.dumpDataBlockAndGetIndex(dataFileWriter, tableMetaData, dataRecordList);
+            BlockIndex.BlockMetaData blockMetaData = new BlockIndex.BlockMetaData();
+            blockMetaData.key = dataRecordList.get(0).getKey().getKey();
+            blockMetaData.offset = index;
+            blockIndex.putBlockMetaData(blockMetaData.key, blockMetaData);
+            tableTemplate.dumpBlockIndex(indexFileWriter, blockIndex);
         }
     }
 
