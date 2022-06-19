@@ -11,10 +11,11 @@ public class StorageProxy {
      * This is the entrypoint towards writing a data to the database
      * At first data will be written to the commit log and then to the memtable
      * If the memtable reaches its fixed size then it will be flushed to disk
-     * The sequence of operations is not transactional. e.g. Commit logs cannot be rolled back if in memory memtable write fails
+     * The sequence of operations is not atomic. e.g. Commit logs cannot be rolled back if in memory memtable write fails
+     * This method is blocking
      * @param dataRecord instance of type DataRecord
      */
-    public static boolean put(DataRecord dataRecord) {
+    public synchronized static boolean put(DataRecord dataRecord) {
         CommitLogManager.append(dataRecord);
         MemTableManager.putData(dataRecord);
         if(MemTableManager.shouldFlushMemTable())

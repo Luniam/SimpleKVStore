@@ -2,6 +2,7 @@ package com.simplekv.disk;
 
 import com.google.common.collect.Lists;
 import com.simplekv.db.MemTableMBean;
+import com.simplekv.utils.Constants;
 import com.simplekv.utils.DataRecord;
 import com.simplekv.utils.KeyRecord;
 import com.simplekv.utils.ValueRecord;
@@ -14,23 +15,24 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class SSTable {
 
+    public static class TableMetaData {
 
-    ReentrantLock lock = new ReentrantLock();
-
-    protected static class TableMetaData {
-
-        private final String dataFolder = "data/";
         private final String namePrefix = "data-";
         private final String tableName;
         private final String tableNameWithLocation;
         private final Long generationTimeStamp;
 
-        TableMetaData() {
+        public TableMetaData() {
+            String dataFolder = Constants.dataDirectory;
             File folder = new File(dataFolder);
             if(!folder.exists()) folder.mkdir();
             generationTimeStamp = System.currentTimeMillis();
             tableName = namePrefix + generationTimeStamp;
             tableNameWithLocation = dataFolder + namePrefix + generationTimeStamp;
+        }
+
+        public String getTableName() {
+            return tableName;
         }
 
         public Long getGenerationTimeStamp() {
@@ -39,10 +41,6 @@ public class SSTable {
 
         public String getNamePrefix() {
             return namePrefix;
-        }
-
-        public String getTableNameWithLocation() {
-            return tableNameWithLocation;
         }
 
         public String getTableFileName() {
@@ -69,8 +67,11 @@ public class SSTable {
         tableMetaData = new TableMetaData();
     }
 
+    public TableMetaData getTableMetaData() {
+        return tableMetaData;
+    }
+
     public void proceedToCreateSSTable(MemTableMBean memTable) throws IOException {
-        TableMetaData tableMetaData = new TableMetaData();
         FileWriter fileWriter = FileManager.getFileWriter(tableMetaData.getTableFileName());
         AbstractSSTableTemplate tableTemplate = SSTableTemplateManager.chooseDefaultSSTableTemplate();
         List<List<DataRecord>> chunkedData = splitMap(memTable.getMemData());

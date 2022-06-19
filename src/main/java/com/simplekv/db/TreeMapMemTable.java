@@ -18,7 +18,13 @@ public class TreeMapMemTable implements MemTableMBean {
         memData = new TreeMap<>();
     }
 
-    public static TreeMapMemTable instance() {
+    /**
+     * Todo
+     * Will load the memtable from commit log during startup
+     * If it is already loaded then return the instance
+     * @return
+     */
+    public static TreeMapMemTable loadInstance() {
         if(instance == null) {
             lock.lock();
             try {

@@ -1,8 +1,6 @@
 package com.simplekv.disk;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.RandomAccessFile;
+import java.io.*;
 
 public class FileManager {
 
@@ -39,7 +37,29 @@ public class FileManager {
         }
     }
 
+    public static class Serializer implements ObjectSerializer {
+
+        private final ObjectOutputStream objectOutputStream;
+        private final Serializable serializableObject;
+
+        public Serializer(Serializable serializable, String filename) throws IOException {
+            this.serializableObject = serializable;
+            FileOutputStream fileOutputStream = new FileOutputStream(filename);
+            objectOutputStream = new ObjectOutputStream(fileOutputStream);
+        }
+
+        @Override
+        public void write() throws IOException {
+            this.objectOutputStream.writeObject(this.serializableObject);
+        }
+    }
+
     public static FileWriter getFileWriter(String fileName) throws IOException {
         return new Writer(fileName);
+    }
+
+    public static ObjectSerializer getObjectSerializer(Serializable serializable, String filename)
+            throws IOException {
+        return new Serializer(serializable, filename);
     }
 }
