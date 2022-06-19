@@ -22,13 +22,15 @@ public class SSTable {
         private final String dataFolder = "data/";
         private final String namePrefix = "data-";
         private final String tableName;
+        private final String tableNameWithLocation;
         private final Long generationTimeStamp;
 
         TableMetaData() {
             File folder = new File(dataFolder);
             if(!folder.exists()) folder.mkdir();
             generationTimeStamp = System.currentTimeMillis();
-            tableName = dataFolder + namePrefix + generationTimeStamp;
+            tableName = namePrefix + generationTimeStamp;
+            tableNameWithLocation = dataFolder + namePrefix + generationTimeStamp;
         }
 
         public Long getGenerationTimeStamp() {
@@ -39,13 +41,13 @@ public class SSTable {
             return namePrefix;
         }
 
-        public String getTableName() {
-            return tableName;
+        public String getTableNameWithLocation() {
+            return tableNameWithLocation;
         }
 
         public String getTableFileName() {
             String tableFileExtension = ".db";
-            return tableName + tableFileExtension;
+            return tableNameWithLocation + tableFileExtension;
         }
     }
 
