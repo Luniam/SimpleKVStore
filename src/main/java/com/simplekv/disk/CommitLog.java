@@ -1,9 +1,7 @@
 package com.simplekv.disk;
 
 import com.simplekv.storage.Command;
-import com.simplekv.utils.DataRecord;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -34,7 +32,7 @@ public class CommitLog {
         return this.dataCommandList;
     }
 
-    public void append(DataRecord dataRecord) {
+    public void append(Command command) {
 
     }
 

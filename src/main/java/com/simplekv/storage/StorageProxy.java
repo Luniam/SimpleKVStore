@@ -16,7 +16,7 @@ public class StorageProxy {
      * @param command instance of type Command
      */
     public synchronized static boolean mutate(Command command) {
-        CommitLogManager.append(command.dataRecord);
+        CommitLogManager.append(command);
         MemTableManager.putData(command.dataRecord);
         if(MemTableManager.shouldFlushMemTable())
             return MemTableManager.flushMemTable();
