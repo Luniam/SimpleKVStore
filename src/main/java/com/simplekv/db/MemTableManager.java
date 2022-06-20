@@ -24,7 +24,7 @@ public class MemTableManager {
         return getKeyCount() > 64000;
     }
 
-    public static void flushMemTable() {
+    public static boolean flushMemTable() {
         logger.debug("Flushing memtable");
         SSTable ssTable = new SSTable();
         try {
@@ -36,8 +36,10 @@ public class MemTableManager {
                                         .build();
             bloomFilter.flushToDisk();
             memTable.refreshMemTable();
+            return true;
         } catch (IOException ioException) {
             logger.error(ioException.toString());
+            return false;
         }
     }
 }

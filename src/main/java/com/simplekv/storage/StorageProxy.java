@@ -19,7 +19,7 @@ public class StorageProxy {
         CommitLogManager.append(dataRecord);
         MemTableManager.putData(dataRecord);
         if(MemTableManager.shouldFlushMemTable())
-            MemTableManager.flushMemTable();
+            return MemTableManager.flushMemTable();
         return true;
     }
 
