@@ -5,6 +5,8 @@ import java.io.IOException;
 public interface FileWriter {
 
 
-    public void appendBytes(byte[] bytes) throws IOException;
-    public void writeBytes(byte[] bytes, Long position) throws IOException;
+    void appendBytes(byte[] bytes) throws IOException;
+    void writeBytes(byte[] bytes, Long position) throws IOException;
+    void closeWriter() throws IOException;
+    long getFilePointer() throws IOException;
 }

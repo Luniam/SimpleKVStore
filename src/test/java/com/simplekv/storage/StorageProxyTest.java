@@ -13,13 +13,14 @@ import java.util.TreeMap;
 public class StorageProxyTest {
 
     @Test
-    public void testPut() {
+    public void testMutate() {
         Map<KeyRecord, ValueRecord> inMemoryMemTable = new TreeMap<>();
-        for(int i = 0; i < 128*1024; i++) {
+        for(int i = 10000; i < 99999; i++) {
             KeyRecord key = new KeyRecord("Mahi" + i);
             ValueRecord value = new ValueRecord("start-working-out" + i);
             DataRecord dataRecord = new DataRecord(key, value);
-            if(!StorageProxy.put(dataRecord)) Assert.fail();
+            Command putCommand = new PutCommand(dataRecord);
+            if(!StorageProxy.mutate(putCommand)) Assert.fail();
             inMemoryMemTable.put(key, value);
         }
     }

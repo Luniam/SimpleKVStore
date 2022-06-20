@@ -11,7 +11,7 @@ public class StorageService {
 
     public static void main(String[] args) {
         StorageService storageService = new StorageService();
-        TreeMapMemTable memTable = TreeMapMemTable.instance();
+        TreeMapMemTable memTable = TreeMapMemTable.loadInstance();
         storageService.writeSSTable(memTable);
     }
 }

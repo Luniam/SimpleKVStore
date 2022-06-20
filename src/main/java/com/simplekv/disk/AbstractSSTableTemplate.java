@@ -12,12 +12,23 @@ public abstract class AbstractSSTableTemplate {
     protected int isTombstoneMarkerSizeInBytes = 1;
     protected int dataHeaderSizeInBytes = 4;
 
-    public void dumpBlock(FileWriter fileWriter,
-                          SSTable.TableMetaData tableMetaData,
-                          List<DataRecord> dataRecordList) throws IOException {
+    public long dumpDataBlockAndGetIndex(FileWriter fileWriter,
+                                         SSTable.TableMetaData tableMetaData,
+                                         List<DataRecord> dataRecordList) throws IOException {
         byte[] blockData = getBlockData(dataRecordList);
-        fileWriter.appendBytes(blockData);
+        return dumpDataAndReturnIndex(fileWriter, blockData);
+    }
+
+    public void dumpBlockIndex(FileWriter fileWriter, BlockIndex blockIndex) throws IOException {
+        byte[] blockData = getBlockIndexData(blockIndex);
+        dumpDataAndReturnIndex(fileWriter, blockData);
+    }
+
+    public long dumpDataAndReturnIndex(FileWriter fileWriter, byte[] bytes) throws IOException {
+        fileWriter.appendBytes(bytes);
+        return fileWriter.getFilePointer();
     }
 
     protected abstract byte[] getBlockData(List<DataRecord> dataRecordList) throws IOException;
+    protected abstract byte[] getBlockIndexData(BlockIndex blockIndex) throws IOException;
 }

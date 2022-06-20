@@ -1,13 +1,18 @@
 package com.simplekv.disk;
 
+import com.simplekv.storage.Command;
 import com.simplekv.utils.DataRecord;
 
+import java.io.Serializable;
+import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class CommitLog {
 
     private static ReentrantLock lock = new ReentrantLock();
     private static CommitLog instance;
+
+    private List<Command> dataCommandList;
 
     private CommitLog() {
 
