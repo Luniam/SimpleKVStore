@@ -2,12 +2,28 @@ package com.simplekv.disk;
 
 import com.simplekv.utils.DataRecord;
 
+import java.io.Serializable;
+import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class CommitLog {
 
+    public abstract static class DataCommand implements Serializable {
+
+    }
+
+    public static class AddCommand extends DataCommand {
+        public DataRecord dataRecord;
+    }
+    public static class DeleteCommand extends DataCommand {
+        public DataRecord dataRecord;
+    }
+
+
     private static ReentrantLock lock = new ReentrantLock();
     private static CommitLog instance;
+
+    private List<DataCommand> dataCommandList;
 
     private CommitLog() {
 
