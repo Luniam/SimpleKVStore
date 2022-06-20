@@ -56,7 +56,7 @@ public class SSTable {
 
     public SSTable() {
         tableMetaData = new TableMetaData();
-        blockIndex = new BlockIndex();
+        blockIndex = new BlockIndex.BlockIndexBuilder().ssTablename(tableMetaData.getTableName()).build();
     }
 
     public TableMetaData getTableMetaData() {
@@ -65,17 +65,19 @@ public class SSTable {
 
     public void proceedToCreateSSTable(MemTableMBean memTable) throws IOException {
         FileWriter dataFileWriter = FileManager.getFileWriter(tableMetaData.getTableFileName());
-        FileWriter indexFileWriter = FileManager.getFileWriter("");
+        FileWriter indexFileWriter = FileManager.getFileWriter(this.blockIndex.getFinalFilename());
         AbstractSSTableTemplate tableTemplate = SSTableTemplateManager.chooseDefaultSSTableTemplate();
         List<List<DataRecord>> chunkedData = splitMap(memTable.getMemData());
+        long previousIndex = 0;
         for(List<DataRecord> dataRecordList : chunkedData) {
             long index = tableTemplate.dumpDataBlockAndGetIndex(dataFileWriter, tableMetaData, dataRecordList);
             BlockIndex.BlockMetaData blockMetaData = new BlockIndex.BlockMetaData();
             blockMetaData.key = dataRecordList.get(0).getKey().getKey();
-            blockMetaData.offset = index;
+            blockMetaData.offset = previousIndex;
+            previousIndex = index;
             blockIndex.putBlockMetaData(blockMetaData.key, blockMetaData);
-            tableTemplate.dumpBlockIndex(indexFileWriter, blockIndex);
         }
+        tableTemplate.dumpBlockIndex(indexFileWriter, blockIndex);
     }
 
     private List<List<DataRecord>> splitMap(Map<KeyRecord, ValueRecord> map) {

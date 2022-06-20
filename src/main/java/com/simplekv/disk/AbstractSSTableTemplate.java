@@ -30,5 +30,5 @@ public abstract class AbstractSSTableTemplate {
     }
 
     protected abstract byte[] getBlockData(List<DataRecord> dataRecordList) throws IOException;
-    protected abstract byte[] getBlockIndexData(BlockIndex blockIndex);
+    protected abstract byte[] getBlockIndexData(BlockIndex blockIndex) throws IOException;
 }
