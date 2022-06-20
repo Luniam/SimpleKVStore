@@ -1,5 +1,6 @@
 package com.simplekv.disk;
 
+import com.simplekv.storage.Command;
 import com.simplekv.utils.DataRecord;
 
 public class CommitLogManager {
