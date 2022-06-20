@@ -13,11 +13,25 @@ public class SimpleKVDaemon {
         DatabaseDescriptor.daemonInitialization();
     }
 
+    private void loadMemTable() {
+
+    }
+
+    private void getRingMembership() {
+
+    }
+    private void startGossip() {
+
+    }
+
     /**
      * Activating the instance
      */
     public void activate() {
         applyConfig();
+        loadMemTable();
+        getRingMembership();
+        startGossip();
         logger.info("Started Simple KV Store...yaay");
     }
 
