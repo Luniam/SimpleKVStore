@@ -30,6 +30,10 @@ public class CommitLog {
         return instance;
     }
 
+    public List<Command> getDataCommandList() {
+        return this.dataCommandList;
+    }
+
     public void append(DataRecord dataRecord) {
 
     }

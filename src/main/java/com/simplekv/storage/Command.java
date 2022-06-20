@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 public abstract class Command implements Serializable {
 
-    DataRecord dataRecord;
+    public DataRecord dataRecord;
     public enum CommandType {
         READ,
         READDIGEST,
