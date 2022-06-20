@@ -1,6 +1,7 @@
 package com.simplekv.service;
 
 import com.simplekv.config.DatabaseDescriptor;
+import com.simplekv.db.MemTableManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,7 +15,7 @@ public class SimpleKVDaemon {
     }
 
     private void loadMemTable() {
-
+        MemTableManager.loadMemTable();
     }
 
     private void getRingMembership() {

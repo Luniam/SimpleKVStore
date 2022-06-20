@@ -10,7 +10,11 @@ import java.io.IOException;
 public class MemTableManager {
 
     private static final Logger logger = LoggerFactory.getLogger(MemTableManager.class);
-    private static final TreeMapMemTable memTable = TreeMapMemTable.loadInstance();
+    private static TreeMapMemTable memTable = TreeMapMemTable.loadInstance();
+
+    public static void loadMemTable() {
+        memTable = TreeMapMemTable.loadInstance();
+    }
 
     public static void putData(DataRecord dataRecord) {
         memTable.putDataRecord(dataRecord);
