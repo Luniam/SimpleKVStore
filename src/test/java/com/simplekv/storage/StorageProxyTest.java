@@ -1,6 +1,6 @@
 package com.simplekv.storage;
 
-import com.simplekv.db.MemTableManager;
+import com.simplekv.disk.CommitLogManager;
 import com.simplekv.utils.DataRecord;
 import com.simplekv.utils.KeyRecord;
 import com.simplekv.utils.ValueRecord;
@@ -14,6 +14,7 @@ public class StorageProxyTest {
 
     @Test
     public void testMutate() {
+        CommitLogManager.startCommitLogAppenderWorker();
         Map<KeyRecord, ValueRecord> inMemoryMemTable = new TreeMap<>();
         for(int i = 10000; i < 99999; i++) {
             KeyRecord key = new KeyRecord("Mahi" + i);

@@ -52,7 +52,7 @@ public class FileManager {
 
         public Serializer(Serializable serializable, String filename) throws IOException {
             this.serializableObject = serializable;
-            FileOutputStream fileOutputStream = new FileOutputStream(filename);
+            FileOutputStream fileOutputStream = new FileOutputStream(filename, true);
             objectOutputStream = new ObjectOutputStream(fileOutputStream);
         }
 

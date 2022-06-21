@@ -4,6 +4,8 @@ import com.simplekv.storage.Command;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingDeque;
@@ -13,10 +15,11 @@ public class CommitLogManager {
 
     private static final Logger logger = LoggerFactory.getLogger(CommitLogManager.class);
     private static final ThreadPoolExecutor commitLogAppenderExecutors =
-            (ThreadPoolExecutor) Executors.newFixedThreadPool(2);
+            (ThreadPoolExecutor) Executors.newFixedThreadPool(1);
     private static final BlockingQueue<CommitLogAppender> commitLogAppenderQueue = new LinkedBlockingDeque<>();
     private static final int appenderThreadDelayMillis = 1000;
-
+    private static final String commitLogDataDirectory = "wal/";
+    private static final String commitLogFileName = "wal.ser";
 
     static class CommitLogAppender implements Runnable {
 
@@ -31,7 +34,14 @@ public class CommitLogManager {
 
         @Override
         public void run() {
-            //todo do the actual append
+            try {
+                File folder = new File(commitLogDataDirectory);
+                if(!folder.exists()) folder.mkdir();
+                ObjectSerializer commitLogWriter = FileManager.getObjectSerializer(command, commitLogDataDirectory + commitLogFileName);
+                commitLogWriter.write();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
