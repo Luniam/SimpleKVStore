@@ -15,7 +15,7 @@ public class CommitLogManager {
     private static final ThreadPoolExecutor commitLogAppenderExecutors =
             (ThreadPoolExecutor) Executors.newFixedThreadPool(2);
     private static final BlockingQueue<CommitLogAppender> commitLogAppenderQueue = new LinkedBlockingDeque<>();
-    private static final int appenderThreadDelayMillis = 10000;
+    private static final int appenderThreadDelayMillis = 1000;
 
 
     static class CommitLogAppender implements Runnable {
