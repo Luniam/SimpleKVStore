@@ -1,9 +1,9 @@
 package com.simplekv.disk;
 
 import com.simplekv.storage.Command;
-import com.simplekv.storage.MutateCommand;
 
 import java.io.IOException;
+import java.util.List;
 
 public abstract class AbstractCommitLogTemplate {
 
@@ -17,4 +17,6 @@ public abstract class AbstractCommitLogTemplate {
     }
 
     public abstract byte[] getBlockData(Command mutateCommand) throws IOException;
+
+    public abstract void populateDataCommandList(List<Command> dataCommandList, FileReader commitLogReader) throws IOException;
 }

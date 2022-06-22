@@ -15,8 +15,16 @@ public class ValueRecord implements Serializable {
         this.data = data.getBytes(StandardCharsets.UTF_8);
     }
 
+    public ValueRecord(byte[] data) {
+        this.data = data;
+    }
+
     public boolean isTombStone() {
         return this.isTombStone;
+    }
+
+    public void setTombStone(boolean tombStone) {
+        this.isTombStone = tombStone;
     }
 
     public byte[] getData() {

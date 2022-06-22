@@ -7,8 +7,11 @@ import com.simplekv.utils.KeyRecord;
 import com.simplekv.utils.ValueRecord;
 
 import java.io.ByteArrayOutputStream;
+import java.io.EOFException;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 public class CommitLogTemplate extends AbstractCommitLogTemplate {
     /**
@@ -38,5 +41,49 @@ public class CommitLogTemplate extends AbstractCommitLogTemplate {
         byteBuilder.write(value.getData());
 
         return byteBuilder.toByteArray();
+    }
+
+    @Override
+    public void populateDataCommandList(List<Command> dataCommandList, FileReader commitLogReader)
+            throws IOException {
+        long filePosition = 0;
+        while (true) {
+            try {
+                //read 8 bytes timestamp
+                byte[] timestampArray = commitLogReader.readBytes(filePosition, this.timestampSizeInBytes);
+                filePosition+=this.timestampSizeInBytes;
+                //read 1 byte command type
+                long timestamp = ByteBuffer.wrap(timestampArray).getLong();
+                byte commandType = commitLogReader.readByte();
+                filePosition+=1;
+                // read 4 bytes key size
+                byte[] keyHeaderSizeArray = commitLogReader.readBytes(filePosition, this.keyHeaderSizeInBytes);
+                filePosition+=this.keyHeaderSizeInBytes;
+                int keySize = ByteBuffer.wrap(keyHeaderSizeArray).getInt();
+                // read keySize bytes key
+                byte[] keyArray;
+                keyArray = commitLogReader.readBytes(filePosition, keySize);
+                filePosition+=keySize;
+                String key = new String(keyArray, StandardCharsets.UTF_8);
+                // read 4 bytes data size
+                byte[] dataHeaderSizeArray = commitLogReader.readBytes(filePosition, this.dataHeaderSizeInBytes);
+                filePosition+=this.dataHeaderSizeInBytes;
+                int dataSize = ByteBuffer.wrap(dataHeaderSizeArray).getInt();
+                //read dataSize bytes data
+                byte[] dataArray;
+                dataArray = commitLogReader.readBytes(filePosition, dataSize);
+                filePosition+=dataSize;
+                //build the Command
+                KeyRecord keyRecord = new KeyRecord(key);
+                ValueRecord valueRecord = new ValueRecord(dataArray);
+                valueRecord.setTombStone(commandType == 0);
+                DataRecord dataRecord = new DataRecord(keyRecord, valueRecord);
+                MutateCommand command = new MutateCommand(dataRecord, commandType == 0?
+                        Command.CommandType.DELETE : Command.CommandType.PUT);
+                dataCommandList.add(command);
+            } catch (EOFException eofException) {
+                break;
+            }
+        }
     }
 }
