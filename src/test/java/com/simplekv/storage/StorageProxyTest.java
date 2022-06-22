@@ -24,6 +24,6 @@ public class StorageProxyTest {
             if(!StorageProxy.mutate(putCommand)) Assert.fail();
             inMemoryMemTable.put(key, value);
         }
-        Thread.sleep(10*1000);
+        Thread.sleep(2*1000);
     }
 }
