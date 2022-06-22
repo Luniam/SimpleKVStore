@@ -6,6 +6,45 @@ import java.util.List;
 
 public class FileManager {
 
+    public static abstract class AbstractReader implements FileReader {
+        protected String filename;
+
+        public AbstractReader(String filename) {
+            this.filename = filename;
+        }
+    }
+
+    public static class Reader extends AbstractReader {
+        private RandomAccessFile file;
+
+        public Reader(String filename) throws IOException {
+            super(filename);
+            init();
+        }
+
+        private void init() throws IOException {
+            File tempFile = new File(filename);
+            if(!tempFile.exists()) tempFile.createNewFile();
+            file = new RandomAccessFile(tempFile, "r");
+        }
+
+        public byte readByte() throws IOException {
+            return file.readByte();
+        }
+
+        public byte readByte(long position) throws IOException {
+            file.seek(position);
+            return file.readByte();
+        }
+
+        public byte[] readBytes(long position, int len) throws IOException {
+            byte[] b = new byte[len];
+            file.seek(position);
+            file.read(b, 0, len);
+            return b;
+        }
+    }
+
     public static abstract class AbstractWriter implements FileWriter {
         protected String filename;
 
@@ -33,7 +72,7 @@ public class FileManager {
             writeBytes(bytes, filePointer);
         }
 
-        public void writeBytes(byte[] bytes, Long position) throws IOException {
+        public void writeBytes(byte[] bytes, long position) throws IOException {
             file.seek(position);
             file.write(bytes, 0, bytes.length);
         }
