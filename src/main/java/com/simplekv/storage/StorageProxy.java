@@ -15,7 +15,7 @@ public class StorageProxy {
      * This method is blocking
      * @param command instance of type Command
      */
-    public synchronized static boolean mutate(Command command) {
+    public synchronized static boolean mutate(MutateCommand command) {
         CommitLogManager.append(command);
         MemTableManager.putData(command.dataRecord);
         if(MemTableManager.shouldFlushMemTable())

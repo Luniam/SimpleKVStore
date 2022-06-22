@@ -17,7 +17,7 @@ public class CommitLogManager {
     private static final ThreadPoolExecutor commitLogAppenderExecutors =
             (ThreadPoolExecutor) Executors.newFixedThreadPool(1);
     private static final BlockingQueue<CommitLogAppender> commitLogAppenderQueue = new LinkedBlockingDeque<>();
-    private static final int appenderThreadDelayMillis = 1000;
+    private static final int appenderThreadDelayMillis = 100;
     private static final String commitLogDataDirectory = "wal/";
     private static final String commitLogFileName = "wal.ser";
 
@@ -36,16 +36,26 @@ public class CommitLogManager {
         public void run() {
             try {
                 File folder = new File(commitLogDataDirectory);
-                if(!folder.exists()) folder.mkdir();
-                ObjectSerializer commitLogWriter = FileManager.getObjectSerializer(command, commitLogDataDirectory + commitLogFileName);
-                commitLogWriter.write();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+                if(!folder.exists())
+                    folder.mkdir();
+                //todo write commit log
+            } catch (Exception exception) {
+                logger.error(exception.getMessage());
+                logger.error("Could not write commit log, appending to task quue once again");
+                commitLogAppenderQueue.add(this);
             }
         }
     }
 
-    private static final CommitLog commitLog = CommitLog.instance();
+    private static final CommitLog commitLog = CommitLog.loadInstance();
+
+    public static ObjectDeSerializer getCommitLogDeSerializer() throws IOException {
+        return FileManager.getObjectDeSerializer(commitLogDataDirectory + commitLogFileName);
+    }
+
+    public static String getFullCommitLogFileName() {
+        return commitLogDataDirectory + commitLogFileName;
+    }
 
     public static CommitLog getCommitLog() {
         return commitLog;

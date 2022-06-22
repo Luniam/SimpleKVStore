@@ -13,16 +13,17 @@ import java.util.TreeMap;
 public class StorageProxyTest {
 
     @Test
-    public void testMutate() {
+    public void testMutate() throws InterruptedException {
         CommitLogManager.startCommitLogAppenderWorker();
         Map<KeyRecord, ValueRecord> inMemoryMemTable = new TreeMap<>();
         for(int i = 10000; i < 99999; i++) {
             KeyRecord key = new KeyRecord("Mahi" + i);
             ValueRecord value = new ValueRecord("start-working-out" + i);
             DataRecord dataRecord = new DataRecord(key, value);
-            Command putCommand = new PutCommand(dataRecord);
+            MutateCommand putCommand = new MutateCommand(dataRecord);
             if(!StorageProxy.mutate(putCommand)) Assert.fail();
             inMemoryMemTable.put(key, value);
         }
+        Thread.sleep(10*1000);
     }
 }

@@ -1,6 +1,8 @@
 package com.simplekv.disk;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FileManager {
 
@@ -48,18 +50,86 @@ public class FileManager {
     public static class Serializer implements ObjectSerializer {
 
         private final ObjectOutputStream objectOutputStream;
-        private final Serializable serializableObject;
+        private Serializable serializableObject;
 
-        public Serializer(Serializable serializable, String filename) throws IOException {
-            this.serializableObject = serializable;
+        public Serializer(String filename) throws IOException {
             FileOutputStream fileOutputStream = new FileOutputStream(filename, true);
             objectOutputStream = new ObjectOutputStream(fileOutputStream);
+        }
+
+        public Serializer(Serializable serializable, String filename) throws IOException {
+            this(filename);
+            this.serializableObject = serializable;
         }
 
         @Override
         public void write() throws IOException {
             this.objectOutputStream.writeObject(this.serializableObject);
             this.objectOutputStream.close();
+        }
+
+        @Override
+        public void write(Serializable serializable) throws IOException {
+            this.objectOutputStream.writeObject(serializable);
+            this.objectOutputStream.close();
+        }
+    }
+
+    public static class SerializerAppender implements ObjectSerializerAppender {
+        private static class AppendingObjectOutputStream extends ObjectOutputStream {
+
+            public AppendingObjectOutputStream(OutputStream out) throws IOException {
+                super(out);
+            }
+
+            @Override
+            protected void writeStreamHeader() throws IOException {
+                // do not write a header, but reset:
+                // this line added after another question
+                // showed a problem with the original
+                reset();
+            }
+        }
+
+        private AppendingObjectOutputStream appendingObjectOutputStream;
+        private ObjectOutputStream objectOutputStream;
+
+        public SerializerAppender(String filename) throws IOException {
+            FileOutputStream fileOutputStream = new FileOutputStream(filename, true);
+            objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            appendingObjectOutputStream = new AppendingObjectOutputStream(objectOutputStream);
+        }
+
+        @Override
+        public void append(Serializable serializable) throws IOException {
+            this.appendingObjectOutputStream.writeObject(serializable);
+        }
+    }
+
+    public static class DeSerializer implements ObjectDeSerializer {
+
+        private final ObjectInputStream objectInputStream;
+
+        public DeSerializer(String filename) throws IOException {
+            FileInputStream fileInputStream = new FileInputStream(filename);
+            objectInputStream = new ObjectInputStream(fileInputStream);
+        }
+
+        @Override
+        public Object read() throws IOException, ClassNotFoundException {
+            return objectInputStream.readObject();
+        }
+
+        @Override
+        public List<Object> readAll() throws IOException, ClassNotFoundException {
+            List<Object> returnObjects = new ArrayList<>();
+            try {
+                for(;;) {
+                    Object readObject = objectInputStream.readObject();
+                    returnObjects.add(readObject);
+                }
+            } catch (EOFException eofException) {}
+            return returnObjects;
         }
     }
 
@@ -70,5 +140,20 @@ public class FileManager {
     public static ObjectSerializer getObjectSerializer(Serializable serializable, String filename)
             throws IOException {
         return new Serializer(serializable, filename);
+    }
+
+    public static ObjectSerializer getObjectSerializer(String filename)
+            throws IOException {
+        return new Serializer(filename);
+    }
+
+    public static ObjectSerializerAppender getObjectSerializerAppender(String filename)
+            throws IOException {
+        return new SerializerAppender(filename);
+    }
+
+    public static ObjectDeSerializer getObjectDeSerializer(String filename)
+            throws IOException {
+        return new DeSerializer(filename);
     }
 }

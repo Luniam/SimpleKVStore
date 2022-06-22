@@ -5,6 +5,7 @@ target/
 logs/
 data/
 test-data/
+wal
 
 ### IntelliJ IDEA ###
 .idea/

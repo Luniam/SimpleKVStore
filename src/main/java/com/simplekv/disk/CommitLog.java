@@ -2,6 +2,7 @@ package com.simplekv.disk;
 
 import com.simplekv.storage.Command;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -16,16 +17,23 @@ public class CommitLog {
 
     }
 
-    public static CommitLog instance() {
+    public static CommitLog loadInstance() {
         if(instance == null) {
             lock.lock();
             try {
-                if(instance == null) instance = new CommitLog();
+                if(instance == null) {
+                    instance = new CommitLog();
+                    instance.dataCommandList = new ArrayList<>();
+                }
             } finally {
                 lock.unlock();
             }
         }
         return instance;
+    }
+
+    private void loadDataCommandList() {
+
     }
 
     public List<Command> getDataCommandList() {
