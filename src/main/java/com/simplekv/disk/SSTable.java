@@ -66,7 +66,7 @@ public class SSTable {
     public void proceedToCreateSSTable(MemTableMBean memTable) throws IOException {
         FileWriter dataFileWriter = FileManager.getFileWriter(tableMetaData.getTableFileName());
         FileWriter indexFileWriter = FileManager.getFileWriter(this.blockIndex.getFinalFilename());
-        AbstractSSTableTemplate tableTemplate = SSTableTemplateManager.chooseDefaultSSTableTemplate();
+        AbstractSSTableTemplate tableTemplate = SSTableTemplateFactory.getDefaultSSTableTemplate();
         List<List<DataRecord>> chunkedData = splitMap(memTable.getMemData());
         long previousIndex = 0;
         for(List<DataRecord> dataRecordList : chunkedData) {

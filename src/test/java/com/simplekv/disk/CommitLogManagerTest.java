@@ -18,21 +18,5 @@ public class CommitLogManagerTest {
 
     @Test
     public void testGetCommitLogDeSerializer() {
-        try {
-            ObjectDeSerializer deSerializer = CommitLogManager.getCommitLogDeSerializer();
-//            Command command = (Command) deSerializer.read();
-//            Assert.assertNotNull(command);
-
-            List<Command> commandList = deSerializer.readAll().stream().map(o -> (Command) o).toList();
-            logger.debug("Commands loaded successfully");
-        } catch (FileNotFoundException fileNotFoundException) {
-            logger.error(fileNotFoundException.getMessage());
-            logger.error(Arrays.toString(fileNotFoundException.getStackTrace()));
-        }
-        catch (IOException | ClassNotFoundException exception) {
-            logger.error(exception.getMessage());
-            logger.error(Arrays.toString(exception.getStackTrace()));
-            Assert.fail();
-        }
     }
 }

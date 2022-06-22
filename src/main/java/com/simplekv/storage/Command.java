@@ -16,7 +16,7 @@ public abstract class Command implements Serializable {
         PUT,
         DELETE
     };
-    CommandType command;
+    public CommandType command;
 
     public Command() {
         this.timestamp = System.currentTimeMillis();
