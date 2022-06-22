@@ -17,6 +17,7 @@ public class SSTableTest {
 
     @Test
     public void testSSTableCreation() {
+        MemTableManager.loadMemTable();
         Map<KeyRecord, ValueRecord> inMemoryMemTable = new TreeMap<>();
         for(int i = 0; i < 128*1024; i++) {
             KeyRecord key = new KeyRecord("Mahi" + i);
