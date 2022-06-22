@@ -19,7 +19,7 @@ public class CommitLogManager {
     private static final BlockingQueue<CommitLogAppender> commitLogAppenderQueue = new LinkedBlockingDeque<>();
     private static final int appenderThreadDelayMillis = 100;
     private static final String commitLogDataDirectory = "wal/";
-    private static final String commitLogFileName = "wal.ser";
+    private static final String commitLogFileName = "wal.bin";
 
     static class CommitLogAppender implements Runnable {
 
