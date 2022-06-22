@@ -176,6 +176,10 @@ public class FileManager {
         return new Writer(fileName);
     }
 
+    public static FileReader getFileReader(String filename) throws IOException {
+        return new Reader(filename);
+    }
+
     public static ObjectSerializer getObjectSerializer(Serializable serializable, String filename)
             throws IOException {
         return new Serializer(serializable, filename);

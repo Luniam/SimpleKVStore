@@ -20,7 +20,8 @@ public class CommitLogManager {
     private static final int appenderThreadDelayMillis = 100;
     private static final String commitLogDataDirectory = "wal/";
     private static final String commitLogFileName = "wal.bin";
-    private static final FileWriter commitLogWriter = getCommitLogWriter();
+    private static final FileWriter commitLogWriter = buildCommitLogWriter();
+    private static final FileReader commitLogReader = buildCommitLogReader();
 
     static class CommitLogAppender implements Runnable {
 
@@ -50,7 +51,7 @@ public class CommitLogManager {
 
     private static final CommitLog commitLog = CommitLog.loadInstance();
 
-    public static FileWriter getCommitLogWriter() {
+    public static FileWriter buildCommitLogWriter() {
         try {
             File folder = new File(commitLogDataDirectory);
             if(!folder.exists())
@@ -59,6 +60,22 @@ public class CommitLogManager {
         } catch (IOException ioException) {
             return null;
         }
+    }
+
+    public static FileReader buildCommitLogReader() {
+        try {
+            return FileManager.getFileReader(getFullCommitLogFileName());
+        } catch (IOException ioException) {
+            return null;
+        }
+    }
+
+    public static FileWriter getCommitLogWriter() {
+        return commitLogWriter;
+    }
+
+    public static FileReader getCommitLogReader() {
+        return commitLogReader;
     }
 
     public static String getFullCommitLogFileName() {

@@ -11,10 +11,14 @@ import java.io.IOException;
 public class MemTableManager {
 
     private static final Logger logger = LoggerFactory.getLogger(MemTableManager.class);
-    private static TreeMapMemTable memTable = TreeMapMemTable.loadInstance();
+    private static TreeMapMemTable memTable;
 
     public static void loadMemTable() {
         memTable = TreeMapMemTable.loadInstance(CommitLogManager.getCommitLog());
+    }
+
+    public static MemTableMBean getMemTable() {
+        return memTable;
     }
 
     public static void putData(DataRecord dataRecord) {
