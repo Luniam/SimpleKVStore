@@ -1,5 +1,6 @@
 package com.simplekv.db;
 
+import com.simplekv.disk.CommitLogManager;
 import com.simplekv.disk.SSTable;
 import com.simplekv.utils.DataRecord;
 import org.slf4j.Logger;
@@ -13,7 +14,7 @@ public class MemTableManager {
     private static TreeMapMemTable memTable = TreeMapMemTable.loadInstance();
 
     public static void loadMemTable() {
-        memTable = TreeMapMemTable.loadInstance();
+        memTable = TreeMapMemTable.loadInstance(CommitLogManager.getCommitLog());
     }
 
     public static void putData(DataRecord dataRecord) {

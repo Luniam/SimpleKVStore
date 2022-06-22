@@ -16,6 +16,8 @@ public class FileWriterTest {
     @Test
     public void testAppendBytes() {
         long timestamp = System.currentTimeMillis();
+        File folder = new File(TestUtils.testDataDirectory);
+        if(!folder.exists()) folder.mkdir();
         String filename = TestUtils.testDataDirectory + "test-data-" + timestamp + ".db";
         try {
             FileWriter writer = FileManager.getFileWriter(filename);

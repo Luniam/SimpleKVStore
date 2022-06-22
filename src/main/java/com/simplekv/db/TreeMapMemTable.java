@@ -1,9 +1,12 @@
 package com.simplekv.db;
 
+import com.simplekv.disk.CommitLog;
+import com.simplekv.storage.Command;
 import com.simplekv.utils.DataRecord;
 import com.simplekv.utils.KeyRecord;
 import com.simplekv.utils.ValueRecord;
 
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.locks.ReentrantLock;
@@ -18,12 +21,7 @@ public class TreeMapMemTable implements MemTableMBean {
         memData = new TreeMap<>();
     }
 
-    /**
-     * Todo
-     * Will load the memtable from commit log during startup
-     * If it is already loaded then return the instance
-     * @return
-     */
+
     public static TreeMapMemTable loadInstance() {
         if(instance == null) {
             lock.lock();
@@ -34,6 +32,29 @@ public class TreeMapMemTable implements MemTableMBean {
             }
         }
         return instance;
+    }
+
+    public static TreeMapMemTable loadInstance(CommitLog commitLog) {
+        if (commitLog == null) return loadInstance();
+        if(instance == null) {
+            lock.lock();
+            try {
+                if(instance == null) {
+                    instance = new TreeMapMemTable();
+                }
+                populateMemDataFromCommitLog(commitLog, instance.memData);
+            } finally {
+                lock.unlock();
+            }
+        }
+        return instance;
+    }
+
+    public static void populateMemDataFromCommitLog(CommitLog commitLog, Map<KeyRecord, ValueRecord> memData) {
+        List<Command> dataRecordList = commitLog.getDataCommandList();
+        dataRecordList.forEach(command -> {
+            memData.put(command.dataRecord.getKey(), command.dataRecord.getValue());
+        });
     }
 
     @Override

@@ -1,9 +1,8 @@
 package com.simplekv.disk;
 
 import com.simplekv.storage.Command;
-import com.simplekv.utils.DataRecord;
 
-import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -18,11 +17,14 @@ public class CommitLog {
 
     }
 
-    public static CommitLog instance() {
+    public static CommitLog loadInstance() {
         if(instance == null) {
             lock.lock();
             try {
-                if(instance == null) instance = new CommitLog();
+                if(instance == null) {
+                    instance = new CommitLog();
+                    instance.dataCommandList = new ArrayList<>();
+                }
             } finally {
                 lock.unlock();
             }
@@ -30,7 +32,15 @@ public class CommitLog {
         return instance;
     }
 
-    public void append(DataRecord dataRecord) {
+    private void loadDataCommandList() {
+
+    }
+
+    public List<Command> getDataCommandList() {
+        return this.dataCommandList;
+    }
+
+    public void append(Command command) {
 
     }
 
