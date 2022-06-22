@@ -1,7 +1,7 @@
 # SimpleKVStore
 
 
-[![<ORG_NAME>](https://circleci.com/<VCS>/<ORG_NAME>/<PROJECT_NAME>.svg?style=svg)](<LINK>)
+[![Luniam](https://circleci.com/gh/Luniam/SimpleKVStore.svg?style=svg)]()
 
 ### This is a distributed and highly available key value database based on LSM trees. The architecture is inspired from Dynamo and Cassandra.
 
