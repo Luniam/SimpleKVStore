@@ -42,6 +42,8 @@ public class MemTableManager {
                     new IndexBloomFilter.IndexBloomFilterBuilder()
                                         .memTable(memTable)
                                         .ssTableName(ssTable.getTableMetaData().getTableName())
+                                        .ssTableFileName(ssTable.getTableMetaData().getTableFileName())
+                                        .indexFileName(ssTable.getBlockIndex().getFinalFilename())
                                         .build();
             bloomFilter.flushToDisk();
             memTable.refreshMemTable();

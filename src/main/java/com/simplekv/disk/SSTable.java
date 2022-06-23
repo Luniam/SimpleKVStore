@@ -63,6 +63,10 @@ public class SSTable {
         return tableMetaData;
     }
 
+    public BlockIndex getBlockIndex() {
+        return blockIndex;
+    }
+
     public void proceedToCreateSSTable(MemTableMBean memTable) throws IOException {
         FileWriter dataFileWriter = FileManager.getFileWriter(tableMetaData.getTableFileName());
         FileWriter indexFileWriter = FileManager.getFileWriter(this.blockIndex.getFinalFilename());

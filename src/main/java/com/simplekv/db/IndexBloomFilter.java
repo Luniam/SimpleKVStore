@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.Serial;
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
@@ -23,10 +24,14 @@ import java.util.Map;
  */
 public class IndexBloomFilter implements Serializable {
 
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     static class IndexBloomFilterBuilder {
 
         private BloomFilter<String> bloomFilter;
         private String ssTableName;
+        private String ssTableFileName;
         private String indexFilename;
 
 
@@ -49,6 +54,11 @@ public class IndexBloomFilter implements Serializable {
             return this;
         }
 
+        public IndexBloomFilterBuilder ssTableFileName(String ssTableFileName) {
+            this.ssTableFileName = ssTableFileName;
+            return this;
+        }
+
         public IndexBloomFilterBuilder indexFileName(String indexFilename) {
             this.indexFilename = indexFilename;
             return this;
@@ -64,15 +74,17 @@ public class IndexBloomFilter implements Serializable {
 
     private BloomFilter<String> bloomFilter;
     private String ssTableName;
+    private String ssTableFileName;
     private String indexFilename;
-    private final String filenamePrefix = "filter-";
-    private final String filenameExtension = ".ser";
+    private static final String filenamePrefix = "filter-";
+    private static final String filenameExtension = ".ser";
 
     public IndexBloomFilter() {}
 
     public IndexBloomFilter(IndexBloomFilterBuilder indexBloomFilterBuilder) {
         this.bloomFilter = indexBloomFilterBuilder.bloomFilter;
         this.ssTableName = indexBloomFilterBuilder.ssTableName;
+        this.ssTableFileName = indexBloomFilterBuilder.ssTableFileName;
         this.indexFilename = indexBloomFilterBuilder.indexFilename;
     }
 
@@ -90,6 +102,22 @@ public class IndexBloomFilter implements Serializable {
 
     public boolean mightContain(KeyRecord key) {
         return this.bloomFilter.mightContain(key.getKey());
+    }
+
+    public static String getFilenamePrefix() {
+        return filenamePrefix;
+    }
+
+    public String getSsTableName() {
+        return ssTableName;
+    }
+
+    public String getSsTableFileName() {
+        return ssTableFileName;
+    }
+
+    public String getIndexFilename() {
+        return indexFilename;
     }
 
     public void flushToDisk() {
