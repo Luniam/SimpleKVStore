@@ -45,6 +45,9 @@ public class MemTableManager {
                                         .ssTableFileName(ssTable.getTableMetaData().getTableFileName())
                                         .indexFileName(ssTable.getBlockIndex().getFinalFilename())
                                         .build();
+            IndexManager.addBloomFilterInMemory(ssTable.getBlockIndex().getFinalFilename(),
+                                                ssTable.getTableMetaData().getTableFileName(),
+                                                bloomFilter);
             bloomFilter.flushToDisk();
             memTable.refreshMemTable();
             return true;

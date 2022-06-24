@@ -1,5 +1,6 @@
 package com.simplekv.storage;
 
+import com.simplekv.db.IndexManager;
 import com.simplekv.db.MemTableManager;
 import com.simplekv.disk.CommitLogManager;
 import com.simplekv.service.SimpleKVDaemon;
@@ -19,6 +20,7 @@ public class StorageProxyTest {
     @Before
     public void storageProxyInit() {
         CommitLogManager.startCommitLogAppenderWorker();
+        IndexManager.loadIndexBloomFilters();
     }
     @Test
     public void testMutate() throws InterruptedException {
