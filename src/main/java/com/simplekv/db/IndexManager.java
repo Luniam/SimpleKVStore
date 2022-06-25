@@ -57,13 +57,15 @@ public class IndexManager {
         indexFileNameToBlockIndexMap.put(indexFileName, blockIndex);
     }
 
+    /**
+     * Do a binary search on the block metadata to check the correct starting position in SSTable
+     */
     public static BlockMetaData getSsTableBlockIndexFromIndexFile(KeyRecord keyRecord, String indexFileName) {
         BlockIndex blockIndex = indexFileNameToBlockIndexMap.get(indexFileName);
         if (blockIndex == null) return null;
         Set<String> allKeySet = blockIndex.getBlockMetaDataMap().keySet();
         String[] allKeys = new String[allKeySet.size()];
         allKeySet.toArray(allKeys);
-        //do a binary search on the keys
         int start = 0;
         int end = allKeys.length-1;
         int mid = 0;
@@ -76,6 +78,7 @@ public class IndexManager {
             else break;
         }
         if(mid >= allKeys.length) return null;
+        if(allKeys[mid].compareTo(keyRecord.getKey()) > 0) mid--;
         String searchedKey = allKeys[mid];
         return blockIndex.getBlockMetaData(searchedKey);
     }

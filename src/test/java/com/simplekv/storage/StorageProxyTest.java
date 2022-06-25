@@ -10,6 +10,7 @@ import com.simplekv.utils.ValueRecord;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.LoggerFactory;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
@@ -40,9 +41,13 @@ public class StorageProxyTest {
 
     @Test
     public void testGet() {
-        KeyRecord keyRecord = new KeyRecord("Mahi99998");
-        DataReturnRecord returnRecord = StorageProxy.get(keyRecord, false);
-        String s = new String(returnRecord.getData(), StandardCharsets.UTF_8);
-        Assert.assertNotNull(returnRecord);
+        for(int i = 10000; i < 99999; i++) {
+            KeyRecord keyRecord = new KeyRecord("Mahi" + i);
+            DataReturnRecord returnRecord = StorageProxy.get(keyRecord, false);
+            LoggerFactory.getLogger(StorageProxyTest.class).debug("Mahi" + i);
+            Assert.assertNotNull(returnRecord);
+            String dataString = new String(returnRecord.getData(), StandardCharsets.UTF_8);
+            Assert.assertEquals("start-working-out" + i, dataString);
+        }
     }
 }

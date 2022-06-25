@@ -38,7 +38,7 @@ public class IndexBloomFilter implements Serializable {
         public IndexBloomFilterBuilder() {}
 
         public IndexBloomFilterBuilder memTable(MemTableMBean memTable) {
-            int expectedInsertions = Math.toIntExact(memTable.getKeyCount()/2);
+            int expectedInsertions = Math.toIntExact(memTable.getKeyCount());
             this.bloomFilter = BloomFilter.create(
                     Funnels.stringFunnel(StandardCharsets.UTF_8),
                     expectedInsertions,

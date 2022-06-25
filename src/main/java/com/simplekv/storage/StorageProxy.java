@@ -23,8 +23,10 @@ public class StorageProxy {
     public synchronized static boolean append(MutateCommand command) {
         CommitLogManager.append(command);
         MemTableManager.putData(command.dataRecord);
-        if(MemTableManager.shouldFlushMemTable())
+        if(MemTableManager.shouldFlushMemTable()) {
+            CommitLogManager.append(new CommitLogFlushCommand());
             return MemTableManager.flushMemTable();
+        }
         return true;
     }
 

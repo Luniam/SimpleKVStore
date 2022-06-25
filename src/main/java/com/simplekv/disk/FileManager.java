@@ -88,6 +88,10 @@ public class FileManager {
         public long getFilePointer() throws IOException {
             return this.file.getFilePointer();
         }
+
+        public void clearFile() throws IOException {
+            file.setLength(0);
+        }
     }
 
     public static class Serializer implements ObjectSerializer {

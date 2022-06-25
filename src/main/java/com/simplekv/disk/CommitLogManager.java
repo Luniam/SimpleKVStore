@@ -39,7 +39,11 @@ public class CommitLogManager {
             try {
                 AbstractCommitLogTemplate commitLogTemplate = CommitLogTemplateFactory.getDefaultCommitLogTemplate();
                 if(commitLogWriter == null) return;
-                commitLogTemplate.appendToCommitLog(commitLogWriter, command);
+                if(command.command == Command.CommandType.COMMIT_LOG_FLUSH) {
+                    logger.debug("Commit log flush command found, clearing the file");
+                    commitLogWriter.clearFile();
+                }
+                else commitLogTemplate.appendToCommitLog(commitLogWriter, command);
                 //todo write commit log
             } catch (Exception exception) {
                 logger.error(exception.getMessage());
