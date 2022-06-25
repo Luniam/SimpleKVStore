@@ -1,10 +1,12 @@
 package com.simplekv.disk;
 
+import com.simplekv.config.DatabaseDescriptor;
 import com.simplekv.db.MemTableManager;
 import com.simplekv.utils.DataRecord;
 import com.simplekv.utils.KeyRecord;
 import com.simplekv.utils.ValueRecord;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
@@ -15,9 +17,14 @@ import java.util.*;
 
 public class SSTableTest {
 
+    @Before
+    public void ssTableTestInit() {
+        DatabaseDescriptor.daemonInitialization();
+        MemTableManager.loadMemTable();
+    }
+
     @Test
     public void testSSTableCreation() {
-        MemTableManager.loadMemTable();
         Map<KeyRecord, ValueRecord> inMemoryMemTable = new TreeMap<>();
         for(int i = 0; i < 128*1024; i++) {
             KeyRecord key = new KeyRecord("Mahi" + i);
