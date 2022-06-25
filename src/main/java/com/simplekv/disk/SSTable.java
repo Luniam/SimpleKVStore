@@ -1,8 +1,8 @@
 package com.simplekv.disk;
 
 import com.google.common.collect.Lists;
+import com.simplekv.config.DatabaseDescriptor;
 import com.simplekv.db.MemTableMBean;
-import com.simplekv.utils.Constants;
 import com.simplekv.utils.DataRecord;
 import com.simplekv.utils.KeyRecord;
 import com.simplekv.utils.ValueRecord;
@@ -22,7 +22,7 @@ public class SSTable {
         private final Long generationTimeStamp;
 
         public TableMetaData() {
-            String dataFolder = Constants.dataDirectory;
+            String dataFolder = DatabaseDescriptor.getConfig().data_directory;
             File folder = new File(dataFolder);
             if(!folder.exists()) folder.mkdir();
             generationTimeStamp = System.currentTimeMillis();

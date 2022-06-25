@@ -1,7 +1,8 @@
 package com.simplekv.db;
 
+import com.simplekv.config.Config;
+import com.simplekv.config.DatabaseDescriptor;
 import com.simplekv.disk.*;
-import com.simplekv.utils.Constants;
 import com.simplekv.utils.KeyRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +22,8 @@ public class IndexManager {
         indexFileNameToBloomFilter = new TreeMap<>(Comparator.reverseOrder());
         indexFileNameToSSTableName = new HashMap<>();
         indexFileNameToBlockIndexMap = new TreeMap<>(Comparator.reverseOrder());
-        File[] allBloomFilterFiles = FileManager.getFilesWithPrefix(Constants.dataDirectory, IndexBloomFilter.getFilenamePrefix());
+        Config config = DatabaseDescriptor.getConfig();
+        File[] allBloomFilterFiles = FileManager.getFilesWithPrefix(config.data_directory, IndexBloomFilter.getFilenamePrefix());
         AbstractSSTableTemplate ssTableTemplate = SSTableTemplateFactory.getDefaultSSTableTemplate();
         for(File file : allBloomFilterFiles) {
             try {

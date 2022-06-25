@@ -1,6 +1,6 @@
 package com.simplekv.disk;
 
-import com.simplekv.utils.Constants;
+import com.simplekv.config.DatabaseDescriptor;
 
 import java.util.Map;
 import java.util.Objects;
@@ -40,7 +40,7 @@ public class BlockIndex {
     public BlockIndex(BlockIndexBuilder blockIndexBuilder) {
         this.blockMetaDataMap = Objects.requireNonNullElseGet(blockIndexBuilder.blockMetaDataMap, TreeMap::new);
         this.ssTablename = blockIndexBuilder.ssTablename;
-        this.finalFilename = Constants.dataDirectory +
+        this.finalFilename = DatabaseDescriptor.getConfig().data_directory +
                                         filenamePrefix +
                                         ssTablename +
                                         filenameExtension;

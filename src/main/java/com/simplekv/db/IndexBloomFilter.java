@@ -2,15 +2,14 @@ package com.simplekv.db;
 
 import com.google.common.hash.BloomFilter;
 import com.google.common.hash.Funnels;
+import com.simplekv.config.DatabaseDescriptor;
 import com.simplekv.disk.FileManager;
 import com.simplekv.disk.ObjectSerializer;
-import com.simplekv.utils.Constants;
 import com.simplekv.utils.KeyRecord;
 import com.simplekv.utils.ValueRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serial;
 import java.io.Serializable;
@@ -122,10 +121,10 @@ public class IndexBloomFilter implements Serializable {
 
     public void flushToDisk() {
         try {
-            String objectFilenameWithLocation = Constants.dataDirectory +
-                                                        this.filenamePrefix +
-                                                        this.ssTableName +
-                                                        filenameExtension;
+            String objectFilenameWithLocation = DatabaseDescriptor.getConfig().data_directory +
+                                                                            this.filenamePrefix +
+                                                                            this.ssTableName +
+                                                                            filenameExtension;
             ObjectSerializer serializer = FileManager.getObjectSerializer(this, objectFilenameWithLocation);
             serializer.write();
         } catch (IOException ioException) {

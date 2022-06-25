@@ -1,5 +1,6 @@
 package com.simplekv.storage;
 
+import com.simplekv.config.DatabaseDescriptor;
 import com.simplekv.db.IndexManager;
 import com.simplekv.db.MemTableManager;
 import com.simplekv.disk.CommitLogManager;
@@ -21,14 +22,15 @@ public class StorageProxyTest {
 
     @Before
     public void storageProxyInit() {
+        DatabaseDescriptor.daemonInitialization();
         MemTableManager.loadMemTable();
         CommitLogManager.startCommitLogAppenderWorker();
         IndexManager.loadIndicesAndBloomFilters();
     }
     @Test
-    public void tesAppend() throws InterruptedException {
+    public void testAppend() {
         Map<KeyRecord, ValueRecord> dummyMemTable = new TreeMap<>();
-        for(int i = 10000; i < 99999; i++) {
+        for(int i = 10000; i < 70000; i++) {
             KeyRecord key = new KeyRecord("Mahi" + i);
             ValueRecord value = new ValueRecord("start-working-out" + i);
             DataRecord dataRecord = new DataRecord(key, value);
@@ -36,18 +38,18 @@ public class StorageProxyTest {
             if(!StorageProxy.append(putCommand)) Assert.fail();
             dummyMemTable.put(key, value);
         }
-        Thread.sleep(180*1000);
     }
 
     @Test
     public void testGet() {
-        for(int i = 10000; i < 99999; i++) {
+        testAppend();
+        for(int i = 10000; i < 70000; i++) {
             KeyRecord keyRecord = new KeyRecord("Mahi" + i);
             DataReturnRecord returnRecord = StorageProxy.get(keyRecord, false);
-            LoggerFactory.getLogger(StorageProxyTest.class).debug("Mahi" + i);
             Assert.assertNotNull(returnRecord);
             String dataString = new String(returnRecord.getData(), StandardCharsets.UTF_8);
             Assert.assertEquals("start-working-out" + i, dataString);
+            LoggerFactory.getLogger(StorageProxyTest.class).debug("Found Mahi" + i);
         }
     }
 }

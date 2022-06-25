@@ -6,10 +6,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.Executors;
-import java.util.concurrent.LinkedBlockingDeque;
-import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.*;
 
 public class CommitLogManager {
 
@@ -99,9 +96,10 @@ public class CommitLogManager {
         Thread commitLogAppenderThread = new Thread(() -> {
             while (true) {
                 try {
-                    CommitLogAppender appender = commitLogAppenderQueue.poll();
-                    if(appender != null) commitLogAppenderExecutors.submit(appender);
-                    Thread.sleep(1);
+                    logger.debug("Polling for new commit log");
+                    CommitLogAppender appender = commitLogAppenderQueue.take();
+                    commitLogAppenderExecutors.submit(appender);
+                    logger.debug("Found one");
                 } catch (InterruptedException exception) {
                     logger.error(exception.getMessage());
                 }
