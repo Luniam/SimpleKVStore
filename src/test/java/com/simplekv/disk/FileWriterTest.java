@@ -1,9 +1,11 @@
 package com.simplekv.disk;
 
 import com.simplekv.TestUtils;
+import com.simplekv.config.DatabaseDescriptor;
 import com.simplekv.disk.FileManager;
 import com.simplekv.disk.FileWriter;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
@@ -12,6 +14,11 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
 public class FileWriterTest {
+
+    @Before
+    public void fileWriterTestInit() {
+        DatabaseDescriptor.daemonInitialization();
+    }
 
     @Test
     public void testAppendBytes() {
