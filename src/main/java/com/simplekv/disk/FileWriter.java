@@ -9,4 +9,5 @@ public interface FileWriter {
     void writeBytes(byte[] bytes, long position) throws IOException;
     void closeWriter() throws IOException;
     long getFilePointer() throws IOException;
+    void clearFile() throws IOException;
 }

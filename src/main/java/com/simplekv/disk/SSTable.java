@@ -1,8 +1,8 @@
 package com.simplekv.disk;
 
 import com.google.common.collect.Lists;
+import com.simplekv.config.DatabaseDescriptor;
 import com.simplekv.db.MemTableMBean;
-import com.simplekv.utils.Constants;
 import com.simplekv.utils.DataRecord;
 import com.simplekv.utils.KeyRecord;
 import com.simplekv.utils.ValueRecord;
@@ -22,7 +22,7 @@ public class SSTable {
         private final Long generationTimeStamp;
 
         public TableMetaData() {
-            String dataFolder = Constants.dataDirectory;
+            String dataFolder = DatabaseDescriptor.getConfig().data_directory;
             File folder = new File(dataFolder);
             if(!folder.exists()) folder.mkdir();
             generationTimeStamp = System.currentTimeMillis();
@@ -49,10 +49,9 @@ public class SSTable {
     }
 
     private final TableMetaData tableMetaData;
-
     private BlockIndex blockIndex;
-
     private FileManager fileManager;
+    public static final int keysInEachBlock = 128;
 
     public SSTable() {
         tableMetaData = new TableMetaData();
@@ -63,6 +62,20 @@ public class SSTable {
         return tableMetaData;
     }
 
+    public BlockIndex getBlockIndex() {
+        return blockIndex;
+    }
+
+    public static ValueRecord getValueRecordFromPosition(String ssTableName, KeyRecord key, BlockMetaData blockMetaData) {
+        try {
+            FileReader fileReader = FileManager.getFileReader(ssTableName);
+            AbstractSSTableTemplate ssTableTemplate = SSTableTemplateFactory.getDefaultSSTableTemplate();
+            return ssTableTemplate.getValueRecordFromPosition(fileReader, key, blockMetaData);
+        } catch (IOException ioException) {
+            return null;
+        }
+    }
+
     public void proceedToCreateSSTable(MemTableMBean memTable) throws IOException {
         FileWriter dataFileWriter = FileManager.getFileWriter(tableMetaData.getTableFileName());
         FileWriter indexFileWriter = FileManager.getFileWriter(this.blockIndex.getFinalFilename());
@@ -71,13 +84,15 @@ public class SSTable {
         long previousIndex = 0;
         for(List<DataRecord> dataRecordList : chunkedData) {
             long index = tableTemplate.dumpDataBlockAndGetIndex(dataFileWriter, tableMetaData, dataRecordList);
-            BlockIndex.BlockMetaData blockMetaData = new BlockIndex.BlockMetaData();
+            BlockMetaData blockMetaData = new BlockMetaData();
             blockMetaData.key = dataRecordList.get(0).getKey().getKey();
             blockMetaData.offset = previousIndex;
             previousIndex = index;
             blockIndex.putBlockMetaData(blockMetaData.key, blockMetaData);
         }
         tableTemplate.dumpBlockIndex(indexFileWriter, blockIndex);
+        dataFileWriter.closeWriter();
+        indexFileWriter.closeWriter();
     }
 
     private List<List<DataRecord>> splitMap(Map<KeyRecord, ValueRecord> map) {
@@ -85,7 +100,7 @@ public class SSTable {
                                             .stream()
                                             .map(e -> new DataRecord(e.getKey(), e.getValue()))
                                             .toList();
-        return Lists.partition(dataRecordList, 128);
+        return Lists.partition(dataRecordList, keysInEachBlock);
     }
 
 }

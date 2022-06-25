@@ -1,6 +1,7 @@
 package com.simplekv.service;
 
 import com.simplekv.config.DatabaseDescriptor;
+import com.simplekv.db.IndexManager;
 import com.simplekv.db.MemTableManager;
 import com.simplekv.disk.CommitLogManager;
 import org.slf4j.Logger;
@@ -20,12 +21,17 @@ public class SimpleKVDaemon {
         CommitLogManager.startCommitLogAppenderWorker();
     }
 
+    private void indexSequence() {
+        IndexManager.loadIndicesAndBloomFilters();
+    }
+
     /**
      * Activating the instance
      */
     public void activate() {
         applyConfig();
         memTableSequence();
+        indexSequence();
         logger.info("Started Simple KV Store...yaay");
     }
 

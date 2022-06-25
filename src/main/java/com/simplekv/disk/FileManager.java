@@ -43,6 +43,10 @@ public class FileManager {
             file.read(b, 0, len);
             return b;
         }
+
+        public long getTotalBytes() throws IOException {
+            return file.length();
+        }
     }
 
     public static abstract class AbstractWriter implements FileWriter {
@@ -84,6 +88,10 @@ public class FileManager {
         public long getFilePointer() throws IOException {
             return this.file.getFilePointer();
         }
+
+        public void clearFile() throws IOException {
+            file.setLength(0);
+        }
     }
 
     public static class Serializer implements ObjectSerializer {
@@ -124,8 +132,6 @@ public class FileManager {
             @Override
             protected void writeStreamHeader() throws IOException {
                 // do not write a header, but reset:
-                // this line added after another question
-                // showed a problem with the original
                 reset();
             }
         }
@@ -198,5 +204,10 @@ public class FileManager {
     public static ObjectDeSerializer getObjectDeSerializer(String filename)
             throws IOException {
         return new DeSerializer(filename);
+    }
+
+    public static File[] getFilesWithPrefix(String directory, String prefix) {
+        File folder = new File(directory);
+        return folder.listFiles((dir, name) -> name.startsWith(prefix));
     }
 }

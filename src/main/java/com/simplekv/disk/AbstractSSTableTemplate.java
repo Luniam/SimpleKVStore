@@ -1,6 +1,8 @@
 package com.simplekv.disk;
 
 import com.simplekv.utils.DataRecord;
+import com.simplekv.utils.KeyRecord;
+import com.simplekv.utils.ValueRecord;
 
 import java.io.IOException;
 import java.util.List;
@@ -31,4 +33,8 @@ public abstract class AbstractSSTableTemplate {
 
     protected abstract byte[] getBlockData(List<DataRecord> dataRecordList) throws IOException;
     protected abstract byte[] getBlockIndexData(BlockIndex blockIndex) throws IOException;
+
+    public abstract BlockIndex getBlockIndexFromIndexFile(FileReader indexFileReader, String ssTableName) throws IOException;
+
+    public abstract ValueRecord getValueRecordFromPosition(FileReader fileReader, KeyRecord key, BlockMetaData blockMetaData) throws IOException;
 }

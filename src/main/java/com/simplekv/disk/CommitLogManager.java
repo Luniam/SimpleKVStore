@@ -6,10 +6,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.Executors;
-import java.util.concurrent.LinkedBlockingDeque;
-import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.*;
 
 public class CommitLogManager {
 
@@ -39,7 +36,11 @@ public class CommitLogManager {
             try {
                 AbstractCommitLogTemplate commitLogTemplate = CommitLogTemplateFactory.getDefaultCommitLogTemplate();
                 if(commitLogWriter == null) return;
-                commitLogTemplate.appendToCommitLog(commitLogWriter, command);
+                if(command.command == Command.CommandType.COMMIT_LOG_FLUSH) {
+                    logger.debug("Commit log flush command found, clearing the file");
+                    commitLogWriter.clearFile();
+                }
+                else commitLogTemplate.appendToCommitLog(commitLogWriter, command);
                 //todo write commit log
             } catch (Exception exception) {
                 logger.error(exception.getMessage());
@@ -95,9 +96,10 @@ public class CommitLogManager {
         Thread commitLogAppenderThread = new Thread(() -> {
             while (true) {
                 try {
-                    CommitLogAppender appender = commitLogAppenderQueue.poll();
-                    if(appender != null) commitLogAppenderExecutors.submit(appender);
-                    Thread.sleep(appenderThreadDelayMillis);
+                    logger.debug("Polling for new commit log");
+                    CommitLogAppender appender = commitLogAppenderQueue.take();
+                    commitLogAppenderExecutors.submit(appender);
+                    logger.debug("Found one");
                 } catch (InterruptedException exception) {
                     logger.error(exception.getMessage());
                 }

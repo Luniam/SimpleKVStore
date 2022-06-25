@@ -1,9 +1,14 @@
 package com.simplekv.storage;
 
+import com.simplekv.db.IndexBloomFilter;
+import com.simplekv.db.IndexManager;
 import com.simplekv.db.MemTableManager;
+import com.simplekv.disk.BlockMetaData;
 import com.simplekv.disk.CommitLogManager;
-import com.simplekv.utils.DataRecord;
-import com.simplekv.utils.KeyRecord;
+import com.simplekv.disk.SSTable;
+import com.simplekv.utils.*;
+
+import java.util.Map;
 
 public class StorageProxy {
 
@@ -15,18 +20,48 @@ public class StorageProxy {
      * This method is blocking
      * @param command instance of type Command
      */
-    public synchronized static boolean mutate(MutateCommand command) {
+    public synchronized static boolean append(MutateCommand command) {
         CommitLogManager.append(command);
         MemTableManager.putData(command.dataRecord);
-        if(MemTableManager.shouldFlushMemTable())
+        if(MemTableManager.shouldFlushMemTable()) {
+            CommitLogManager.append(new CommitLogFlushCommand());
             return MemTableManager.flushMemTable();
+        }
         return true;
     }
 
     /**
      * This is the get method to get the data associated with a key
      */
-    public DataRecord get(KeyRecord key) {
+    public static DataReturnRecord get(KeyRecord key, boolean isDigest) {
+        ValueRecord dataReturnRecordFromMemTable = MemTableManager.getData(key);
+        if(dataReturnRecordFromMemTable != null) {
+            return getReturnDataFromValueRecord(dataReturnRecordFromMemTable, isDigest);
+        }
+        for(Map.Entry<String, IndexBloomFilter> entry : IndexManager.indexFileNameToBloomFilter.entrySet()) {
+            IndexBloomFilter bloomFilter = entry.getValue();
+            if(bloomFilter.mightContain(key)) {
+                String indexFileName = entry.getKey();
+                BlockMetaData blockMetaData = IndexManager.getSsTableBlockIndexFromIndexFile(key, indexFileName);
+                if(blockMetaData == null) continue;
+                String ssTableName = IndexManager.indexFileNameToSSTableName.get(indexFileName);
+                ValueRecord value = SSTable.getValueRecordFromPosition(ssTableName, key, blockMetaData);
+                if(value == null) continue;
+                return getReturnDataFromValueRecord(value, isDigest);
+            }
+        }
         return null;
+    }
+
+    private static DataReturnRecord getReturnDataFromValueRecord(ValueRecord value, boolean isDigest) {
+        DataReturnRecord dataReturnRecord = new DataReturnRecord();
+        if(isDigest) {
+            Hash hasher = new MurmurHash();
+            int hashValue = hasher.hash(value.getData(), value.getDataSizeInBytes(), 0);
+            dataReturnRecord.setDigest(hashValue);
+            return dataReturnRecord;
+        }
+        dataReturnRecord.setData(value.getData());
+        return dataReturnRecord;
     }
 }

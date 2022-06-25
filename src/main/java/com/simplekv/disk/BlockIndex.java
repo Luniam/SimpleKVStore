@@ -1,6 +1,6 @@
 package com.simplekv.disk;
 
-import com.simplekv.utils.Constants;
+import com.simplekv.config.DatabaseDescriptor;
 
 import java.util.Map;
 import java.util.Objects;
@@ -30,11 +30,6 @@ public class BlockIndex {
         }
     }
 
-    public static class BlockMetaData {
-        public String key;
-        public long offset;
-    }
-
     private final Map<String, BlockMetaData> blockMetaDataMap;
     private String filePath;
     private String ssTablename;
@@ -45,7 +40,7 @@ public class BlockIndex {
     public BlockIndex(BlockIndexBuilder blockIndexBuilder) {
         this.blockMetaDataMap = Objects.requireNonNullElseGet(blockIndexBuilder.blockMetaDataMap, TreeMap::new);
         this.ssTablename = blockIndexBuilder.ssTablename;
-        this.finalFilename = Constants.dataDirectory +
+        this.finalFilename = DatabaseDescriptor.getConfig().data_directory +
                                         filenamePrefix +
                                         ssTablename +
                                         filenameExtension;
@@ -61,6 +56,10 @@ public class BlockIndex {
 
     public Map<String, BlockMetaData> getBlockMetaDataMap() {
         return this.blockMetaDataMap;
+    }
+
+    public BlockMetaData getBlockMetaData(String key) {
+        return this.blockMetaDataMap.get(key);
     }
 
     public void putBlockMetaData(String key, BlockMetaData blockMetaData) {

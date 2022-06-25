@@ -14,7 +14,8 @@ public abstract class Command implements Serializable {
         READ,
         READDIGEST,
         PUT,
-        DELETE
+        DELETE,
+        COMMIT_LOG_FLUSH
     };
     public CommandType command;
 
