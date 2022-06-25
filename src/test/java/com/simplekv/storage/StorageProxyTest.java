@@ -32,7 +32,7 @@ public class StorageProxyTest {
     @Test
     public void testAppend() {
         Map<KeyRecord, ValueRecord> dummyMemTable = new TreeMap<>();
-        for(int i = 10000; i < 70000; i++) {
+        for(int i = 10000; i < 80000; i++) {
             KeyRecord key = new KeyRecord("Mahi" + i);
             ValueRecord value = new ValueRecord("start-working-out" + i);
             DataRecord dataRecord = new DataRecord(key, value);
@@ -45,7 +45,7 @@ public class StorageProxyTest {
     @Test
     public void testGet() {
         testAppend();
-        for(int i = 10000; i < 70000; i++) {
+        for(int i = 10000; i < 80000; i++) {
             KeyRecord keyRecord = new KeyRecord("Mahi" + i);
             DataReturnRecord returnRecord = StorageProxy.get(keyRecord, false);
             Assert.assertNotNull(returnRecord);
