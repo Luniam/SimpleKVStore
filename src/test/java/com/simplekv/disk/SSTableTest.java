@@ -1,6 +1,7 @@
 package com.simplekv.disk;
 
 import com.simplekv.config.DatabaseDescriptor;
+import com.simplekv.db.IndexManager;
 import com.simplekv.db.MemTableManager;
 import com.simplekv.utils.DataRecord;
 import com.simplekv.utils.KeyRecord;
@@ -21,6 +22,8 @@ public class SSTableTest {
     public void ssTableTestInit() {
         DatabaseDescriptor.daemonInitialization();
         MemTableManager.loadMemTable();
+        CommitLogManager.startCommitLogAppenderWorker();
+        IndexManager.loadIndicesAndBloomFilters();
     }
 
     @Test
