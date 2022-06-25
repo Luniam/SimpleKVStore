@@ -25,6 +25,7 @@ public class IndexManager {
         Config config = DatabaseDescriptor.getConfig();
         File[] allBloomFilterFiles = FileManager.getFilesWithPrefix(config.data_directory, IndexBloomFilter.getFilenamePrefix());
         AbstractSSTableTemplate ssTableTemplate = SSTableTemplateFactory.getDefaultSSTableTemplate();
+        if(allBloomFilterFiles == null || allBloomFilterFiles.length == 0) return;
         for(File file : allBloomFilterFiles) {
             try {
                 String filename = file.getAbsolutePath();
