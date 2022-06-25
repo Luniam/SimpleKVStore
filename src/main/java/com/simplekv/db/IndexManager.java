@@ -24,6 +24,7 @@ public class IndexManager {
         indexFileNameToBlockIndexMap = new TreeMap<>(Comparator.reverseOrder());
         Config config = DatabaseDescriptor.getConfig();
         File[] allBloomFilterFiles = FileManager.getFilesWithPrefix(config.data_directory, IndexBloomFilter.getFilenamePrefix());
+        if(allBloomFilterFiles == null || allBloomFilterFiles.length == 0) return;
         AbstractSSTableTemplate ssTableTemplate = SSTableTemplateFactory.getDefaultSSTableTemplate();
         for(File file : allBloomFilterFiles) {
             try {
