@@ -8,10 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
+import java.util.*;
 
 public class IndexManager {
 
@@ -21,9 +18,9 @@ public class IndexManager {
     public static Map<String, BlockIndex> indexFileNameToBlockIndexMap;
 
     public static void loadIndicesAndBloomFilters() {
-        indexFileNameToBloomFilter = new TreeMap<>();
+        indexFileNameToBloomFilter = new TreeMap<>(Comparator.reverseOrder());
         indexFileNameToSSTableName = new HashMap<>();
-        indexFileNameToBlockIndexMap = new TreeMap<>();
+        indexFileNameToBlockIndexMap = new TreeMap<>(Comparator.reverseOrder());
         File[] allBloomFilterFiles = FileManager.getFilesWithPrefix(Constants.dataDirectory, IndexBloomFilter.getFilenamePrefix());
         AbstractSSTableTemplate ssTableTemplate = SSTableTemplateFactory.getDefaultSSTableTemplate();
         for(File file : allBloomFilterFiles) {
