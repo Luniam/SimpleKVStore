@@ -22,7 +22,7 @@ public class SimpleKVDaemon {
     }
 
     private void indexSequence() {
-        IndexManager.loadIndexBloomFilters();
+        IndexManager.loadIndicesAndBloomFilters();
     }
 
     /**

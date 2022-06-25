@@ -97,7 +97,7 @@ public class CommitLogManager {
                 try {
                     CommitLogAppender appender = commitLogAppenderQueue.poll();
                     if(appender != null) commitLogAppenderExecutors.submit(appender);
-                    Thread.sleep(appenderThreadDelayMillis);
+                    Thread.sleep(1);
                 } catch (InterruptedException exception) {
                     logger.error(exception.getMessage());
                 }

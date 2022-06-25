@@ -43,6 +43,10 @@ public class FileManager {
             file.read(b, 0, len);
             return b;
         }
+
+        public long getTotalBytes() throws IOException {
+            return file.length();
+        }
     }
 
     public static abstract class AbstractWriter implements FileWriter {

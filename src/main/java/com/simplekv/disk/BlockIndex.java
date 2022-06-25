@@ -30,11 +30,6 @@ public class BlockIndex {
         }
     }
 
-    public static class BlockMetaData {
-        public String key;
-        public long offset;
-    }
-
     private final Map<String, BlockMetaData> blockMetaDataMap;
     private String filePath;
     private String ssTablename;
@@ -61,6 +56,10 @@ public class BlockIndex {
 
     public Map<String, BlockMetaData> getBlockMetaDataMap() {
         return this.blockMetaDataMap;
+    }
+
+    public BlockMetaData getBlockMetaData(String key) {
+        return this.blockMetaDataMap.get(key);
     }
 
     public void putBlockMetaData(String key, BlockMetaData blockMetaData) {
