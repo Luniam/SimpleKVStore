@@ -10,6 +10,7 @@ import com.simplekv.utils.KeyRecord;
 import com.simplekv.utils.ValueRecord;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.LoggerFactory;
 
@@ -17,6 +18,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.TreeMap;
 
+@Ignore
 public class StorageProxyTest {
 
 

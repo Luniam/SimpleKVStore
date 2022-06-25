@@ -6,6 +6,7 @@ import com.simplekv.disk.FileManager;
 import com.simplekv.disk.FileWriter;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.File;
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
+@Ignore
 public class FileWriterTest {
 
     @Before

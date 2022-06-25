@@ -9,6 +9,8 @@ import com.simplekv.utils.ValueRecord;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,12 +20,15 @@ import java.util.*;
 
 public class SSTableTest {
 
+    public Logger logger = LoggerFactory.getLogger(this.getClass());
     @Before
     public void ssTableTestInit() {
+        logger.debug("SSTable test pre init");
         DatabaseDescriptor.daemonInitialization();
         MemTableManager.loadMemTable();
         CommitLogManager.startCommitLogAppenderWorker();
         IndexManager.loadIndicesAndBloomFilters();
+        logger.debug("SSTable test pre init done");
     }
 
     @Test
