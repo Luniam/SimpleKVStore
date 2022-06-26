@@ -13,7 +13,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Ignore
 public class CommitLogManagerTest {
 
     public Logger logger = LoggerFactory.getLogger(this.getClass());

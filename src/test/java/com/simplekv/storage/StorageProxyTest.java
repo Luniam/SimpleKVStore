@@ -18,7 +18,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.TreeMap;
 
-@Ignore
 public class StorageProxyTest {
 
 
@@ -29,7 +28,6 @@ public class StorageProxyTest {
         CommitLogManager.startCommitLogAppenderWorker();
         IndexManager.loadIndicesAndBloomFilters();
     }
-    @Test
     public void testAppend() {
         Map<KeyRecord, ValueRecord> dummyMemTable = new TreeMap<>();
         for(int i = 10000; i < 80000; i++) {

@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
-@Ignore
 public class FileWriterTest {
 
     @Before
