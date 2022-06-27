@@ -25,6 +25,11 @@ public class SimpleKVDaemon {
         IndexManager.loadIndicesAndBloomFilters();
     }
 
+    private void clusterSequence() {
+        ClusterService.createSelfTokenForRing();
+        ClusterService.startGossip();
+    }
+
     /**
      * Activating the instance
      */
@@ -32,6 +37,7 @@ public class SimpleKVDaemon {
         applyConfig();
         memTableSequence();
         indexSequence();
+        clusterSequence();
         logger.info("Started Simple KV Store...yaay");
     }
 
