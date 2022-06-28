@@ -1,7 +1,7 @@
 # SimpleKVStore
 
 
-[![Luniam](https://circleci.com/gh/Luniam/SimpleKVStore.svg?style=svg)](https://app.circleci.com/pipelines/github/Luniam/SimpleKVStore?filter=all)
+[![Luniam](https://circleci.com/gh/Luniam/SimpleKVStore.svg?style=svg)](https://app.circleci.com/pipelines/github/Luniam/SimpleKVStore)
 
 ### SimpleKVStore is a distributed and highly available key value database based on LSM trees. The architecture is inspired from Dynamo and Cassandra.
 
@@ -18,8 +18,14 @@ The system has the following four components:
 ### Config
 The config file is located in the conf/ directory as simplekv.yaml. The options are commented for better understanding.
 
-### Storage
+### Storage Engine
 LSM tree based storage is used for the key value pairs. Data is first written into the in memory memtable and write ahead log. After the memtable reaches a certain size it is flushed in SStables in disk.
+
+### Storage path
+The storage path takes the following sequence
+
+A node receives a put or delete request through the API service.
+
 
 ### Failure handling
 Temporary node outage will be handled by hinted handoffs in the future, it is not implemented yet. Merkle tree based data comparison will also be implemented for data integrity among nodes.
