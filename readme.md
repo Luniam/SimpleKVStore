@@ -24,7 +24,7 @@ The config file is located in the conf/ directory as simplekv.yaml. The options 
 LSM tree based storage is used for the key value pairs. Data is first written into the in memory memtable and write ahead log. After the memtable reaches a certain size it is flushed in SStables in disk.
 
 ### Storage path
-The read and write path takes the following sequence
+The read and write path take the following sequence
 
 #### Read path
 <ul>
