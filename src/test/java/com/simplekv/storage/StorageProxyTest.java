@@ -18,7 +18,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.TreeMap;
 
-@Ignore
 public class StorageProxyTest {
 
 
@@ -29,7 +28,6 @@ public class StorageProxyTest {
         CommitLogManager.startCommitLogAppenderWorker();
         IndexManager.loadIndicesAndBloomFilters();
     }
-    @Test
     public void testAppend() {
         Map<KeyRecord, ValueRecord> dummyMemTable = new TreeMap<>();
         for(int i = 10000; i < 80000; i++) {
@@ -45,6 +43,18 @@ public class StorageProxyTest {
     @Test
     public void testGet() {
         testAppend();
+        KeyRecord qKey = new KeyRecord("quote");
+        String originalQuote = "Happiness can be found, even in the darkest of times, " +
+                "if one only remembers to turn on the light";
+        ValueRecord vR = new ValueRecord(originalQuote);
+        DataRecord dr = new DataRecord(qKey, vR);
+        MutateCommand mc = new MutateCommand(dr);
+        StorageProxy.append(mc);
+
+        DataReturnRecord returnQuote = StorageProxy.get(qKey, false);
+        Assert.assertNotNull(returnQuote);
+        String quote = new String(returnQuote.getData(), StandardCharsets.UTF_8);
+        Assert.assertEquals(originalQuote, quote);
         for(int i = 10000; i < 80000; i++) {
             KeyRecord keyRecord = new KeyRecord("Mahi" + i);
             DataReturnRecord returnRecord = StorageProxy.get(keyRecord, false);

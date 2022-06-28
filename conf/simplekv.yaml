@@ -2,6 +2,12 @@
 # The name of the cluster
 cluster_name: 'Cluster 1'
 
+# The IP address of this node
+node_host: '127.0.0.1'
+
+# The port number it will listen to
+node_port: 1993
+
 #The data directory, should give absolute path
 data_directory: 'data/'
 
