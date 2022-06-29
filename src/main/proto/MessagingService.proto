@@ -1,6 +1,6 @@
 syntax="proto3";
 
-package org.example.grpc;
+package com.simplekv.grpc;
 
 option java_multiple_files = true;
 
@@ -10,8 +10,37 @@ enum ReadRequestType {
   READ_DIGEST=2;
 }
 
+enum WriteRequestType {
+  CLIENT_WRITE=0;
+  WRITE=1;
+}
+
 message ReadRequest {
   string key = 1;
+  ReadRequestType requestType = 2;
+}
+
+message WriteRequest {
+  string key = 1;
+  bytes value = 2;
+  GenerationClock generationClock = 3;
+}
+
+message GenerationClock {
+  uint64 timestamp = 1;
+  uint64 generation = 2;
+}
+
+message GossipMessage {
+  Location origin = 1;
+  uint64 timestamp = 2;
+  GenerationClock generationClock = 3;
+  map<uint32, Location> ringState = 4;
+}
+
+message Location {
+  string host = 1;
+  int32 port = 2;
 }
 
 
