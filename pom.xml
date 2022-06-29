@@ -76,6 +76,11 @@
             <version>1.30</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.burningwave</groupId>
+            <artifactId>core</artifactId>
+            <version>12.53.0</version>
+        </dependency>
 
     </dependencies>
 
