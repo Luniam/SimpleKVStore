@@ -21,29 +21,34 @@ public interface GossipMessageOrBuilder extends
   com.simplekv.grpc.LocationOrBuilder getOriginOrBuilder();
 
   /**
-   * <code>uint64 timestamp = 2;</code>
+   * <code>uint32 tokenIdentifier = 2;</code>
+   */
+  int getTokenIdentifier();
+
+  /**
+   * <code>uint64 timestamp = 3;</code>
    */
   long getTimestamp();
 
   /**
-   * <code>.com.simplekv.grpc.GenerationClock generationClock = 3;</code>
+   * <code>.com.simplekv.grpc.GenerationClock generationClock = 4;</code>
    */
   boolean hasGenerationClock();
   /**
-   * <code>.com.simplekv.grpc.GenerationClock generationClock = 3;</code>
+   * <code>.com.simplekv.grpc.GenerationClock generationClock = 4;</code>
    */
   com.simplekv.grpc.GenerationClock getGenerationClock();
   /**
-   * <code>.com.simplekv.grpc.GenerationClock generationClock = 3;</code>
+   * <code>.com.simplekv.grpc.GenerationClock generationClock = 4;</code>
    */
   com.simplekv.grpc.GenerationClockOrBuilder getGenerationClockOrBuilder();
 
   /**
-   * <code>map&lt;uint32, .com.simplekv.grpc.Location&gt; ringState = 4;</code>
+   * <code>map&lt;uint32, .com.simplekv.grpc.Location&gt; ringState = 5;</code>
    */
   int getRingStateCount();
   /**
-   * <code>map&lt;uint32, .com.simplekv.grpc.Location&gt; ringState = 4;</code>
+   * <code>map&lt;uint32, .com.simplekv.grpc.Location&gt; ringState = 5;</code>
    */
   boolean containsRingState(
       int key);
@@ -54,19 +59,19 @@ public interface GossipMessageOrBuilder extends
   java.util.Map<java.lang.Integer, com.simplekv.grpc.Location>
   getRingState();
   /**
-   * <code>map&lt;uint32, .com.simplekv.grpc.Location&gt; ringState = 4;</code>
+   * <code>map&lt;uint32, .com.simplekv.grpc.Location&gt; ringState = 5;</code>
    */
   java.util.Map<java.lang.Integer, com.simplekv.grpc.Location>
   getRingStateMap();
   /**
-   * <code>map&lt;uint32, .com.simplekv.grpc.Location&gt; ringState = 4;</code>
+   * <code>map&lt;uint32, .com.simplekv.grpc.Location&gt; ringState = 5;</code>
    */
 
   com.simplekv.grpc.Location getRingStateOrDefault(
       int key,
       com.simplekv.grpc.Location defaultValue);
   /**
-   * <code>map&lt;uint32, .com.simplekv.grpc.Location&gt; ringState = 4;</code>
+   * <code>map&lt;uint32, .com.simplekv.grpc.Location&gt; ringState = 5;</code>
    */
 
   com.simplekv.grpc.Location getRingStateOrThrow(

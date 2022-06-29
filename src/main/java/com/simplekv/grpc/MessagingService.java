@@ -60,18 +60,19 @@ public final class MessagingService {
       "\005value\030\002 \001(\014\022;\n\017generationClock\030\003 \001(\0132\"." +
       "com.simplekv.grpc.GenerationClock\"8\n\017Gen" +
       "erationClock\022\021\n\ttimestamp\030\001 \001(\004\022\022\n\ngener" +
-      "ation\030\002 \001(\004\"\237\002\n\rGossipMessage\022+\n\006origin\030" +
-      "\001 \001(\0132\033.com.simplekv.grpc.Location\022\021\n\tti" +
-      "mestamp\030\002 \001(\004\022;\n\017generationClock\030\003 \001(\0132\"" +
-      ".com.simplekv.grpc.GenerationClock\022B\n\tri" +
-      "ngState\030\004 \003(\0132/.com.simplekv.grpc.Gossip" +
-      "Message.RingStateEntry\032M\n\016RingStateEntry" +
-      "\022\013\n\003key\030\001 \001(\r\022*\n\005value\030\002 \001(\0132\033.com.simpl" +
-      "ekv.grpc.Location:\0028\001\"&\n\010Location\022\014\n\004hos" +
-      "t\030\001 \001(\t\022\014\n\004port\030\002 \001(\005*=\n\017ReadRequestType" +
-      "\022\017\n\013CLIENT_READ\020\000\022\010\n\004READ\020\001\022\017\n\013READ_DIGE" +
-      "ST\020\002*/\n\020WriteRequestType\022\020\n\014CLIENT_WRITE" +
-      "\020\000\022\t\n\005WRITE\020\001B\002P\001b\006proto3"
+      "ation\030\002 \001(\004\"\270\002\n\rGossipMessage\022+\n\006origin\030" +
+      "\001 \001(\0132\033.com.simplekv.grpc.Location\022\027\n\017to" +
+      "kenIdentifier\030\002 \001(\r\022\021\n\ttimestamp\030\003 \001(\004\022;" +
+      "\n\017generationClock\030\004 \001(\0132\".com.simplekv.g" +
+      "rpc.GenerationClock\022B\n\tringState\030\005 \003(\0132/" +
+      ".com.simplekv.grpc.GossipMessage.RingSta" +
+      "teEntry\032M\n\016RingStateEntry\022\013\n\003key\030\001 \001(\r\022*" +
+      "\n\005value\030\002 \001(\0132\033.com.simplekv.grpc.Locati" +
+      "on:\0028\001\"&\n\010Location\022\014\n\004host\030\001 \001(\t\022\014\n\004port" +
+      "\030\002 \001(\005*=\n\017ReadRequestType\022\017\n\013CLIENT_READ" +
+      "\020\000\022\010\n\004READ\020\001\022\017\n\013READ_DIGEST\020\002*/\n\020WriteRe" +
+      "questType\022\020\n\014CLIENT_WRITE\020\000\022\t\n\005WRITE\020\001B\002" +
+      "P\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -108,7 +109,7 @@ public final class MessagingService {
     internal_static_com_simplekv_grpc_GossipMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_simplekv_grpc_GossipMessage_descriptor,
-        new java.lang.String[] { "Origin", "Timestamp", "GenerationClock", "RingState", });
+        new java.lang.String[] { "Origin", "TokenIdentifier", "Timestamp", "GenerationClock", "RingState", });
     internal_static_com_simplekv_grpc_GossipMessage_RingStateEntry_descriptor =
       internal_static_com_simplekv_grpc_GossipMessage_descriptor.getNestedTypes().get(0);
     internal_static_com_simplekv_grpc_GossipMessage_RingStateEntry_fieldAccessorTable = new

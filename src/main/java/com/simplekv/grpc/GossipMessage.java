@@ -16,6 +16,7 @@ private static final long serialVersionUID = 0L;
     super(builder);
   }
   private GossipMessage() {
+    tokenIdentifier_ = 0;
     timestamp_ = 0L;
   }
 
@@ -58,10 +59,15 @@ private static final long serialVersionUID = 0L;
           }
           case 16: {
 
+            tokenIdentifier_ = input.readUInt32();
+            break;
+          }
+          case 24: {
+
             timestamp_ = input.readUInt64();
             break;
           }
-          case 26: {
+          case 34: {
             com.simplekv.grpc.GenerationClock.Builder subBuilder = null;
             if (generationClock_ != null) {
               subBuilder = generationClock_.toBuilder();
@@ -74,11 +80,11 @@ private static final long serialVersionUID = 0L;
 
             break;
           }
-          case 34: {
-            if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+          case 42: {
+            if (!((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
               ringState_ = com.google.protobuf.MapField.newMapField(
                   RingStateDefaultEntryHolder.defaultEntry);
-              mutable_bitField0_ |= 0x00000008;
+              mutable_bitField0_ |= 0x00000010;
             }
             com.google.protobuf.MapEntry<java.lang.Integer, com.simplekv.grpc.Location>
             ringState__ = input.readMessage(
@@ -116,7 +122,7 @@ private static final long serialVersionUID = 0L;
   protected com.google.protobuf.MapField internalGetMapField(
       int number) {
     switch (number) {
-      case 4:
+      case 5:
         return internalGetRingState();
       default:
         throw new RuntimeException(
@@ -153,37 +159,46 @@ private static final long serialVersionUID = 0L;
     return getOrigin();
   }
 
-  public static final int TIMESTAMP_FIELD_NUMBER = 2;
+  public static final int TOKENIDENTIFIER_FIELD_NUMBER = 2;
+  private int tokenIdentifier_;
+  /**
+   * <code>uint32 tokenIdentifier = 2;</code>
+   */
+  public int getTokenIdentifier() {
+    return tokenIdentifier_;
+  }
+
+  public static final int TIMESTAMP_FIELD_NUMBER = 3;
   private long timestamp_;
   /**
-   * <code>uint64 timestamp = 2;</code>
+   * <code>uint64 timestamp = 3;</code>
    */
   public long getTimestamp() {
     return timestamp_;
   }
 
-  public static final int GENERATIONCLOCK_FIELD_NUMBER = 3;
+  public static final int GENERATIONCLOCK_FIELD_NUMBER = 4;
   private com.simplekv.grpc.GenerationClock generationClock_;
   /**
-   * <code>.com.simplekv.grpc.GenerationClock generationClock = 3;</code>
+   * <code>.com.simplekv.grpc.GenerationClock generationClock = 4;</code>
    */
   public boolean hasGenerationClock() {
     return generationClock_ != null;
   }
   /**
-   * <code>.com.simplekv.grpc.GenerationClock generationClock = 3;</code>
+   * <code>.com.simplekv.grpc.GenerationClock generationClock = 4;</code>
    */
   public com.simplekv.grpc.GenerationClock getGenerationClock() {
     return generationClock_ == null ? com.simplekv.grpc.GenerationClock.getDefaultInstance() : generationClock_;
   }
   /**
-   * <code>.com.simplekv.grpc.GenerationClock generationClock = 3;</code>
+   * <code>.com.simplekv.grpc.GenerationClock generationClock = 4;</code>
    */
   public com.simplekv.grpc.GenerationClockOrBuilder getGenerationClockOrBuilder() {
     return getGenerationClock();
   }
 
-  public static final int RINGSTATE_FIELD_NUMBER = 4;
+  public static final int RINGSTATE_FIELD_NUMBER = 5;
   private static final class RingStateDefaultEntryHolder {
     static final com.google.protobuf.MapEntry<
         java.lang.Integer, com.simplekv.grpc.Location> defaultEntry =
@@ -210,7 +225,7 @@ private static final long serialVersionUID = 0L;
     return internalGetRingState().getMap().size();
   }
   /**
-   * <code>map&lt;uint32, .com.simplekv.grpc.Location&gt; ringState = 4;</code>
+   * <code>map&lt;uint32, .com.simplekv.grpc.Location&gt; ringState = 5;</code>
    */
 
   public boolean containsRingState(
@@ -226,14 +241,14 @@ private static final long serialVersionUID = 0L;
     return getRingStateMap();
   }
   /**
-   * <code>map&lt;uint32, .com.simplekv.grpc.Location&gt; ringState = 4;</code>
+   * <code>map&lt;uint32, .com.simplekv.grpc.Location&gt; ringState = 5;</code>
    */
 
   public java.util.Map<java.lang.Integer, com.simplekv.grpc.Location> getRingStateMap() {
     return internalGetRingState().getMap();
   }
   /**
-   * <code>map&lt;uint32, .com.simplekv.grpc.Location&gt; ringState = 4;</code>
+   * <code>map&lt;uint32, .com.simplekv.grpc.Location&gt; ringState = 5;</code>
    */
 
   public com.simplekv.grpc.Location getRingStateOrDefault(
@@ -245,7 +260,7 @@ private static final long serialVersionUID = 0L;
     return map.containsKey(key) ? map.get(key) : defaultValue;
   }
   /**
-   * <code>map&lt;uint32, .com.simplekv.grpc.Location&gt; ringState = 4;</code>
+   * <code>map&lt;uint32, .com.simplekv.grpc.Location&gt; ringState = 5;</code>
    */
 
   public com.simplekv.grpc.Location getRingStateOrThrow(
@@ -276,18 +291,21 @@ private static final long serialVersionUID = 0L;
     if (origin_ != null) {
       output.writeMessage(1, getOrigin());
     }
+    if (tokenIdentifier_ != 0) {
+      output.writeUInt32(2, tokenIdentifier_);
+    }
     if (timestamp_ != 0L) {
-      output.writeUInt64(2, timestamp_);
+      output.writeUInt64(3, timestamp_);
     }
     if (generationClock_ != null) {
-      output.writeMessage(3, getGenerationClock());
+      output.writeMessage(4, getGenerationClock());
     }
     com.google.protobuf.GeneratedMessageV3
       .serializeIntegerMapTo(
         output,
         internalGetRingState(),
         RingStateDefaultEntryHolder.defaultEntry,
-        4);
+        5);
     unknownFields.writeTo(output);
   }
 
@@ -301,13 +319,17 @@ private static final long serialVersionUID = 0L;
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(1, getOrigin());
     }
+    if (tokenIdentifier_ != 0) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeUInt32Size(2, tokenIdentifier_);
+    }
     if (timestamp_ != 0L) {
       size += com.google.protobuf.CodedOutputStream
-        .computeUInt64Size(2, timestamp_);
+        .computeUInt64Size(3, timestamp_);
     }
     if (generationClock_ != null) {
       size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(3, getGenerationClock());
+        .computeMessageSize(4, getGenerationClock());
     }
     for (java.util.Map.Entry<java.lang.Integer, com.simplekv.grpc.Location> entry
          : internalGetRingState().getMap().entrySet()) {
@@ -317,7 +339,7 @@ private static final long serialVersionUID = 0L;
           .setValue(entry.getValue())
           .build();
       size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(4, ringState__);
+          .computeMessageSize(5, ringState__);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -340,6 +362,8 @@ private static final long serialVersionUID = 0L;
       result = result && getOrigin()
           .equals(other.getOrigin());
     }
+    result = result && (getTokenIdentifier()
+        == other.getTokenIdentifier());
     result = result && (getTimestamp()
         == other.getTimestamp());
     result = result && (hasGenerationClock() == other.hasGenerationClock());
@@ -364,6 +388,8 @@ private static final long serialVersionUID = 0L;
       hash = (37 * hash) + ORIGIN_FIELD_NUMBER;
       hash = (53 * hash) + getOrigin().hashCode();
     }
+    hash = (37 * hash) + TOKENIDENTIFIER_FIELD_NUMBER;
+    hash = (53 * hash) + getTokenIdentifier();
     hash = (37 * hash) + TIMESTAMP_FIELD_NUMBER;
     hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
         getTimestamp());
@@ -486,7 +512,7 @@ private static final long serialVersionUID = 0L;
     protected com.google.protobuf.MapField internalGetMapField(
         int number) {
       switch (number) {
-        case 4:
+        case 5:
           return internalGetRingState();
         default:
           throw new RuntimeException(
@@ -497,7 +523,7 @@ private static final long serialVersionUID = 0L;
     protected com.google.protobuf.MapField internalGetMutableMapField(
         int number) {
       switch (number) {
-        case 4:
+        case 5:
           return internalGetMutableRingState();
         default:
           throw new RuntimeException(
@@ -536,6 +562,8 @@ private static final long serialVersionUID = 0L;
         origin_ = null;
         originBuilder_ = null;
       }
+      tokenIdentifier_ = 0;
+
       timestamp_ = 0L;
 
       if (generationClockBuilder_ == null) {
@@ -578,6 +606,7 @@ private static final long serialVersionUID = 0L;
       } else {
         result.origin_ = originBuilder_.build();
       }
+      result.tokenIdentifier_ = tokenIdentifier_;
       result.timestamp_ = timestamp_;
       if (generationClockBuilder_ == null) {
         result.generationClock_ = generationClock_;
@@ -637,6 +666,9 @@ private static final long serialVersionUID = 0L;
       if (other == com.simplekv.grpc.GossipMessage.getDefaultInstance()) return this;
       if (other.hasOrigin()) {
         mergeOrigin(other.getOrigin());
+      }
+      if (other.getTokenIdentifier() != 0) {
+        setTokenIdentifier(other.getTokenIdentifier());
       }
       if (other.getTimestamp() != 0L) {
         setTimestamp(other.getTimestamp());
@@ -793,15 +825,41 @@ private static final long serialVersionUID = 0L;
       return originBuilder_;
     }
 
+    private int tokenIdentifier_ ;
+    /**
+     * <code>uint32 tokenIdentifier = 2;</code>
+     */
+    public int getTokenIdentifier() {
+      return tokenIdentifier_;
+    }
+    /**
+     * <code>uint32 tokenIdentifier = 2;</code>
+     */
+    public Builder setTokenIdentifier(int value) {
+      
+      tokenIdentifier_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>uint32 tokenIdentifier = 2;</code>
+     */
+    public Builder clearTokenIdentifier() {
+      
+      tokenIdentifier_ = 0;
+      onChanged();
+      return this;
+    }
+
     private long timestamp_ ;
     /**
-     * <code>uint64 timestamp = 2;</code>
+     * <code>uint64 timestamp = 3;</code>
      */
     public long getTimestamp() {
       return timestamp_;
     }
     /**
-     * <code>uint64 timestamp = 2;</code>
+     * <code>uint64 timestamp = 3;</code>
      */
     public Builder setTimestamp(long value) {
       
@@ -810,7 +868,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>uint64 timestamp = 2;</code>
+     * <code>uint64 timestamp = 3;</code>
      */
     public Builder clearTimestamp() {
       
@@ -823,13 +881,13 @@ private static final long serialVersionUID = 0L;
     private com.google.protobuf.SingleFieldBuilderV3<
         com.simplekv.grpc.GenerationClock, com.simplekv.grpc.GenerationClock.Builder, com.simplekv.grpc.GenerationClockOrBuilder> generationClockBuilder_;
     /**
-     * <code>.com.simplekv.grpc.GenerationClock generationClock = 3;</code>
+     * <code>.com.simplekv.grpc.GenerationClock generationClock = 4;</code>
      */
     public boolean hasGenerationClock() {
       return generationClockBuilder_ != null || generationClock_ != null;
     }
     /**
-     * <code>.com.simplekv.grpc.GenerationClock generationClock = 3;</code>
+     * <code>.com.simplekv.grpc.GenerationClock generationClock = 4;</code>
      */
     public com.simplekv.grpc.GenerationClock getGenerationClock() {
       if (generationClockBuilder_ == null) {
@@ -839,7 +897,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>.com.simplekv.grpc.GenerationClock generationClock = 3;</code>
+     * <code>.com.simplekv.grpc.GenerationClock generationClock = 4;</code>
      */
     public Builder setGenerationClock(com.simplekv.grpc.GenerationClock value) {
       if (generationClockBuilder_ == null) {
@@ -855,7 +913,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>.com.simplekv.grpc.GenerationClock generationClock = 3;</code>
+     * <code>.com.simplekv.grpc.GenerationClock generationClock = 4;</code>
      */
     public Builder setGenerationClock(
         com.simplekv.grpc.GenerationClock.Builder builderForValue) {
@@ -869,7 +927,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>.com.simplekv.grpc.GenerationClock generationClock = 3;</code>
+     * <code>.com.simplekv.grpc.GenerationClock generationClock = 4;</code>
      */
     public Builder mergeGenerationClock(com.simplekv.grpc.GenerationClock value) {
       if (generationClockBuilder_ == null) {
@@ -887,7 +945,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>.com.simplekv.grpc.GenerationClock generationClock = 3;</code>
+     * <code>.com.simplekv.grpc.GenerationClock generationClock = 4;</code>
      */
     public Builder clearGenerationClock() {
       if (generationClockBuilder_ == null) {
@@ -901,7 +959,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>.com.simplekv.grpc.GenerationClock generationClock = 3;</code>
+     * <code>.com.simplekv.grpc.GenerationClock generationClock = 4;</code>
      */
     public com.simplekv.grpc.GenerationClock.Builder getGenerationClockBuilder() {
       
@@ -909,7 +967,7 @@ private static final long serialVersionUID = 0L;
       return getGenerationClockFieldBuilder().getBuilder();
     }
     /**
-     * <code>.com.simplekv.grpc.GenerationClock generationClock = 3;</code>
+     * <code>.com.simplekv.grpc.GenerationClock generationClock = 4;</code>
      */
     public com.simplekv.grpc.GenerationClockOrBuilder getGenerationClockOrBuilder() {
       if (generationClockBuilder_ != null) {
@@ -920,7 +978,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>.com.simplekv.grpc.GenerationClock generationClock = 3;</code>
+     * <code>.com.simplekv.grpc.GenerationClock generationClock = 4;</code>
      */
     private com.google.protobuf.SingleFieldBuilderV3<
         com.simplekv.grpc.GenerationClock, com.simplekv.grpc.GenerationClock.Builder, com.simplekv.grpc.GenerationClockOrBuilder> 
@@ -963,7 +1021,7 @@ private static final long serialVersionUID = 0L;
       return internalGetRingState().getMap().size();
     }
     /**
-     * <code>map&lt;uint32, .com.simplekv.grpc.Location&gt; ringState = 4;</code>
+     * <code>map&lt;uint32, .com.simplekv.grpc.Location&gt; ringState = 5;</code>
      */
 
     public boolean containsRingState(
@@ -979,14 +1037,14 @@ private static final long serialVersionUID = 0L;
       return getRingStateMap();
     }
     /**
-     * <code>map&lt;uint32, .com.simplekv.grpc.Location&gt; ringState = 4;</code>
+     * <code>map&lt;uint32, .com.simplekv.grpc.Location&gt; ringState = 5;</code>
      */
 
     public java.util.Map<java.lang.Integer, com.simplekv.grpc.Location> getRingStateMap() {
       return internalGetRingState().getMap();
     }
     /**
-     * <code>map&lt;uint32, .com.simplekv.grpc.Location&gt; ringState = 4;</code>
+     * <code>map&lt;uint32, .com.simplekv.grpc.Location&gt; ringState = 5;</code>
      */
 
     public com.simplekv.grpc.Location getRingStateOrDefault(
@@ -998,7 +1056,7 @@ private static final long serialVersionUID = 0L;
       return map.containsKey(key) ? map.get(key) : defaultValue;
     }
     /**
-     * <code>map&lt;uint32, .com.simplekv.grpc.Location&gt; ringState = 4;</code>
+     * <code>map&lt;uint32, .com.simplekv.grpc.Location&gt; ringState = 5;</code>
      */
 
     public com.simplekv.grpc.Location getRingStateOrThrow(
@@ -1018,7 +1076,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>map&lt;uint32, .com.simplekv.grpc.Location&gt; ringState = 4;</code>
+     * <code>map&lt;uint32, .com.simplekv.grpc.Location&gt; ringState = 5;</code>
      */
 
     public Builder removeRingState(
@@ -1037,7 +1095,7 @@ private static final long serialVersionUID = 0L;
       return internalGetMutableRingState().getMutableMap();
     }
     /**
-     * <code>map&lt;uint32, .com.simplekv.grpc.Location&gt; ringState = 4;</code>
+     * <code>map&lt;uint32, .com.simplekv.grpc.Location&gt; ringState = 5;</code>
      */
     public Builder putRingState(
         int key,
@@ -1049,7 +1107,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>map&lt;uint32, .com.simplekv.grpc.Location&gt; ringState = 4;</code>
+     * <code>map&lt;uint32, .com.simplekv.grpc.Location&gt; ringState = 5;</code>
      */
 
     public Builder putAllRingState(
