@@ -25,6 +25,16 @@ public final class MessagingService {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_com_simplekv_grpc_WriteRequest_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_com_simplekv_grpc_ReadResponse_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_com_simplekv_grpc_ReadResponse_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_com_simplekv_grpc_WriteResponse_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_com_simplekv_grpc_WriteResponse_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
     internal_static_com_simplekv_grpc_GenerationClock_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -39,6 +49,11 @@ public final class MessagingService {
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_com_simplekv_grpc_GossipMessage_RingStateEntry_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_com_simplekv_grpc_GossipResponse_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_com_simplekv_grpc_GossipResponse_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
     internal_static_com_simplekv_grpc_Location_descriptor;
   static final 
@@ -56,23 +71,38 @@ public final class MessagingService {
       "\n\026MessagingService.proto\022\021com.simplekv.g" +
       "rpc\"S\n\013ReadRequest\022\013\n\003key\030\001 \001(\t\0227\n\013reque" +
       "stType\030\002 \001(\0162\".com.simplekv.grpc.ReadReq" +
-      "uestType\"g\n\014WriteRequest\022\013\n\003key\030\001 \001(\t\022\r\n" +
-      "\005value\030\002 \001(\014\022;\n\017generationClock\030\003 \001(\0132\"." +
-      "com.simplekv.grpc.GenerationClock\"8\n\017Gen" +
-      "erationClock\022\021\n\ttimestamp\030\001 \001(\004\022\022\n\ngener" +
-      "ation\030\002 \001(\004\"\270\002\n\rGossipMessage\022+\n\006origin\030" +
-      "\001 \001(\0132\033.com.simplekv.grpc.Location\022\027\n\017to" +
-      "kenIdentifier\030\002 \001(\r\022\021\n\ttimestamp\030\003 \001(\004\022;" +
-      "\n\017generationClock\030\004 \001(\0132\".com.simplekv.g" +
-      "rpc.GenerationClock\022B\n\tringState\030\005 \003(\0132/" +
-      ".com.simplekv.grpc.GossipMessage.RingSta" +
-      "teEntry\032M\n\016RingStateEntry\022\013\n\003key\030\001 \001(\r\022*" +
-      "\n\005value\030\002 \001(\0132\033.com.simplekv.grpc.Locati" +
-      "on:\0028\001\"&\n\010Location\022\014\n\004host\030\001 \001(\t\022\014\n\004port" +
-      "\030\002 \001(\005*=\n\017ReadRequestType\022\017\n\013CLIENT_READ" +
-      "\020\000\022\010\n\004READ\020\001\022\017\n\013READ_DIGEST\020\002*/\n\020WriteRe" +
-      "questType\022\020\n\014CLIENT_WRITE\020\000\022\t\n\005WRITE\020\001B\002" +
-      "P\001b\006proto3"
+      "uestType\"\223\001\n\014WriteRequest\022\013\n\003key\030\001 \001(\t\022\r" +
+      "\n\005value\030\002 \001(\014\022*\n\004type\030\003 \001(\0162\034.com.simple" +
+      "kv.grpc.WriteType\022;\n\017generationClock\030\004 \001" +
+      "(\0132\".com.simplekv.grpc.GenerationClock\"P" +
+      "\n\014ReadResponse\022\013\n\003key\030\001 \001(\t\022\014\n\004vale\030\002 \001(" +
+      "\014\022\016\n\006digest\030\003 \001(\014\022\025\n\rexecutionTime\030\004 \001(\004" +
+      "\" \n\rWriteResponse\022\017\n\007message\030\001 \001(\t\"8\n\017Ge" +
+      "nerationClock\022\021\n\ttimestamp\030\001 \001(\004\022\022\n\ngene" +
+      "ration\030\002 \001(\004\"\270\002\n\rGossipMessage\022+\n\006origin" +
+      "\030\001 \001(\0132\033.com.simplekv.grpc.Location\022\027\n\017t" +
+      "okenIdentifier\030\002 \001(\r\022\021\n\ttimestamp\030\003 \001(\004\022" +
+      ";\n\017generationClock\030\004 \001(\0132\".com.simplekv." +
+      "grpc.GenerationClock\022B\n\tringState\030\005 \003(\0132" +
+      "/.com.simplekv.grpc.GossipMessage.RingSt" +
+      "ateEntry\032M\n\016RingStateEntry\022\013\n\003key\030\001 \001(\r\022" +
+      "*\n\005value\030\002 \001(\0132\033.com.simplekv.grpc.Locat" +
+      "ion:\0028\001\"\244\001\n\016GossipResponse\022+\n\006origin\030\001 \001" +
+      "(\0132\033.com.simplekv.grpc.Location\022\027\n\017token" +
+      "Identifier\030\002 \001(\r\022\017\n\007message\030\003 \001(\t\022;\n\017gen" +
+      "erationClock\030\004 \001(\0132\".com.simplekv.grpc.G" +
+      "enerationClock\"&\n\010Location\022\014\n\004host\030\001 \001(\t" +
+      "\022\014\n\004port\030\002 \001(\005*=\n\017ReadRequestType\022\017\n\013CLI" +
+      "ENT_READ\020\000\022\010\n\004READ\020\001\022\017\n\013READ_DIGEST\020\002*/\n" +
+      "\020WriteRequestType\022\020\n\014CLIENT_WRITE\020\000\022\t\n\005W" +
+      "RITE\020\001* \n\tWriteType\022\007\n\003PUT\020\000\022\n\n\006DELETE\020\001" +
+      "2\367\001\n\024GrpcMessagingService\022F\n\003get\022\036.com.s" +
+      "implekv.grpc.ReadRequest\032\037.com.simplekv." +
+      "grpc.ReadResponse\022H\n\003put\022\037.com.simplekv." +
+      "grpc.WriteRequest\032 .com.simplekv.grpc.Wr" +
+      "iteResponse\022M\n\006gossip\022 .com.simplekv.grp" +
+      "c.GossipMessage\032!.com.simplekv.grpc.Goss" +
+      "ipResponseB\002P\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -97,15 +127,27 @@ public final class MessagingService {
     internal_static_com_simplekv_grpc_WriteRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_simplekv_grpc_WriteRequest_descriptor,
-        new java.lang.String[] { "Key", "Value", "GenerationClock", });
-    internal_static_com_simplekv_grpc_GenerationClock_descriptor =
+        new java.lang.String[] { "Key", "Value", "Type", "GenerationClock", });
+    internal_static_com_simplekv_grpc_ReadResponse_descriptor =
       getDescriptor().getMessageTypes().get(2);
+    internal_static_com_simplekv_grpc_ReadResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_com_simplekv_grpc_ReadResponse_descriptor,
+        new java.lang.String[] { "Key", "Vale", "Digest", "ExecutionTime", });
+    internal_static_com_simplekv_grpc_WriteResponse_descriptor =
+      getDescriptor().getMessageTypes().get(3);
+    internal_static_com_simplekv_grpc_WriteResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_com_simplekv_grpc_WriteResponse_descriptor,
+        new java.lang.String[] { "Message", });
+    internal_static_com_simplekv_grpc_GenerationClock_descriptor =
+      getDescriptor().getMessageTypes().get(4);
     internal_static_com_simplekv_grpc_GenerationClock_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_simplekv_grpc_GenerationClock_descriptor,
         new java.lang.String[] { "Timestamp", "Generation", });
     internal_static_com_simplekv_grpc_GossipMessage_descriptor =
-      getDescriptor().getMessageTypes().get(3);
+      getDescriptor().getMessageTypes().get(5);
     internal_static_com_simplekv_grpc_GossipMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_simplekv_grpc_GossipMessage_descriptor,
@@ -116,8 +158,14 @@ public final class MessagingService {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_simplekv_grpc_GossipMessage_RingStateEntry_descriptor,
         new java.lang.String[] { "Key", "Value", });
+    internal_static_com_simplekv_grpc_GossipResponse_descriptor =
+      getDescriptor().getMessageTypes().get(6);
+    internal_static_com_simplekv_grpc_GossipResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_com_simplekv_grpc_GossipResponse_descriptor,
+        new java.lang.String[] { "Origin", "TokenIdentifier", "Message", "GenerationClock", });
     internal_static_com_simplekv_grpc_Location_descriptor =
-      getDescriptor().getMessageTypes().get(4);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_com_simplekv_grpc_Location_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_simplekv_grpc_Location_descriptor,

@@ -4,21 +4,20 @@
 package com.simplekv.grpc;
 
 /**
- * Protobuf type {@code com.simplekv.grpc.WriteRequest}
+ * Protobuf type {@code com.simplekv.grpc.GossipResponse}
  */
-public  final class WriteRequest extends
+public  final class GossipResponse extends
     com.google.protobuf.GeneratedMessageV3 implements
-    // @@protoc_insertion_point(message_implements:com.simplekv.grpc.WriteRequest)
-    WriteRequestOrBuilder {
+    // @@protoc_insertion_point(message_implements:com.simplekv.grpc.GossipResponse)
+    GossipResponseOrBuilder {
 private static final long serialVersionUID = 0L;
-  // Use WriteRequest.newBuilder() to construct.
-  private WriteRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+  // Use GossipResponse.newBuilder() to construct.
+  private GossipResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
   }
-  private WriteRequest() {
-    key_ = "";
-    value_ = com.google.protobuf.ByteString.EMPTY;
-    type_ = 0;
+  private GossipResponse() {
+    tokenIdentifier_ = 0;
+    message_ = "";
   }
 
   @java.lang.Override
@@ -26,7 +25,7 @@ private static final long serialVersionUID = 0L;
   getUnknownFields() {
     return this.unknownFields;
   }
-  private WriteRequest(
+  private GossipResponse(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
@@ -46,20 +45,27 @@ private static final long serialVersionUID = 0L;
             done = true;
             break;
           case 10: {
+            com.simplekv.grpc.Location.Builder subBuilder = null;
+            if (origin_ != null) {
+              subBuilder = origin_.toBuilder();
+            }
+            origin_ = input.readMessage(com.simplekv.grpc.Location.parser(), extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(origin_);
+              origin_ = subBuilder.buildPartial();
+            }
+
+            break;
+          }
+          case 16: {
+
+            tokenIdentifier_ = input.readUInt32();
+            break;
+          }
+          case 26: {
             java.lang.String s = input.readStringRequireUtf8();
 
-            key_ = s;
-            break;
-          }
-          case 18: {
-
-            value_ = input.readBytes();
-            break;
-          }
-          case 24: {
-            int rawValue = input.readEnum();
-
-            type_ = rawValue;
+            message_ = s;
             break;
           }
           case 34: {
@@ -96,75 +102,79 @@ private static final long serialVersionUID = 0L;
   }
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return com.simplekv.grpc.MessagingService.internal_static_com_simplekv_grpc_WriteRequest_descriptor;
+    return com.simplekv.grpc.MessagingService.internal_static_com_simplekv_grpc_GossipResponse_descriptor;
   }
 
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return com.simplekv.grpc.MessagingService.internal_static_com_simplekv_grpc_WriteRequest_fieldAccessorTable
+    return com.simplekv.grpc.MessagingService.internal_static_com_simplekv_grpc_GossipResponse_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
-            com.simplekv.grpc.WriteRequest.class, com.simplekv.grpc.WriteRequest.Builder.class);
+            com.simplekv.grpc.GossipResponse.class, com.simplekv.grpc.GossipResponse.Builder.class);
   }
 
-  public static final int KEY_FIELD_NUMBER = 1;
-  private volatile java.lang.Object key_;
+  public static final int ORIGIN_FIELD_NUMBER = 1;
+  private com.simplekv.grpc.Location origin_;
   /**
-   * <code>string key = 1;</code>
+   * <code>.com.simplekv.grpc.Location origin = 1;</code>
    */
-  public java.lang.String getKey() {
-    java.lang.Object ref = key_;
+  public boolean hasOrigin() {
+    return origin_ != null;
+  }
+  /**
+   * <code>.com.simplekv.grpc.Location origin = 1;</code>
+   */
+  public com.simplekv.grpc.Location getOrigin() {
+    return origin_ == null ? com.simplekv.grpc.Location.getDefaultInstance() : origin_;
+  }
+  /**
+   * <code>.com.simplekv.grpc.Location origin = 1;</code>
+   */
+  public com.simplekv.grpc.LocationOrBuilder getOriginOrBuilder() {
+    return getOrigin();
+  }
+
+  public static final int TOKENIDENTIFIER_FIELD_NUMBER = 2;
+  private int tokenIdentifier_;
+  /**
+   * <code>uint32 tokenIdentifier = 2;</code>
+   */
+  public int getTokenIdentifier() {
+    return tokenIdentifier_;
+  }
+
+  public static final int MESSAGE_FIELD_NUMBER = 3;
+  private volatile java.lang.Object message_;
+  /**
+   * <code>string message = 3;</code>
+   */
+  public java.lang.String getMessage() {
+    java.lang.Object ref = message_;
     if (ref instanceof java.lang.String) {
       return (java.lang.String) ref;
     } else {
       com.google.protobuf.ByteString bs = 
           (com.google.protobuf.ByteString) ref;
       java.lang.String s = bs.toStringUtf8();
-      key_ = s;
+      message_ = s;
       return s;
     }
   }
   /**
-   * <code>string key = 1;</code>
+   * <code>string message = 3;</code>
    */
   public com.google.protobuf.ByteString
-      getKeyBytes() {
-    java.lang.Object ref = key_;
+      getMessageBytes() {
+    java.lang.Object ref = message_;
     if (ref instanceof java.lang.String) {
       com.google.protobuf.ByteString b = 
           com.google.protobuf.ByteString.copyFromUtf8(
               (java.lang.String) ref);
-      key_ = b;
+      message_ = b;
       return b;
     } else {
       return (com.google.protobuf.ByteString) ref;
     }
-  }
-
-  public static final int VALUE_FIELD_NUMBER = 2;
-  private com.google.protobuf.ByteString value_;
-  /**
-   * <code>bytes value = 2;</code>
-   */
-  public com.google.protobuf.ByteString getValue() {
-    return value_;
-  }
-
-  public static final int TYPE_FIELD_NUMBER = 3;
-  private int type_;
-  /**
-   * <code>.com.simplekv.grpc.WriteType type = 3;</code>
-   */
-  public int getTypeValue() {
-    return type_;
-  }
-  /**
-   * <code>.com.simplekv.grpc.WriteType type = 3;</code>
-   */
-  public com.simplekv.grpc.WriteType getType() {
-    @SuppressWarnings("deprecation")
-    com.simplekv.grpc.WriteType result = com.simplekv.grpc.WriteType.valueOf(type_);
-    return result == null ? com.simplekv.grpc.WriteType.UNRECOGNIZED : result;
   }
 
   public static final int GENERATIONCLOCK_FIELD_NUMBER = 4;
@@ -202,14 +212,14 @@ private static final long serialVersionUID = 0L;
   @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    if (!getKeyBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 1, key_);
+    if (origin_ != null) {
+      output.writeMessage(1, getOrigin());
     }
-    if (!value_.isEmpty()) {
-      output.writeBytes(2, value_);
+    if (tokenIdentifier_ != 0) {
+      output.writeUInt32(2, tokenIdentifier_);
     }
-    if (type_ != com.simplekv.grpc.WriteType.PUT.getNumber()) {
-      output.writeEnum(3, type_);
+    if (!getMessageBytes().isEmpty()) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 3, message_);
     }
     if (generationClock_ != null) {
       output.writeMessage(4, getGenerationClock());
@@ -223,16 +233,16 @@ private static final long serialVersionUID = 0L;
     if (size != -1) return size;
 
     size = 0;
-    if (!getKeyBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, key_);
-    }
-    if (!value_.isEmpty()) {
+    if (origin_ != null) {
       size += com.google.protobuf.CodedOutputStream
-        .computeBytesSize(2, value_);
+        .computeMessageSize(1, getOrigin());
     }
-    if (type_ != com.simplekv.grpc.WriteType.PUT.getNumber()) {
+    if (tokenIdentifier_ != 0) {
       size += com.google.protobuf.CodedOutputStream
-        .computeEnumSize(3, type_);
+        .computeUInt32Size(2, tokenIdentifier_);
+    }
+    if (!getMessageBytes().isEmpty()) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, message_);
     }
     if (generationClock_ != null) {
       size += com.google.protobuf.CodedOutputStream
@@ -248,17 +258,21 @@ private static final long serialVersionUID = 0L;
     if (obj == this) {
      return true;
     }
-    if (!(obj instanceof com.simplekv.grpc.WriteRequest)) {
+    if (!(obj instanceof com.simplekv.grpc.GossipResponse)) {
       return super.equals(obj);
     }
-    com.simplekv.grpc.WriteRequest other = (com.simplekv.grpc.WriteRequest) obj;
+    com.simplekv.grpc.GossipResponse other = (com.simplekv.grpc.GossipResponse) obj;
 
     boolean result = true;
-    result = result && getKey()
-        .equals(other.getKey());
-    result = result && getValue()
-        .equals(other.getValue());
-    result = result && type_ == other.type_;
+    result = result && (hasOrigin() == other.hasOrigin());
+    if (hasOrigin()) {
+      result = result && getOrigin()
+          .equals(other.getOrigin());
+    }
+    result = result && (getTokenIdentifier()
+        == other.getTokenIdentifier());
+    result = result && getMessage()
+        .equals(other.getMessage());
     result = result && (hasGenerationClock() == other.hasGenerationClock());
     if (hasGenerationClock()) {
       result = result && getGenerationClock()
@@ -275,12 +289,14 @@ private static final long serialVersionUID = 0L;
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
-    hash = (37 * hash) + KEY_FIELD_NUMBER;
-    hash = (53 * hash) + getKey().hashCode();
-    hash = (37 * hash) + VALUE_FIELD_NUMBER;
-    hash = (53 * hash) + getValue().hashCode();
-    hash = (37 * hash) + TYPE_FIELD_NUMBER;
-    hash = (53 * hash) + type_;
+    if (hasOrigin()) {
+      hash = (37 * hash) + ORIGIN_FIELD_NUMBER;
+      hash = (53 * hash) + getOrigin().hashCode();
+    }
+    hash = (37 * hash) + TOKENIDENTIFIER_FIELD_NUMBER;
+    hash = (53 * hash) + getTokenIdentifier();
+    hash = (37 * hash) + MESSAGE_FIELD_NUMBER;
+    hash = (53 * hash) + getMessage().hashCode();
     if (hasGenerationClock()) {
       hash = (37 * hash) + GENERATIONCLOCK_FIELD_NUMBER;
       hash = (53 * hash) + getGenerationClock().hashCode();
@@ -290,69 +306,69 @@ private static final long serialVersionUID = 0L;
     return hash;
   }
 
-  public static com.simplekv.grpc.WriteRequest parseFrom(
+  public static com.simplekv.grpc.GossipResponse parseFrom(
       java.nio.ByteBuffer data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static com.simplekv.grpc.WriteRequest parseFrom(
+  public static com.simplekv.grpc.GossipResponse parseFrom(
       java.nio.ByteBuffer data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static com.simplekv.grpc.WriteRequest parseFrom(
+  public static com.simplekv.grpc.GossipResponse parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static com.simplekv.grpc.WriteRequest parseFrom(
+  public static com.simplekv.grpc.GossipResponse parseFrom(
       com.google.protobuf.ByteString data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static com.simplekv.grpc.WriteRequest parseFrom(byte[] data)
+  public static com.simplekv.grpc.GossipResponse parseFrom(byte[] data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static com.simplekv.grpc.WriteRequest parseFrom(
+  public static com.simplekv.grpc.GossipResponse parseFrom(
       byte[] data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static com.simplekv.grpc.WriteRequest parseFrom(java.io.InputStream input)
+  public static com.simplekv.grpc.GossipResponse parseFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static com.simplekv.grpc.WriteRequest parseFrom(
+  public static com.simplekv.grpc.GossipResponse parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
-  public static com.simplekv.grpc.WriteRequest parseDelimitedFrom(java.io.InputStream input)
+  public static com.simplekv.grpc.GossipResponse parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input);
   }
-  public static com.simplekv.grpc.WriteRequest parseDelimitedFrom(
+  public static com.simplekv.grpc.GossipResponse parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
-  public static com.simplekv.grpc.WriteRequest parseFrom(
+  public static com.simplekv.grpc.GossipResponse parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static com.simplekv.grpc.WriteRequest parseFrom(
+  public static com.simplekv.grpc.GossipResponse parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -365,7 +381,7 @@ private static final long serialVersionUID = 0L;
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
   }
-  public static Builder newBuilder(com.simplekv.grpc.WriteRequest prototype) {
+  public static Builder newBuilder(com.simplekv.grpc.GossipResponse prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
   @java.lang.Override
@@ -381,26 +397,26 @@ private static final long serialVersionUID = 0L;
     return builder;
   }
   /**
-   * Protobuf type {@code com.simplekv.grpc.WriteRequest}
+   * Protobuf type {@code com.simplekv.grpc.GossipResponse}
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:com.simplekv.grpc.WriteRequest)
-      com.simplekv.grpc.WriteRequestOrBuilder {
+      // @@protoc_insertion_point(builder_implements:com.simplekv.grpc.GossipResponse)
+      com.simplekv.grpc.GossipResponseOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.simplekv.grpc.MessagingService.internal_static_com_simplekv_grpc_WriteRequest_descriptor;
+      return com.simplekv.grpc.MessagingService.internal_static_com_simplekv_grpc_GossipResponse_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.simplekv.grpc.MessagingService.internal_static_com_simplekv_grpc_WriteRequest_fieldAccessorTable
+      return com.simplekv.grpc.MessagingService.internal_static_com_simplekv_grpc_GossipResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.simplekv.grpc.WriteRequest.class, com.simplekv.grpc.WriteRequest.Builder.class);
+              com.simplekv.grpc.GossipResponse.class, com.simplekv.grpc.GossipResponse.Builder.class);
     }
 
-    // Construct using com.simplekv.grpc.WriteRequest.newBuilder()
+    // Construct using com.simplekv.grpc.GossipResponse.newBuilder()
     private Builder() {
       maybeForceBuilderInitialization();
     }
@@ -418,11 +434,15 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public Builder clear() {
       super.clear();
-      key_ = "";
+      if (originBuilder_ == null) {
+        origin_ = null;
+      } else {
+        origin_ = null;
+        originBuilder_ = null;
+      }
+      tokenIdentifier_ = 0;
 
-      value_ = com.google.protobuf.ByteString.EMPTY;
-
-      type_ = 0;
+      message_ = "";
 
       if (generationClockBuilder_ == null) {
         generationClock_ = null;
@@ -436,17 +456,17 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return com.simplekv.grpc.MessagingService.internal_static_com_simplekv_grpc_WriteRequest_descriptor;
+      return com.simplekv.grpc.MessagingService.internal_static_com_simplekv_grpc_GossipResponse_descriptor;
     }
 
     @java.lang.Override
-    public com.simplekv.grpc.WriteRequest getDefaultInstanceForType() {
-      return com.simplekv.grpc.WriteRequest.getDefaultInstance();
+    public com.simplekv.grpc.GossipResponse getDefaultInstanceForType() {
+      return com.simplekv.grpc.GossipResponse.getDefaultInstance();
     }
 
     @java.lang.Override
-    public com.simplekv.grpc.WriteRequest build() {
-      com.simplekv.grpc.WriteRequest result = buildPartial();
+    public com.simplekv.grpc.GossipResponse build() {
+      com.simplekv.grpc.GossipResponse result = buildPartial();
       if (!result.isInitialized()) {
         throw newUninitializedMessageException(result);
       }
@@ -454,11 +474,15 @@ private static final long serialVersionUID = 0L;
     }
 
     @java.lang.Override
-    public com.simplekv.grpc.WriteRequest buildPartial() {
-      com.simplekv.grpc.WriteRequest result = new com.simplekv.grpc.WriteRequest(this);
-      result.key_ = key_;
-      result.value_ = value_;
-      result.type_ = type_;
+    public com.simplekv.grpc.GossipResponse buildPartial() {
+      com.simplekv.grpc.GossipResponse result = new com.simplekv.grpc.GossipResponse(this);
+      if (originBuilder_ == null) {
+        result.origin_ = origin_;
+      } else {
+        result.origin_ = originBuilder_.build();
+      }
+      result.tokenIdentifier_ = tokenIdentifier_;
+      result.message_ = message_;
       if (generationClockBuilder_ == null) {
         result.generationClock_ = generationClock_;
       } else {
@@ -502,25 +526,25 @@ private static final long serialVersionUID = 0L;
     }
     @java.lang.Override
     public Builder mergeFrom(com.google.protobuf.Message other) {
-      if (other instanceof com.simplekv.grpc.WriteRequest) {
-        return mergeFrom((com.simplekv.grpc.WriteRequest)other);
+      if (other instanceof com.simplekv.grpc.GossipResponse) {
+        return mergeFrom((com.simplekv.grpc.GossipResponse)other);
       } else {
         super.mergeFrom(other);
         return this;
       }
     }
 
-    public Builder mergeFrom(com.simplekv.grpc.WriteRequest other) {
-      if (other == com.simplekv.grpc.WriteRequest.getDefaultInstance()) return this;
-      if (!other.getKey().isEmpty()) {
-        key_ = other.key_;
+    public Builder mergeFrom(com.simplekv.grpc.GossipResponse other) {
+      if (other == com.simplekv.grpc.GossipResponse.getDefaultInstance()) return this;
+      if (other.hasOrigin()) {
+        mergeOrigin(other.getOrigin());
+      }
+      if (other.getTokenIdentifier() != 0) {
+        setTokenIdentifier(other.getTokenIdentifier());
+      }
+      if (!other.getMessage().isEmpty()) {
+        message_ = other.message_;
         onChanged();
-      }
-      if (other.getValue() != com.google.protobuf.ByteString.EMPTY) {
-        setValue(other.getValue());
-      }
-      if (other.type_ != 0) {
-        setTypeValue(other.getTypeValue());
       }
       if (other.hasGenerationClock()) {
         mergeGenerationClock(other.getGenerationClock());
@@ -540,11 +564,11 @@ private static final long serialVersionUID = 0L;
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      com.simplekv.grpc.WriteRequest parsedMessage = null;
+      com.simplekv.grpc.GossipResponse parsedMessage = null;
       try {
         parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        parsedMessage = (com.simplekv.grpc.WriteRequest) e.getUnfinishedMessage();
+        parsedMessage = (com.simplekv.grpc.GossipResponse) e.getUnfinishedMessage();
         throw e.unwrapIOException();
       } finally {
         if (parsedMessage != null) {
@@ -554,145 +578,214 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    private java.lang.Object key_ = "";
+    private com.simplekv.grpc.Location origin_ = null;
+    private com.google.protobuf.SingleFieldBuilderV3<
+        com.simplekv.grpc.Location, com.simplekv.grpc.Location.Builder, com.simplekv.grpc.LocationOrBuilder> originBuilder_;
     /**
-     * <code>string key = 1;</code>
+     * <code>.com.simplekv.grpc.Location origin = 1;</code>
      */
-    public java.lang.String getKey() {
-      java.lang.Object ref = key_;
+    public boolean hasOrigin() {
+      return originBuilder_ != null || origin_ != null;
+    }
+    /**
+     * <code>.com.simplekv.grpc.Location origin = 1;</code>
+     */
+    public com.simplekv.grpc.Location getOrigin() {
+      if (originBuilder_ == null) {
+        return origin_ == null ? com.simplekv.grpc.Location.getDefaultInstance() : origin_;
+      } else {
+        return originBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>.com.simplekv.grpc.Location origin = 1;</code>
+     */
+    public Builder setOrigin(com.simplekv.grpc.Location value) {
+      if (originBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        origin_ = value;
+        onChanged();
+      } else {
+        originBuilder_.setMessage(value);
+      }
+
+      return this;
+    }
+    /**
+     * <code>.com.simplekv.grpc.Location origin = 1;</code>
+     */
+    public Builder setOrigin(
+        com.simplekv.grpc.Location.Builder builderForValue) {
+      if (originBuilder_ == null) {
+        origin_ = builderForValue.build();
+        onChanged();
+      } else {
+        originBuilder_.setMessage(builderForValue.build());
+      }
+
+      return this;
+    }
+    /**
+     * <code>.com.simplekv.grpc.Location origin = 1;</code>
+     */
+    public Builder mergeOrigin(com.simplekv.grpc.Location value) {
+      if (originBuilder_ == null) {
+        if (origin_ != null) {
+          origin_ =
+            com.simplekv.grpc.Location.newBuilder(origin_).mergeFrom(value).buildPartial();
+        } else {
+          origin_ = value;
+        }
+        onChanged();
+      } else {
+        originBuilder_.mergeFrom(value);
+      }
+
+      return this;
+    }
+    /**
+     * <code>.com.simplekv.grpc.Location origin = 1;</code>
+     */
+    public Builder clearOrigin() {
+      if (originBuilder_ == null) {
+        origin_ = null;
+        onChanged();
+      } else {
+        origin_ = null;
+        originBuilder_ = null;
+      }
+
+      return this;
+    }
+    /**
+     * <code>.com.simplekv.grpc.Location origin = 1;</code>
+     */
+    public com.simplekv.grpc.Location.Builder getOriginBuilder() {
+      
+      onChanged();
+      return getOriginFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>.com.simplekv.grpc.Location origin = 1;</code>
+     */
+    public com.simplekv.grpc.LocationOrBuilder getOriginOrBuilder() {
+      if (originBuilder_ != null) {
+        return originBuilder_.getMessageOrBuilder();
+      } else {
+        return origin_ == null ?
+            com.simplekv.grpc.Location.getDefaultInstance() : origin_;
+      }
+    }
+    /**
+     * <code>.com.simplekv.grpc.Location origin = 1;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilderV3<
+        com.simplekv.grpc.Location, com.simplekv.grpc.Location.Builder, com.simplekv.grpc.LocationOrBuilder> 
+        getOriginFieldBuilder() {
+      if (originBuilder_ == null) {
+        originBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            com.simplekv.grpc.Location, com.simplekv.grpc.Location.Builder, com.simplekv.grpc.LocationOrBuilder>(
+                getOrigin(),
+                getParentForChildren(),
+                isClean());
+        origin_ = null;
+      }
+      return originBuilder_;
+    }
+
+    private int tokenIdentifier_ ;
+    /**
+     * <code>uint32 tokenIdentifier = 2;</code>
+     */
+    public int getTokenIdentifier() {
+      return tokenIdentifier_;
+    }
+    /**
+     * <code>uint32 tokenIdentifier = 2;</code>
+     */
+    public Builder setTokenIdentifier(int value) {
+      
+      tokenIdentifier_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>uint32 tokenIdentifier = 2;</code>
+     */
+    public Builder clearTokenIdentifier() {
+      
+      tokenIdentifier_ = 0;
+      onChanged();
+      return this;
+    }
+
+    private java.lang.Object message_ = "";
+    /**
+     * <code>string message = 3;</code>
+     */
+    public java.lang.String getMessage() {
+      java.lang.Object ref = message_;
       if (!(ref instanceof java.lang.String)) {
         com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
-        key_ = s;
+        message_ = s;
         return s;
       } else {
         return (java.lang.String) ref;
       }
     }
     /**
-     * <code>string key = 1;</code>
+     * <code>string message = 3;</code>
      */
     public com.google.protobuf.ByteString
-        getKeyBytes() {
-      java.lang.Object ref = key_;
+        getMessageBytes() {
+      java.lang.Object ref = message_;
       if (ref instanceof String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        key_ = b;
+        message_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
       }
     }
     /**
-     * <code>string key = 1;</code>
+     * <code>string message = 3;</code>
      */
-    public Builder setKey(
+    public Builder setMessage(
         java.lang.String value) {
       if (value == null) {
     throw new NullPointerException();
   }
   
-      key_ = value;
+      message_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>string key = 1;</code>
+     * <code>string message = 3;</code>
      */
-    public Builder clearKey() {
+    public Builder clearMessage() {
       
-      key_ = getDefaultInstance().getKey();
+      message_ = getDefaultInstance().getMessage();
       onChanged();
       return this;
     }
     /**
-     * <code>string key = 1;</code>
+     * <code>string message = 3;</code>
      */
-    public Builder setKeyBytes(
+    public Builder setMessageBytes(
         com.google.protobuf.ByteString value) {
       if (value == null) {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
       
-      key_ = value;
-      onChanged();
-      return this;
-    }
-
-    private com.google.protobuf.ByteString value_ = com.google.protobuf.ByteString.EMPTY;
-    /**
-     * <code>bytes value = 2;</code>
-     */
-    public com.google.protobuf.ByteString getValue() {
-      return value_;
-    }
-    /**
-     * <code>bytes value = 2;</code>
-     */
-    public Builder setValue(com.google.protobuf.ByteString value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
-  
-      value_ = value;
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>bytes value = 2;</code>
-     */
-    public Builder clearValue() {
-      
-      value_ = getDefaultInstance().getValue();
-      onChanged();
-      return this;
-    }
-
-    private int type_ = 0;
-    /**
-     * <code>.com.simplekv.grpc.WriteType type = 3;</code>
-     */
-    public int getTypeValue() {
-      return type_;
-    }
-    /**
-     * <code>.com.simplekv.grpc.WriteType type = 3;</code>
-     */
-    public Builder setTypeValue(int value) {
-      type_ = value;
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>.com.simplekv.grpc.WriteType type = 3;</code>
-     */
-    public com.simplekv.grpc.WriteType getType() {
-      @SuppressWarnings("deprecation")
-      com.simplekv.grpc.WriteType result = com.simplekv.grpc.WriteType.valueOf(type_);
-      return result == null ? com.simplekv.grpc.WriteType.UNRECOGNIZED : result;
-    }
-    /**
-     * <code>.com.simplekv.grpc.WriteType type = 3;</code>
-     */
-    public Builder setType(com.simplekv.grpc.WriteType value) {
-      if (value == null) {
-        throw new NullPointerException();
-      }
-      
-      type_ = value.getNumber();
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>.com.simplekv.grpc.WriteType type = 3;</code>
-     */
-    public Builder clearType() {
-      
-      type_ = 0;
+      message_ = value;
       onChanged();
       return this;
     }
@@ -826,41 +919,41 @@ private static final long serialVersionUID = 0L;
     }
 
 
-    // @@protoc_insertion_point(builder_scope:com.simplekv.grpc.WriteRequest)
+    // @@protoc_insertion_point(builder_scope:com.simplekv.grpc.GossipResponse)
   }
 
-  // @@protoc_insertion_point(class_scope:com.simplekv.grpc.WriteRequest)
-  private static final com.simplekv.grpc.WriteRequest DEFAULT_INSTANCE;
+  // @@protoc_insertion_point(class_scope:com.simplekv.grpc.GossipResponse)
+  private static final com.simplekv.grpc.GossipResponse DEFAULT_INSTANCE;
   static {
-    DEFAULT_INSTANCE = new com.simplekv.grpc.WriteRequest();
+    DEFAULT_INSTANCE = new com.simplekv.grpc.GossipResponse();
   }
 
-  public static com.simplekv.grpc.WriteRequest getDefaultInstance() {
+  public static com.simplekv.grpc.GossipResponse getDefaultInstance() {
     return DEFAULT_INSTANCE;
   }
 
-  private static final com.google.protobuf.Parser<WriteRequest>
-      PARSER = new com.google.protobuf.AbstractParser<WriteRequest>() {
+  private static final com.google.protobuf.Parser<GossipResponse>
+      PARSER = new com.google.protobuf.AbstractParser<GossipResponse>() {
     @java.lang.Override
-    public WriteRequest parsePartialFrom(
+    public GossipResponse parsePartialFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return new WriteRequest(input, extensionRegistry);
+      return new GossipResponse(input, extensionRegistry);
     }
   };
 
-  public static com.google.protobuf.Parser<WriteRequest> parser() {
+  public static com.google.protobuf.Parser<GossipResponse> parser() {
     return PARSER;
   }
 
   @java.lang.Override
-  public com.google.protobuf.Parser<WriteRequest> getParserForType() {
+  public com.google.protobuf.Parser<GossipResponse> getParserForType() {
     return PARSER;
   }
 
   @java.lang.Override
-  public com.simplekv.grpc.WriteRequest getDefaultInstanceForType() {
+  public com.simplekv.grpc.GossipResponse getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }
 

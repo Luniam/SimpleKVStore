@@ -23,15 +23,24 @@ public interface WriteRequestOrBuilder extends
   com.google.protobuf.ByteString getValue();
 
   /**
-   * <code>.com.simplekv.grpc.GenerationClock generationClock = 3;</code>
+   * <code>.com.simplekv.grpc.WriteType type = 3;</code>
+   */
+  int getTypeValue();
+  /**
+   * <code>.com.simplekv.grpc.WriteType type = 3;</code>
+   */
+  com.simplekv.grpc.WriteType getType();
+
+  /**
+   * <code>.com.simplekv.grpc.GenerationClock generationClock = 4;</code>
    */
   boolean hasGenerationClock();
   /**
-   * <code>.com.simplekv.grpc.GenerationClock generationClock = 3;</code>
+   * <code>.com.simplekv.grpc.GenerationClock generationClock = 4;</code>
    */
   com.simplekv.grpc.GenerationClock getGenerationClock();
   /**
-   * <code>.com.simplekv.grpc.GenerationClock generationClock = 3;</code>
+   * <code>.com.simplekv.grpc.GenerationClock generationClock = 4;</code>
    */
   com.simplekv.grpc.GenerationClockOrBuilder getGenerationClockOrBuilder();
 }

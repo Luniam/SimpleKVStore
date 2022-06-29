@@ -4,21 +4,22 @@
 package com.simplekv.grpc;
 
 /**
- * Protobuf type {@code com.simplekv.grpc.WriteRequest}
+ * Protobuf type {@code com.simplekv.grpc.ReadResponse}
  */
-public  final class WriteRequest extends
+public  final class ReadResponse extends
     com.google.protobuf.GeneratedMessageV3 implements
-    // @@protoc_insertion_point(message_implements:com.simplekv.grpc.WriteRequest)
-    WriteRequestOrBuilder {
+    // @@protoc_insertion_point(message_implements:com.simplekv.grpc.ReadResponse)
+    ReadResponseOrBuilder {
 private static final long serialVersionUID = 0L;
-  // Use WriteRequest.newBuilder() to construct.
-  private WriteRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+  // Use ReadResponse.newBuilder() to construct.
+  private ReadResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
   }
-  private WriteRequest() {
+  private ReadResponse() {
     key_ = "";
-    value_ = com.google.protobuf.ByteString.EMPTY;
-    type_ = 0;
+    vale_ = com.google.protobuf.ByteString.EMPTY;
+    digest_ = com.google.protobuf.ByteString.EMPTY;
+    executionTime_ = 0L;
   }
 
   @java.lang.Override
@@ -26,7 +27,7 @@ private static final long serialVersionUID = 0L;
   getUnknownFields() {
     return this.unknownFields;
   }
-  private WriteRequest(
+  private ReadResponse(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
@@ -53,26 +54,17 @@ private static final long serialVersionUID = 0L;
           }
           case 18: {
 
-            value_ = input.readBytes();
+            vale_ = input.readBytes();
             break;
           }
-          case 24: {
-            int rawValue = input.readEnum();
+          case 26: {
 
-            type_ = rawValue;
+            digest_ = input.readBytes();
             break;
           }
-          case 34: {
-            com.simplekv.grpc.GenerationClock.Builder subBuilder = null;
-            if (generationClock_ != null) {
-              subBuilder = generationClock_.toBuilder();
-            }
-            generationClock_ = input.readMessage(com.simplekv.grpc.GenerationClock.parser(), extensionRegistry);
-            if (subBuilder != null) {
-              subBuilder.mergeFrom(generationClock_);
-              generationClock_ = subBuilder.buildPartial();
-            }
+          case 32: {
 
+            executionTime_ = input.readUInt64();
             break;
           }
           default: {
@@ -96,15 +88,15 @@ private static final long serialVersionUID = 0L;
   }
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return com.simplekv.grpc.MessagingService.internal_static_com_simplekv_grpc_WriteRequest_descriptor;
+    return com.simplekv.grpc.MessagingService.internal_static_com_simplekv_grpc_ReadResponse_descriptor;
   }
 
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return com.simplekv.grpc.MessagingService.internal_static_com_simplekv_grpc_WriteRequest_fieldAccessorTable
+    return com.simplekv.grpc.MessagingService.internal_static_com_simplekv_grpc_ReadResponse_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
-            com.simplekv.grpc.WriteRequest.class, com.simplekv.grpc.WriteRequest.Builder.class);
+            com.simplekv.grpc.ReadResponse.class, com.simplekv.grpc.ReadResponse.Builder.class);
   }
 
   public static final int KEY_FIELD_NUMBER = 1;
@@ -141,51 +133,31 @@ private static final long serialVersionUID = 0L;
     }
   }
 
-  public static final int VALUE_FIELD_NUMBER = 2;
-  private com.google.protobuf.ByteString value_;
+  public static final int VALE_FIELD_NUMBER = 2;
+  private com.google.protobuf.ByteString vale_;
   /**
-   * <code>bytes value = 2;</code>
+   * <code>bytes vale = 2;</code>
    */
-  public com.google.protobuf.ByteString getValue() {
-    return value_;
+  public com.google.protobuf.ByteString getVale() {
+    return vale_;
   }
 
-  public static final int TYPE_FIELD_NUMBER = 3;
-  private int type_;
+  public static final int DIGEST_FIELD_NUMBER = 3;
+  private com.google.protobuf.ByteString digest_;
   /**
-   * <code>.com.simplekv.grpc.WriteType type = 3;</code>
+   * <code>bytes digest = 3;</code>
    */
-  public int getTypeValue() {
-    return type_;
-  }
-  /**
-   * <code>.com.simplekv.grpc.WriteType type = 3;</code>
-   */
-  public com.simplekv.grpc.WriteType getType() {
-    @SuppressWarnings("deprecation")
-    com.simplekv.grpc.WriteType result = com.simplekv.grpc.WriteType.valueOf(type_);
-    return result == null ? com.simplekv.grpc.WriteType.UNRECOGNIZED : result;
+  public com.google.protobuf.ByteString getDigest() {
+    return digest_;
   }
 
-  public static final int GENERATIONCLOCK_FIELD_NUMBER = 4;
-  private com.simplekv.grpc.GenerationClock generationClock_;
+  public static final int EXECUTIONTIME_FIELD_NUMBER = 4;
+  private long executionTime_;
   /**
-   * <code>.com.simplekv.grpc.GenerationClock generationClock = 4;</code>
+   * <code>uint64 executionTime = 4;</code>
    */
-  public boolean hasGenerationClock() {
-    return generationClock_ != null;
-  }
-  /**
-   * <code>.com.simplekv.grpc.GenerationClock generationClock = 4;</code>
-   */
-  public com.simplekv.grpc.GenerationClock getGenerationClock() {
-    return generationClock_ == null ? com.simplekv.grpc.GenerationClock.getDefaultInstance() : generationClock_;
-  }
-  /**
-   * <code>.com.simplekv.grpc.GenerationClock generationClock = 4;</code>
-   */
-  public com.simplekv.grpc.GenerationClockOrBuilder getGenerationClockOrBuilder() {
-    return getGenerationClock();
+  public long getExecutionTime() {
+    return executionTime_;
   }
 
   private byte memoizedIsInitialized = -1;
@@ -205,14 +177,14 @@ private static final long serialVersionUID = 0L;
     if (!getKeyBytes().isEmpty()) {
       com.google.protobuf.GeneratedMessageV3.writeString(output, 1, key_);
     }
-    if (!value_.isEmpty()) {
-      output.writeBytes(2, value_);
+    if (!vale_.isEmpty()) {
+      output.writeBytes(2, vale_);
     }
-    if (type_ != com.simplekv.grpc.WriteType.PUT.getNumber()) {
-      output.writeEnum(3, type_);
+    if (!digest_.isEmpty()) {
+      output.writeBytes(3, digest_);
     }
-    if (generationClock_ != null) {
-      output.writeMessage(4, getGenerationClock());
+    if (executionTime_ != 0L) {
+      output.writeUInt64(4, executionTime_);
     }
     unknownFields.writeTo(output);
   }
@@ -226,17 +198,17 @@ private static final long serialVersionUID = 0L;
     if (!getKeyBytes().isEmpty()) {
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, key_);
     }
-    if (!value_.isEmpty()) {
+    if (!vale_.isEmpty()) {
       size += com.google.protobuf.CodedOutputStream
-        .computeBytesSize(2, value_);
+        .computeBytesSize(2, vale_);
     }
-    if (type_ != com.simplekv.grpc.WriteType.PUT.getNumber()) {
+    if (!digest_.isEmpty()) {
       size += com.google.protobuf.CodedOutputStream
-        .computeEnumSize(3, type_);
+        .computeBytesSize(3, digest_);
     }
-    if (generationClock_ != null) {
+    if (executionTime_ != 0L) {
       size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(4, getGenerationClock());
+        .computeUInt64Size(4, executionTime_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -248,22 +220,20 @@ private static final long serialVersionUID = 0L;
     if (obj == this) {
      return true;
     }
-    if (!(obj instanceof com.simplekv.grpc.WriteRequest)) {
+    if (!(obj instanceof com.simplekv.grpc.ReadResponse)) {
       return super.equals(obj);
     }
-    com.simplekv.grpc.WriteRequest other = (com.simplekv.grpc.WriteRequest) obj;
+    com.simplekv.grpc.ReadResponse other = (com.simplekv.grpc.ReadResponse) obj;
 
     boolean result = true;
     result = result && getKey()
         .equals(other.getKey());
-    result = result && getValue()
-        .equals(other.getValue());
-    result = result && type_ == other.type_;
-    result = result && (hasGenerationClock() == other.hasGenerationClock());
-    if (hasGenerationClock()) {
-      result = result && getGenerationClock()
-          .equals(other.getGenerationClock());
-    }
+    result = result && getVale()
+        .equals(other.getVale());
+    result = result && getDigest()
+        .equals(other.getDigest());
+    result = result && (getExecutionTime()
+        == other.getExecutionTime());
     result = result && unknownFields.equals(other.unknownFields);
     return result;
   }
@@ -277,82 +247,81 @@ private static final long serialVersionUID = 0L;
     hash = (19 * hash) + getDescriptor().hashCode();
     hash = (37 * hash) + KEY_FIELD_NUMBER;
     hash = (53 * hash) + getKey().hashCode();
-    hash = (37 * hash) + VALUE_FIELD_NUMBER;
-    hash = (53 * hash) + getValue().hashCode();
-    hash = (37 * hash) + TYPE_FIELD_NUMBER;
-    hash = (53 * hash) + type_;
-    if (hasGenerationClock()) {
-      hash = (37 * hash) + GENERATIONCLOCK_FIELD_NUMBER;
-      hash = (53 * hash) + getGenerationClock().hashCode();
-    }
+    hash = (37 * hash) + VALE_FIELD_NUMBER;
+    hash = (53 * hash) + getVale().hashCode();
+    hash = (37 * hash) + DIGEST_FIELD_NUMBER;
+    hash = (53 * hash) + getDigest().hashCode();
+    hash = (37 * hash) + EXECUTIONTIME_FIELD_NUMBER;
+    hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+        getExecutionTime());
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
   }
 
-  public static com.simplekv.grpc.WriteRequest parseFrom(
+  public static com.simplekv.grpc.ReadResponse parseFrom(
       java.nio.ByteBuffer data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static com.simplekv.grpc.WriteRequest parseFrom(
+  public static com.simplekv.grpc.ReadResponse parseFrom(
       java.nio.ByteBuffer data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static com.simplekv.grpc.WriteRequest parseFrom(
+  public static com.simplekv.grpc.ReadResponse parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static com.simplekv.grpc.WriteRequest parseFrom(
+  public static com.simplekv.grpc.ReadResponse parseFrom(
       com.google.protobuf.ByteString data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static com.simplekv.grpc.WriteRequest parseFrom(byte[] data)
+  public static com.simplekv.grpc.ReadResponse parseFrom(byte[] data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static com.simplekv.grpc.WriteRequest parseFrom(
+  public static com.simplekv.grpc.ReadResponse parseFrom(
       byte[] data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static com.simplekv.grpc.WriteRequest parseFrom(java.io.InputStream input)
+  public static com.simplekv.grpc.ReadResponse parseFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static com.simplekv.grpc.WriteRequest parseFrom(
+  public static com.simplekv.grpc.ReadResponse parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
-  public static com.simplekv.grpc.WriteRequest parseDelimitedFrom(java.io.InputStream input)
+  public static com.simplekv.grpc.ReadResponse parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input);
   }
-  public static com.simplekv.grpc.WriteRequest parseDelimitedFrom(
+  public static com.simplekv.grpc.ReadResponse parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
-  public static com.simplekv.grpc.WriteRequest parseFrom(
+  public static com.simplekv.grpc.ReadResponse parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static com.simplekv.grpc.WriteRequest parseFrom(
+  public static com.simplekv.grpc.ReadResponse parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -365,7 +334,7 @@ private static final long serialVersionUID = 0L;
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
   }
-  public static Builder newBuilder(com.simplekv.grpc.WriteRequest prototype) {
+  public static Builder newBuilder(com.simplekv.grpc.ReadResponse prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
   @java.lang.Override
@@ -381,26 +350,26 @@ private static final long serialVersionUID = 0L;
     return builder;
   }
   /**
-   * Protobuf type {@code com.simplekv.grpc.WriteRequest}
+   * Protobuf type {@code com.simplekv.grpc.ReadResponse}
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:com.simplekv.grpc.WriteRequest)
-      com.simplekv.grpc.WriteRequestOrBuilder {
+      // @@protoc_insertion_point(builder_implements:com.simplekv.grpc.ReadResponse)
+      com.simplekv.grpc.ReadResponseOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.simplekv.grpc.MessagingService.internal_static_com_simplekv_grpc_WriteRequest_descriptor;
+      return com.simplekv.grpc.MessagingService.internal_static_com_simplekv_grpc_ReadResponse_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.simplekv.grpc.MessagingService.internal_static_com_simplekv_grpc_WriteRequest_fieldAccessorTable
+      return com.simplekv.grpc.MessagingService.internal_static_com_simplekv_grpc_ReadResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.simplekv.grpc.WriteRequest.class, com.simplekv.grpc.WriteRequest.Builder.class);
+              com.simplekv.grpc.ReadResponse.class, com.simplekv.grpc.ReadResponse.Builder.class);
     }
 
-    // Construct using com.simplekv.grpc.WriteRequest.newBuilder()
+    // Construct using com.simplekv.grpc.ReadResponse.newBuilder()
     private Builder() {
       maybeForceBuilderInitialization();
     }
@@ -420,33 +389,29 @@ private static final long serialVersionUID = 0L;
       super.clear();
       key_ = "";
 
-      value_ = com.google.protobuf.ByteString.EMPTY;
+      vale_ = com.google.protobuf.ByteString.EMPTY;
 
-      type_ = 0;
+      digest_ = com.google.protobuf.ByteString.EMPTY;
 
-      if (generationClockBuilder_ == null) {
-        generationClock_ = null;
-      } else {
-        generationClock_ = null;
-        generationClockBuilder_ = null;
-      }
+      executionTime_ = 0L;
+
       return this;
     }
 
     @java.lang.Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return com.simplekv.grpc.MessagingService.internal_static_com_simplekv_grpc_WriteRequest_descriptor;
+      return com.simplekv.grpc.MessagingService.internal_static_com_simplekv_grpc_ReadResponse_descriptor;
     }
 
     @java.lang.Override
-    public com.simplekv.grpc.WriteRequest getDefaultInstanceForType() {
-      return com.simplekv.grpc.WriteRequest.getDefaultInstance();
+    public com.simplekv.grpc.ReadResponse getDefaultInstanceForType() {
+      return com.simplekv.grpc.ReadResponse.getDefaultInstance();
     }
 
     @java.lang.Override
-    public com.simplekv.grpc.WriteRequest build() {
-      com.simplekv.grpc.WriteRequest result = buildPartial();
+    public com.simplekv.grpc.ReadResponse build() {
+      com.simplekv.grpc.ReadResponse result = buildPartial();
       if (!result.isInitialized()) {
         throw newUninitializedMessageException(result);
       }
@@ -454,16 +419,12 @@ private static final long serialVersionUID = 0L;
     }
 
     @java.lang.Override
-    public com.simplekv.grpc.WriteRequest buildPartial() {
-      com.simplekv.grpc.WriteRequest result = new com.simplekv.grpc.WriteRequest(this);
+    public com.simplekv.grpc.ReadResponse buildPartial() {
+      com.simplekv.grpc.ReadResponse result = new com.simplekv.grpc.ReadResponse(this);
       result.key_ = key_;
-      result.value_ = value_;
-      result.type_ = type_;
-      if (generationClockBuilder_ == null) {
-        result.generationClock_ = generationClock_;
-      } else {
-        result.generationClock_ = generationClockBuilder_.build();
-      }
+      result.vale_ = vale_;
+      result.digest_ = digest_;
+      result.executionTime_ = executionTime_;
       onBuilt();
       return result;
     }
@@ -502,28 +463,28 @@ private static final long serialVersionUID = 0L;
     }
     @java.lang.Override
     public Builder mergeFrom(com.google.protobuf.Message other) {
-      if (other instanceof com.simplekv.grpc.WriteRequest) {
-        return mergeFrom((com.simplekv.grpc.WriteRequest)other);
+      if (other instanceof com.simplekv.grpc.ReadResponse) {
+        return mergeFrom((com.simplekv.grpc.ReadResponse)other);
       } else {
         super.mergeFrom(other);
         return this;
       }
     }
 
-    public Builder mergeFrom(com.simplekv.grpc.WriteRequest other) {
-      if (other == com.simplekv.grpc.WriteRequest.getDefaultInstance()) return this;
+    public Builder mergeFrom(com.simplekv.grpc.ReadResponse other) {
+      if (other == com.simplekv.grpc.ReadResponse.getDefaultInstance()) return this;
       if (!other.getKey().isEmpty()) {
         key_ = other.key_;
         onChanged();
       }
-      if (other.getValue() != com.google.protobuf.ByteString.EMPTY) {
-        setValue(other.getValue());
+      if (other.getVale() != com.google.protobuf.ByteString.EMPTY) {
+        setVale(other.getVale());
       }
-      if (other.type_ != 0) {
-        setTypeValue(other.getTypeValue());
+      if (other.getDigest() != com.google.protobuf.ByteString.EMPTY) {
+        setDigest(other.getDigest());
       }
-      if (other.hasGenerationClock()) {
-        mergeGenerationClock(other.getGenerationClock());
+      if (other.getExecutionTime() != 0L) {
+        setExecutionTime(other.getExecutionTime());
       }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
@@ -540,11 +501,11 @@ private static final long serialVersionUID = 0L;
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      com.simplekv.grpc.WriteRequest parsedMessage = null;
+      com.simplekv.grpc.ReadResponse parsedMessage = null;
       try {
         parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        parsedMessage = (com.simplekv.grpc.WriteRequest) e.getUnfinishedMessage();
+        parsedMessage = (com.simplekv.grpc.ReadResponse) e.getUnfinishedMessage();
         throw e.unwrapIOException();
       } finally {
         if (parsedMessage != null) {
@@ -623,195 +584,88 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    private com.google.protobuf.ByteString value_ = com.google.protobuf.ByteString.EMPTY;
+    private com.google.protobuf.ByteString vale_ = com.google.protobuf.ByteString.EMPTY;
     /**
-     * <code>bytes value = 2;</code>
+     * <code>bytes vale = 2;</code>
      */
-    public com.google.protobuf.ByteString getValue() {
-      return value_;
+    public com.google.protobuf.ByteString getVale() {
+      return vale_;
     }
     /**
-     * <code>bytes value = 2;</code>
+     * <code>bytes vale = 2;</code>
      */
-    public Builder setValue(com.google.protobuf.ByteString value) {
+    public Builder setVale(com.google.protobuf.ByteString value) {
       if (value == null) {
     throw new NullPointerException();
   }
   
-      value_ = value;
+      vale_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>bytes value = 2;</code>
+     * <code>bytes vale = 2;</code>
      */
-    public Builder clearValue() {
+    public Builder clearVale() {
       
-      value_ = getDefaultInstance().getValue();
+      vale_ = getDefaultInstance().getVale();
       onChanged();
       return this;
     }
 
-    private int type_ = 0;
+    private com.google.protobuf.ByteString digest_ = com.google.protobuf.ByteString.EMPTY;
     /**
-     * <code>.com.simplekv.grpc.WriteType type = 3;</code>
+     * <code>bytes digest = 3;</code>
      */
-    public int getTypeValue() {
-      return type_;
+    public com.google.protobuf.ByteString getDigest() {
+      return digest_;
     }
     /**
-     * <code>.com.simplekv.grpc.WriteType type = 3;</code>
+     * <code>bytes digest = 3;</code>
      */
-    public Builder setTypeValue(int value) {
-      type_ = value;
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>.com.simplekv.grpc.WriteType type = 3;</code>
-     */
-    public com.simplekv.grpc.WriteType getType() {
-      @SuppressWarnings("deprecation")
-      com.simplekv.grpc.WriteType result = com.simplekv.grpc.WriteType.valueOf(type_);
-      return result == null ? com.simplekv.grpc.WriteType.UNRECOGNIZED : result;
-    }
-    /**
-     * <code>.com.simplekv.grpc.WriteType type = 3;</code>
-     */
-    public Builder setType(com.simplekv.grpc.WriteType value) {
+    public Builder setDigest(com.google.protobuf.ByteString value) {
       if (value == null) {
-        throw new NullPointerException();
-      }
-      
-      type_ = value.getNumber();
+    throw new NullPointerException();
+  }
+  
+      digest_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>.com.simplekv.grpc.WriteType type = 3;</code>
+     * <code>bytes digest = 3;</code>
      */
-    public Builder clearType() {
+    public Builder clearDigest() {
       
-      type_ = 0;
+      digest_ = getDefaultInstance().getDigest();
       onChanged();
       return this;
     }
 
-    private com.simplekv.grpc.GenerationClock generationClock_ = null;
-    private com.google.protobuf.SingleFieldBuilderV3<
-        com.simplekv.grpc.GenerationClock, com.simplekv.grpc.GenerationClock.Builder, com.simplekv.grpc.GenerationClockOrBuilder> generationClockBuilder_;
+    private long executionTime_ ;
     /**
-     * <code>.com.simplekv.grpc.GenerationClock generationClock = 4;</code>
+     * <code>uint64 executionTime = 4;</code>
      */
-    public boolean hasGenerationClock() {
-      return generationClockBuilder_ != null || generationClock_ != null;
+    public long getExecutionTime() {
+      return executionTime_;
     }
     /**
-     * <code>.com.simplekv.grpc.GenerationClock generationClock = 4;</code>
+     * <code>uint64 executionTime = 4;</code>
      */
-    public com.simplekv.grpc.GenerationClock getGenerationClock() {
-      if (generationClockBuilder_ == null) {
-        return generationClock_ == null ? com.simplekv.grpc.GenerationClock.getDefaultInstance() : generationClock_;
-      } else {
-        return generationClockBuilder_.getMessage();
-      }
-    }
-    /**
-     * <code>.com.simplekv.grpc.GenerationClock generationClock = 4;</code>
-     */
-    public Builder setGenerationClock(com.simplekv.grpc.GenerationClock value) {
-      if (generationClockBuilder_ == null) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        generationClock_ = value;
-        onChanged();
-      } else {
-        generationClockBuilder_.setMessage(value);
-      }
-
-      return this;
-    }
-    /**
-     * <code>.com.simplekv.grpc.GenerationClock generationClock = 4;</code>
-     */
-    public Builder setGenerationClock(
-        com.simplekv.grpc.GenerationClock.Builder builderForValue) {
-      if (generationClockBuilder_ == null) {
-        generationClock_ = builderForValue.build();
-        onChanged();
-      } else {
-        generationClockBuilder_.setMessage(builderForValue.build());
-      }
-
-      return this;
-    }
-    /**
-     * <code>.com.simplekv.grpc.GenerationClock generationClock = 4;</code>
-     */
-    public Builder mergeGenerationClock(com.simplekv.grpc.GenerationClock value) {
-      if (generationClockBuilder_ == null) {
-        if (generationClock_ != null) {
-          generationClock_ =
-            com.simplekv.grpc.GenerationClock.newBuilder(generationClock_).mergeFrom(value).buildPartial();
-        } else {
-          generationClock_ = value;
-        }
-        onChanged();
-      } else {
-        generationClockBuilder_.mergeFrom(value);
-      }
-
-      return this;
-    }
-    /**
-     * <code>.com.simplekv.grpc.GenerationClock generationClock = 4;</code>
-     */
-    public Builder clearGenerationClock() {
-      if (generationClockBuilder_ == null) {
-        generationClock_ = null;
-        onChanged();
-      } else {
-        generationClock_ = null;
-        generationClockBuilder_ = null;
-      }
-
-      return this;
-    }
-    /**
-     * <code>.com.simplekv.grpc.GenerationClock generationClock = 4;</code>
-     */
-    public com.simplekv.grpc.GenerationClock.Builder getGenerationClockBuilder() {
+    public Builder setExecutionTime(long value) {
       
+      executionTime_ = value;
       onChanged();
-      return getGenerationClockFieldBuilder().getBuilder();
+      return this;
     }
     /**
-     * <code>.com.simplekv.grpc.GenerationClock generationClock = 4;</code>
+     * <code>uint64 executionTime = 4;</code>
      */
-    public com.simplekv.grpc.GenerationClockOrBuilder getGenerationClockOrBuilder() {
-      if (generationClockBuilder_ != null) {
-        return generationClockBuilder_.getMessageOrBuilder();
-      } else {
-        return generationClock_ == null ?
-            com.simplekv.grpc.GenerationClock.getDefaultInstance() : generationClock_;
-      }
-    }
-    /**
-     * <code>.com.simplekv.grpc.GenerationClock generationClock = 4;</code>
-     */
-    private com.google.protobuf.SingleFieldBuilderV3<
-        com.simplekv.grpc.GenerationClock, com.simplekv.grpc.GenerationClock.Builder, com.simplekv.grpc.GenerationClockOrBuilder> 
-        getGenerationClockFieldBuilder() {
-      if (generationClockBuilder_ == null) {
-        generationClockBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-            com.simplekv.grpc.GenerationClock, com.simplekv.grpc.GenerationClock.Builder, com.simplekv.grpc.GenerationClockOrBuilder>(
-                getGenerationClock(),
-                getParentForChildren(),
-                isClean());
-        generationClock_ = null;
-      }
-      return generationClockBuilder_;
+    public Builder clearExecutionTime() {
+      
+      executionTime_ = 0L;
+      onChanged();
+      return this;
     }
     @java.lang.Override
     public final Builder setUnknownFields(
@@ -826,41 +680,41 @@ private static final long serialVersionUID = 0L;
     }
 
 
-    // @@protoc_insertion_point(builder_scope:com.simplekv.grpc.WriteRequest)
+    // @@protoc_insertion_point(builder_scope:com.simplekv.grpc.ReadResponse)
   }
 
-  // @@protoc_insertion_point(class_scope:com.simplekv.grpc.WriteRequest)
-  private static final com.simplekv.grpc.WriteRequest DEFAULT_INSTANCE;
+  // @@protoc_insertion_point(class_scope:com.simplekv.grpc.ReadResponse)
+  private static final com.simplekv.grpc.ReadResponse DEFAULT_INSTANCE;
   static {
-    DEFAULT_INSTANCE = new com.simplekv.grpc.WriteRequest();
+    DEFAULT_INSTANCE = new com.simplekv.grpc.ReadResponse();
   }
 
-  public static com.simplekv.grpc.WriteRequest getDefaultInstance() {
+  public static com.simplekv.grpc.ReadResponse getDefaultInstance() {
     return DEFAULT_INSTANCE;
   }
 
-  private static final com.google.protobuf.Parser<WriteRequest>
-      PARSER = new com.google.protobuf.AbstractParser<WriteRequest>() {
+  private static final com.google.protobuf.Parser<ReadResponse>
+      PARSER = new com.google.protobuf.AbstractParser<ReadResponse>() {
     @java.lang.Override
-    public WriteRequest parsePartialFrom(
+    public ReadResponse parsePartialFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return new WriteRequest(input, extensionRegistry);
+      return new ReadResponse(input, extensionRegistry);
     }
   };
 
-  public static com.google.protobuf.Parser<WriteRequest> parser() {
+  public static com.google.protobuf.Parser<ReadResponse> parser() {
     return PARSER;
   }
 
   @java.lang.Override
-  public com.google.protobuf.Parser<WriteRequest> getParserForType() {
+  public com.google.protobuf.Parser<ReadResponse> getParserForType() {
     return PARSER;
   }
 
   @java.lang.Override
-  public com.simplekv.grpc.WriteRequest getDefaultInstanceForType() {
+  public com.simplekv.grpc.ReadResponse getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }
 
