@@ -1,0 +1,69 @@
+package org.example;
+
+import io.grpc.ManagedChannel;
+import io.grpc.ManagedChannelBuilder;
+import org.example.grpc.GreetingServiceGrpc;
+import org.example.grpc.HelloRequest;
+import org.example.grpc.HelloResponse;
+
+public class Client {
+
+    public static void main(String[] args) {
+        try {
+            ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 1993)
+                    .usePlaintext()
+                    .build();
+
+            GreetingServiceGrpc.GreetingServiceBlockingStub stub = GreetingServiceGrpc.newBlockingStub(channel);
+            Thread producer1 = new Thread(() -> {
+                for(int i = 0; i < 100; i++) {
+                    HelloResponse response = stub.greet(HelloRequest
+                            .newBuilder()
+                            .setFirstName("Mainul-" + i)
+                            .setLastName("Mahi")
+                            .build());
+
+                    System.out.println(response);
+                }
+            });
+
+            Thread producer2 = new Thread(() -> {
+                for(int i = 100; i < 200; i++) {
+                    HelloResponse response = stub.greet(HelloRequest
+                            .newBuilder()
+                            .setFirstName("Bishakha-" + i)
+                            .setLastName("Joyeeta")
+                            .build());
+
+                    System.out.println(response);
+                }
+            });
+
+            producer1.start();
+            producer2.start();
+
+        } catch (Exception exception) {
+            System.out.println("Server not online");
+        }
+    }
+}
+
+
+
+package org.example;
+
+import io.grpc.stub.StreamObserver;
+import org.example.grpc.GreetingServiceGrpc;
+import org.example.grpc.HelloRequest;
+import org.example.grpc.HelloResponse;
+
+public class GreetingServiceImpl extends GreetingServiceGrpc.GreetingServiceImplBase {
+
+    @Override
+    public void greet(HelloRequest request, StreamObserver<HelloResponse> responseObserver) {
+        TaskManager taskManager = TaskManager.getTaskManagerInstance();
+        TaskManager.HelloRequestHandler helloRequestHandler =
+                new TaskManager.HelloRequestHandler(request, responseObserver);
+        taskManager.submit(helloRequestHandler);
+    }
+}
