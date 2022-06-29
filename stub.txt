@@ -1,0 +1,145 @@
+package org.example;
+
+import io.grpc.ManagedChannel;
+import io.grpc.ManagedChannelBuilder;
+import org.example.grpc.GreetingServiceGrpc;
+import org.example.grpc.HelloRequest;
+import org.example.grpc.HelloResponse;
+
+public class Client {
+
+    public static void main(String[] args) {
+        try {
+            ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 1993)
+                    .usePlaintext()
+                    .build();
+
+            GreetingServiceGrpc.GreetingServiceBlockingStub stub = GreetingServiceGrpc.newBlockingStub(channel);
+            Thread producer1 = new Thread(() -> {
+                for(int i = 0; i < 100; i++) {
+                    HelloResponse response = stub.greet(HelloRequest
+                            .newBuilder()
+                            .setFirstName("Mainul-" + i)
+                            .setLastName("Mahi")
+                            .build());
+
+                    System.out.println(response);
+                }
+            });
+
+            Thread producer2 = new Thread(() -> {
+                for(int i = 100; i < 200; i++) {
+                    HelloResponse response = stub.greet(HelloRequest
+                            .newBuilder()
+                            .setFirstName("Bishakha-" + i)
+                            .setLastName("Joyeeta")
+                            .build());
+
+                    System.out.println(response);
+                }
+            });
+
+            producer1.start();
+            producer2.start();
+
+        } catch (Exception exception) {
+            System.out.println("Server not online");
+        }
+    }
+}
+
+
+
+package org.example;
+
+import io.grpc.stub.StreamObserver;
+import org.example.grpc.GreetingServiceGrpc;
+import org.example.grpc.HelloRequest;
+import org.example.grpc.HelloResponse;
+
+public class GreetingServiceImpl extends GreetingServiceGrpc.GreetingServiceImplBase {
+
+    @Override
+    public void greet(HelloRequest request, StreamObserver<HelloResponse> responseObserver) {
+        TaskManager taskManager = TaskManager.getTaskManagerInstance();
+        TaskManager.HelloRequestHandler helloRequestHandler =
+                new TaskManager.HelloRequestHandler(request, responseObserver);
+        taskManager.submit(helloRequestHandler);
+    }
+}
+
+Thread serverThread = new Thread(() -> {
+            try {
+                Server server = ServerBuilder.forPort(1993)
+                        .addService(new GreetingServiceImpl())
+                        .build();
+                server.start();
+                server.awaitTermination();
+            } catch (IOException exception) {
+                System.out.println("IO exception");
+            } catch (InterruptedException exception) {
+                System.out.println("Interrupted exception");
+            }
+        });
+        serverThread.start();
+
+
+
+    private BlockingQueue<HelloRequestHandler> taskQueue;
+    private static TaskManager taskManager;
+
+    ThreadPoolExecutor threadPoolExecutor;
+
+    static class HelloRequestHandler implements Runnable {
+
+        HelloRequest request;
+        StreamObserver responseObserver;
+
+        public HelloRequestHandler(HelloRequest request, StreamObserver<HelloResponse> responseObserver) {
+            this.responseObserver = responseObserver;
+            this.request = request;
+        }
+
+        @Override
+        public void run() {
+            responseObserver.onNext(HelloResponse
+                    .newBuilder()
+                    .setGreeting("Hello " + request.getFirstName() + " " + request.getLastName()).build());
+            responseObserver.onCompleted();
+        }
+    }
+
+    private TaskManager() {
+        taskQueue = new LinkedBlockingDeque<>();
+        threadPoolExecutor = (ThreadPoolExecutor) Executors.newFixedThreadPool(10);
+        startTaskRunningDaemon();
+    }
+
+    public void startTaskRunningDaemon() {
+        Thread thread = new Thread(() -> {
+            try {
+                while (true) {
+                    Runnable task = taskQueue.poll();
+                    if(task == null) continue;
+                    threadPoolExecutor.submit(task);
+                    Thread.sleep(2);
+                }
+            } catch (InterruptedException exception) {
+                System.out.println("Thread was interrupted");
+            }
+        });
+        thread.start();
+    }
+
+    public static synchronized TaskManager getTaskManagerInstance() {
+        if(taskManager == null) taskManager = new TaskManager();
+        return taskManager;
+    }
+
+    public synchronized void submit(HelloRequestHandler handler) {
+        this.taskQueue.add(handler);
+    }
+
+    public synchronized HelloRequestHandler get() {
+        return this.taskQueue.poll();
+    }

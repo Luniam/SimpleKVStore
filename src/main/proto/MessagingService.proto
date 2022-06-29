@@ -1,0 +1,80 @@
+syntax="proto3";
+
+package com.simplekv.grpc;
+
+option java_multiple_files = true;
+
+enum ReadRequestType {
+  CLIENT_READ=0;
+  READ=1;
+  READ_DIGEST=2;
+}
+
+enum WriteRequestType {
+  CLIENT_WRITE=0;
+  WRITE=1;
+}
+
+message ReadRequest {
+  string key = 1;
+  ReadRequestType requestType = 2;
+}
+
+enum WriteType {
+  PUT=0;
+  DELETE=1;
+}
+
+message WriteRequest {
+  string key = 1;
+  bytes value = 2;
+  WriteType type = 3;
+  GenerationClock generationClock = 4;
+}
+
+message ReadResponse {
+  string key = 1;
+  bytes vale = 2;
+  bytes digest = 3;
+  uint64 executionTime = 4;
+}
+
+message WriteResponse {
+  string message = 1;
+}
+
+message GenerationClock {
+  uint64 timestamp = 1;
+  uint64 generation = 2;
+}
+
+message GossipMessage {
+  Location origin = 1;
+  uint32 tokenIdentifier = 2;
+  uint64 timestamp = 3;
+  GenerationClock generationClock = 4;
+  map<uint32, Location> ringState = 5;
+}
+
+message GossipResponse {
+  Location origin = 1;
+  uint32 tokenIdentifier = 2;
+  string message = 3;
+  GenerationClock generationClock = 4;
+}
+
+message Location {
+  string host = 1;
+  int32 port = 2;
+}
+
+
+service GrpcMessagingService {
+  rpc get(ReadRequest) returns (ReadResponse);
+
+  rpc put(WriteRequest) returns (WriteResponse);
+
+  rpc gossip(GossipMessage) returns (GossipResponse);
+}
+
+
