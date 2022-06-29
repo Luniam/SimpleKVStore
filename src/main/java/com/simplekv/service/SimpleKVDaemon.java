@@ -25,6 +25,10 @@ public class SimpleKVDaemon {
         IndexManager.loadIndicesAndBloomFilters();
     }
 
+    private void serverSequence() {
+        MessagingService.startGrpcServer();
+    }
+
     private void clusterSequence() {
         ClusterService.createSelfTokenForRing();
         ClusterService.startGossip();
@@ -37,6 +41,7 @@ public class SimpleKVDaemon {
         applyConfig();
         memTableSequence();
         indexSequence();
+        serverSequence();
         clusterSequence();
         logger.info("Started Simple KV Store...yaay");
     }
