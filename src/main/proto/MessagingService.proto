@@ -1,0 +1,17 @@
+syntax="proto3";
+
+package org.example.grpc;
+
+option java_multiple_files = true;
+
+enum ReadRequestType {
+  CLIENT_READ=0;
+  READ=1;
+  READ_DIGEST=2;
+}
+
+message ReadRequest {
+  string key = 1;
+}
+
+
