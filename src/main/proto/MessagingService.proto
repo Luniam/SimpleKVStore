@@ -33,9 +33,10 @@ message GenerationClock {
 
 message GossipMessage {
   Location origin = 1;
-  uint64 timestamp = 2;
-  GenerationClock generationClock = 3;
-  map<uint32, Location> ringState = 4;
+  uint32 tokenIdentifier = 2;
+  uint64 timestamp = 3;
+  GenerationClock generationClock = 4;
+  map<uint32, Location> ringState = 5;
 }
 
 message Location {
