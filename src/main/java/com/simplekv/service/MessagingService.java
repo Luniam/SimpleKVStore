@@ -3,6 +3,8 @@ package com.simplekv.service;
 import com.simplekv.config.Config;
 import com.simplekv.config.DatabaseDescriptor;
 import com.simplekv.grpc.*;
+import com.simplekv.stage.DataStageHandler;
+import com.simplekv.stage.ReadDataStageObject;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.stub.StreamObserver;
@@ -13,11 +15,14 @@ import java.io.IOException;
 
 public class MessagingService extends GrpcMessagingServiceGrpc.GrpcMessagingServiceImplBase {
 
+    private DataStageHandler dataStageHandler = DataStageHandler.loadInstance();
+
     private static Logger logger = LoggerFactory.getLogger(MessagingService.class);
 
     @Override
     public void get(ReadRequest request, StreamObserver<ReadResponse> responseObserver) {
-        super.get(request, responseObserver);
+        ReadDataStageObject dataStageObject = new ReadDataStageObject(responseObserver, request);
+        dataStageHandler.addToIncomingDataStage(dataStageObject);
     }
 
     @Override

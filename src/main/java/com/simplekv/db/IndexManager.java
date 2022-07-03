@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class IndexManager {
 
@@ -17,8 +18,21 @@ public class IndexManager {
     public static Map<String, IndexBloomFilter> indexFileNameToBloomFilter;
     public static Map<String, String> indexFileNameToSSTableName;
     public static Map<String, BlockIndex> indexFileNameToBlockIndexMap;
+    private static ReentrantLock lock = new ReentrantLock();
 
     public static void loadIndicesAndBloomFilters() {
+        if(indexFileNameToBloomFilter == null) {
+            try {
+                lock.lock();
+                if(indexFileNameToBloomFilter == null)
+                    instantiateBloomFiltersAndIndicesFromDisk();
+            } finally {
+                lock.unlock();
+            }
+        }
+    }
+
+    private static void instantiateBloomFiltersAndIndicesFromDisk() {
         indexFileNameToBloomFilter = new TreeMap<>(Comparator.reverseOrder());
         indexFileNameToSSTableName = new HashMap<>();
         indexFileNameToBlockIndexMap = new TreeMap<>(Comparator.reverseOrder());
