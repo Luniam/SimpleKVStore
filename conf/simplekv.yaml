@@ -23,4 +23,4 @@ endpoint_snitch: SimpleSnitch
 
 #For SimpleStrategy data will be placed to the first n nodes clockwise
 #NetworkTopologyStrategy will be added in the future
-replication_strategy: SimpleStrategy
+replication_strategy: 'com.simplekv.locator.SimpleStrategy'
