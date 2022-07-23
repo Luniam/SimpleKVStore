@@ -13,6 +13,7 @@ public abstract class Command implements Serializable {
     public enum CommandType {
         READ,
         READDIGEST,
+        CLIENTREAD,
         PUT,
         DELETE,
         COMMIT_LOG_FLUSH
@@ -25,5 +26,19 @@ public abstract class Command implements Serializable {
     public Command(DataRecord dataRecord) {
         this();
         this.dataRecord = dataRecord;
+    }
+
+    public Command(DataRecord dataRecord, CommandType commandType) {
+        this(dataRecord);
+        this.command = commandType;
+    }
+
+    public static CommandType getCommandTypeFromName(String name) {
+        return switch (name) {
+            case "CLIENT_READ" -> CommandType.CLIENTREAD;
+            case "READ" -> CommandType.READ;
+            case "READ_DIGEST" -> CommandType.READDIGEST;
+            default -> CommandType.READ;
+        };
     }
 }

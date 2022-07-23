@@ -3,7 +3,7 @@ package com.simplekv.utils;
 public class DataReturnRecord {
 
     private byte[] data;
-    private int digest;
+    private Integer digest;
 
     public byte[] getData() {
         return data;
@@ -13,11 +13,11 @@ public class DataReturnRecord {
         this.data = data;
     }
 
-    public int getDigest() {
+    public Integer getDigest() {
         return digest;
     }
 
-    public void setDigest(int digest) {
+    public void setDigest(Integer digest) {
         this.digest = digest;
     }
 }

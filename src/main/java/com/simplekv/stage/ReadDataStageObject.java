@@ -11,4 +11,8 @@ public class ReadDataStageObject extends StageObject {
         super(streamObserver);
         this.request = request;
     }
+
+    public ReadRequest getRequest() {
+        return request;
+    }
 }

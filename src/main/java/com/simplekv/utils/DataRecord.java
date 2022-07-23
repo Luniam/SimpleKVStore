@@ -11,6 +11,11 @@ public class DataRecord implements Serializable {
         this.value = value;
     }
 
+    public DataRecord(KeyRecord key) {
+        this.key = key;
+        this.value = new ValueRecord();
+    }
+
     public KeyRecord getKey() {
         return key;
     }

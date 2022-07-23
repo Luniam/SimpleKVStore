@@ -11,4 +11,8 @@ public abstract class StageObject {
     public StageObject(StreamObserver streamObserver) {
         this.streamObserver = streamObserver;
     }
+
+    public StreamObserver getStreamObserver() {
+        return streamObserver;
+    }
 }
