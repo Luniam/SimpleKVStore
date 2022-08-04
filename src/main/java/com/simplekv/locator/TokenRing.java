@@ -29,8 +29,7 @@ public class TokenRing {
                     instance.placeTokenToRing(token, endpoint);
                     int vNodes = config.num_tokens;
                     for(int i = 1; i < vNodes; i++) {
-                        Token vToken = TokenManager.getRandomToken();
-                        vToken.parentToken = token;
+                        Token vToken = TokenManager.getVirtualTokenOfParent(token);
                         instance.placeTokenToRing(vToken, endpoint);
                     }
                 }

@@ -11,5 +11,8 @@ public class ClusterService {
     }
 
     public static void startGossip() {
+        Thread gossipThread = new Thread(() -> {
+
+        });
     }
 }
