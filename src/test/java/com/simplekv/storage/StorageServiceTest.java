@@ -20,12 +20,14 @@ import java.util.TreeMap;
 public class StorageServiceTest {
 
 
+    private StorageService storageService;
     @Before
-    public void storageProxyInit() {
+    public void storageServiceInit() {
         DatabaseDescriptor.daemonInitialization();
         MemTableManager.loadMemTable();
         CommitLogManager.startCommitLogAppenderWorker();
         IndexManager.loadIndicesAndBloomFilters();
+        storageService = StorageService.loadInstance();
     }
     public void testAppend() {
         Map<KeyRecord, ValueRecord> dummyMemTable = new TreeMap<>();
@@ -34,7 +36,7 @@ public class StorageServiceTest {
             ValueRecord value = new ValueRecord("start-working-out" + i);
             DataRecord dataRecord = new DataRecord(key, value);
             MutateCommand putCommand = new MutateCommand(dataRecord);
-            if(!StorageService.append(putCommand)) Assert.fail();
+            if(!storageService.append(putCommand)) Assert.fail();
             dummyMemTable.put(key, value);
         }
     }
@@ -48,15 +50,15 @@ public class StorageServiceTest {
         ValueRecord vR = new ValueRecord(originalQuote);
         DataRecord dr = new DataRecord(qKey, vR);
         MutateCommand mc = new MutateCommand(dr);
-        StorageService.append(mc);
+        storageService.append(mc);
 
-        DataReturnRecord returnQuote = StorageService.get(qKey, false);
+        DataReturnRecord returnQuote = storageService.get(qKey, false);
         Assert.assertNotNull(returnQuote);
         String quote = new String(returnQuote.getData(), StandardCharsets.UTF_8);
         Assert.assertEquals(originalQuote, quote);
         for(int i = 10000; i < 80000; i++) {
             KeyRecord keyRecord = new KeyRecord("Mahi" + i);
-            DataReturnRecord returnRecord = StorageService.get(keyRecord, false);
+            DataReturnRecord returnRecord = storageService.get(keyRecord, false);
             Assert.assertNotNull(returnRecord);
             String dataString = new String(returnRecord.getData(), StandardCharsets.UTF_8);
             Assert.assertEquals("start-working-out" + i, dataString);

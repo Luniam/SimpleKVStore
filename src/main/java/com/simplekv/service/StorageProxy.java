@@ -15,12 +15,14 @@ import java.util.Collection;
 
 public class StorageProxy {
 
+    private static final StorageService storageService = StorageService.loadInstance();
+
     public static DataReturnRecord get(ReadCommand command) {
         DataRecord dataRecord = command.dataRecord;
         KeyRecord keyRecord = dataRecord.getKey();
 
         if(command.command == Command.CommandType.READ) {
-            return StorageService.get(keyRecord, false);
+            return storageService.get(keyRecord, false);
         }
 
         Config config = DatabaseDescriptor.getConfig();

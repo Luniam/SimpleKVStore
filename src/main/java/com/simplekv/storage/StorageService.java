@@ -9,8 +9,24 @@ import com.simplekv.disk.SSTable;
 import com.simplekv.utils.*;
 
 import java.util.Map;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class StorageService {
+
+    public static StorageService instance;
+    public static ReentrantLock lock = new ReentrantLock();
+    public static StorageService loadInstance() {
+        if (instance == null) {
+            try {
+                lock.lock();
+                if(instance == null) instance = new StorageService();
+            }
+            finally {
+                lock.unlock();
+            }
+        }
+        return instance;
+    }
 
     /**
      * This is the entrypoint towards writing a data to the database
@@ -20,7 +36,7 @@ public class StorageService {
      * This method is blocking
      * @param command instance of type Command
      */
-    public synchronized static boolean append(MutateCommand command) {
+    public synchronized boolean append(MutateCommand command) {
         CommitLogManager.append(command);
         MemTableManager.putData(command.dataRecord);
         if(MemTableManager.shouldFlushMemTable()) {
@@ -33,7 +49,7 @@ public class StorageService {
     /**
      * This is the get method to get the data associated with a key
      */
-    public static DataReturnRecord get(KeyRecord key, boolean isDigest) {
+    public DataReturnRecord get(KeyRecord key, boolean isDigest) {
         ValueRecord dataReturnRecordFromMemTable = MemTableManager.getData(key);
         if(dataReturnRecordFromMemTable != null) {
             return getReturnDataFromValueRecord(dataReturnRecordFromMemTable, isDigest);
@@ -53,7 +69,7 @@ public class StorageService {
         return null;
     }
 
-    private static DataReturnRecord getReturnDataFromValueRecord(ValueRecord value, boolean isDigest) {
+    private DataReturnRecord getReturnDataFromValueRecord(ValueRecord value, boolean isDigest) {
         DataReturnRecord dataReturnRecord = new DataReturnRecord();
         if(isDigest) {
             Hash hasher = new MurmurHash();
