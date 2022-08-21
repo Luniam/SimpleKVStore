@@ -2,26 +2,25 @@ package com.simplekv.service;
 
 import com.simplekv.config.Config;
 import com.simplekv.config.DatabaseDescriptor;
-import com.simplekv.grpc.ReadRequestType;
 import com.simplekv.locator.Token;
 import com.simplekv.locator.TokenRing;
 import com.simplekv.storage.Command;
 import com.simplekv.storage.ReadCommand;
-import com.simplekv.storage.StorageProxy;
+import com.simplekv.storage.StorageService;
 import com.simplekv.utils.DataRecord;
 import com.simplekv.utils.DataReturnRecord;
 import com.simplekv.utils.KeyRecord;
 
 import java.util.Collection;
 
-public class StorageService {
+public class StorageProxy {
 
     public static DataReturnRecord get(ReadCommand command) {
         DataRecord dataRecord = command.dataRecord;
         KeyRecord keyRecord = dataRecord.getKey();
 
         if(command.command == Command.CommandType.READ) {
-            return StorageProxy.get(keyRecord, false);
+            return StorageService.get(keyRecord, false);
         }
 
         Config config = DatabaseDescriptor.getConfig();

@@ -10,7 +10,7 @@ import com.simplekv.utils.*;
 
 import java.util.Map;
 
-public class StorageProxy {
+public class StorageService {
 
     /**
      * This is the entrypoint towards writing a data to the database

@@ -3,13 +3,12 @@ package com.simplekv.stage;
 import com.google.protobuf.ByteString;
 import com.simplekv.grpc.ReadRequest;
 import com.simplekv.grpc.ReadResponse;
-import com.simplekv.service.StorageService;
+import com.simplekv.service.StorageProxy;
 import com.simplekv.storage.Command;
 import com.simplekv.storage.ReadCommand;
 import com.simplekv.utils.DataRecord;
 import com.simplekv.utils.DataReturnRecord;
 import com.simplekv.utils.KeyRecord;
-import io.grpc.stub.StreamObserver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,7 +41,7 @@ public class DataStageHandler extends StageHandler {
             DataRecord dataRecord = new DataRecord(keyRecord);
             String enumName = readRequest.getRequestType().name();
             ReadCommand command = new ReadCommand(dataRecord, Command.getCommandTypeFromName(enumName));
-            return StorageService.get(command);
+            return StorageProxy.get(command);
 
         }
     }
