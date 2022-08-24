@@ -47,6 +47,7 @@ public class TokenRing {
 
     public Collection<Token> getTokensFromKey(KeyRecord keyRecord) {
         ReplicationStrategy replicationStrategy = ReplicationStrategyFactory.getReplicationStrategy();
+        if(replicationStrategy == null) return new ArrayList<>();
         return replicationStrategy.getTokensFromRing(tokenToEndpointMap, keyRecord);
     }
 }
